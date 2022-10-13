@@ -7,7 +7,8 @@
     "build": "parcel build src/index.html",
     "serve": "parcel serve src/index.html",
     "eslint": "eslint src/**/*.{ts,tsx}",
-    "stylelint": "stylelint src/**/*.scss"
+    "stylelint": "stylelint src/**/*.scss",
+    "htmlhint": "htmlhint src/**/*.html"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "htmlhint": "^1.1.4",
     "parcel": "^2.7.0",
     "prettier": "2.7.1",
     "stylelint": "^14.13.0",

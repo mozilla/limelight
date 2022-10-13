@@ -17,8 +17,12 @@
   },
   "homepage": "https://github.com/mozilla/limelight#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0",
     "@tsconfig/node18": "^1.0.1",
     "parcel": "^2.7.0",
     "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }

@@ -1,0 +1,13 @@
+{
+    "extends": "@tsconfig/node18/tsconfig.json",
+    "compilerOptions": {
+        "lib": [
+            "DOM",
+            "ES2022",
+        ],
+        "isolatedModules": true, // for Parcel
+    },
+    "files": [
+        "src/index.tsx"
+    ],
+}

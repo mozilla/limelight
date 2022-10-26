@@ -4,4 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export {};
+import { createRoot } from "react-dom/client";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const appElement = document.getElementById("app");
+  if (appElement) {
+    const root = createRoot(appElement);
+    root.render(<h1>Limelight</h1>);
+  }
+});

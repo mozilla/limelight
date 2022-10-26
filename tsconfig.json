@@ -1,13 +1,14 @@
 {
     "extends": "@tsconfig/node18/tsconfig.json",
     "compilerOptions": {
+        "isolatedModules": true, // for Parcel
+        "jsx": "react-jsx",
         "lib": [
             "DOM",
             "ES2022",
         ],
-        "isolatedModules": true, // for Parcel
     },
     "files": [
         "src/index.tsx"
-    ],
+    ]
 }

@@ -4,9 +4,17 @@ on:
   pull_request:
     branches:
       - "main"
+  push:
+    branches:
+      - "main"
+
+concurrency:
+  group: "ci-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   lint:
+    if: github.event_name == 'pull_request'
     name: Lint
     runs-on: ubuntu-latest
 
@@ -33,4 +41,25 @@ jobs:
         LINTER_RULES_PATH: /
         FILTER_REGEX_INCLUDE: .*src/.*
         TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.cjs
+  tsc:
+    if: github.event_name == 'pull_request'
+    name: Typecheck (tsc)
+    runs-on: ubuntu-latest
 
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: "npm"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tsc
+      run: tsc

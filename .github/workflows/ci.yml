@@ -84,7 +84,7 @@ jobs:
       run: npm ci
 
     - name: Build
-      run: npm run build
+      run: npm run build -- --public-url "https://mozilla.github.io/limelight/"
 
     - name: Upload Artifact
       if: github.event_name == 'push'

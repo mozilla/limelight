@@ -10,6 +10,8 @@ import Navbar from "react-bootstrap/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
+import Wizard from "./Wizard";
+
 export default function App() {
   return (
     <>
@@ -23,7 +25,8 @@ export default function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container className="page-container" />
+
+      <Wizard />
     </>
   );
 }

@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@use "~bootstrap/scss/bootstrap";
 
 html {
     box-sizing: border-box;
@@ -22,6 +22,46 @@ html {
     flex-direction: column;
 }
 
-.input-message-id {
+.input-action,
+.input-message-id,
+.input-string-id,
+.input-targeting,
+.input-trigger,
+.message-id {
     font-family: Menlo, Consolas, 'Courier New', monospace;
+}
+
+.react-select__control.react-select__control {
+    border: bootstrap.$input-border-width solid bootstrap.$input-border-color;
+    transition: bootstrap.$input-transition;
+
+    &:hover {
+        border-color: var(--bs-gray-400);
+    }
+
+    &--is-focused {
+        background-color: bootstrap.$input-focus-bg;
+        border-color: bootstrap.$input-focus-border-color;
+        outline: 0;
+        box-shadow: bootstrap.$input-box-shadow, bootstrap.$input-focus-box-shadow;
+
+        &:hover {
+            border-color: bootstrap.$input-focus-border-color;
+        }
+    }
+}
+
+.wizard-section-header {
+    font-size: 1.125rem;
+    background-color: bootstrap.$blue-100;
+}
+
+.card-accordion {
+    .card-header {
+        border-bottom: none;
+    }
+
+    .card-body {
+        border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    }
 }

@@ -11,30 +11,34 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-type MessageTemplate = "cfr" | "infobar" | "multistage-spotlight" | "pbnewtab";
+import { MessageTemplate } from "./messageTypes";
 
 interface NewFormData {
   id: string;
   template: MessageTemplate;
 }
 
-function onNewFormSubmit(data: NewFormData): void {
-  console.log(data);
+interface NewFormProps {
+  onNewMessage: (id: string, template: MessageTemplate) => void;
 }
 
-function NewForm() {
+function NewForm({ onNewMessage }: NewFormProps) {
   const {
     register,
     handleSubmit,
     formState: { isDirty, isValid },
   } = useForm<NewFormData>({ mode: "onChange" });
 
+  const onSubmit: SubmitHandler<NewFormData> = (data) => {
+    onNewMessage(data.id, data.template);
+  };
+
   return (
     <>
       <Card.Title>Create a New Message</Card.Title>
-      <Form onSubmit={handleSubmit(onNewFormSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group as={Row} controlId="message-id">
           <Form.Label className="col-2 col-form-label">Message ID</Form.Label>
           <div className="col-10">
@@ -144,7 +148,11 @@ enum EventKeys {
   Import = "import",
 }
 
-export default function NewEditImportPane() {
+type NewEditImportPaneProps = NewFormProps;
+
+export default function NewEditImportPane({
+  onNewMessage,
+}: NewEditImportPaneProps) {
   return (
     <Container>
       <Card className="col-lg-8 offset-lg-2 mt-3">
@@ -166,7 +174,7 @@ export default function NewEditImportPane() {
           <Card.Body>
             <Tab.Content>
               <Tab.Pane eventKey={EventKeys.New}>
-                <NewForm />
+                <NewForm onNewMessage={onNewMessage} />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Edit}>
                 <EditForm />

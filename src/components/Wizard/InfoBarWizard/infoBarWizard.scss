@@ -22,6 +22,10 @@
         --form-row-spacing: 0.5rem;
     }
 
+    .new-button {
+        margin-bottom: 3px;
+    }
+
     .form-buttons {
         .col {
             @extend .col-2;

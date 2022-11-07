@@ -11,9 +11,13 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 
 import { MessageTemplate } from "./messageTypes";
+import {
+  RegisteredFormControl,
+  RegisteredFormCheck,
+} from "../RegisteredFormControl";
 
 interface NewFormData {
   id: string;
@@ -25,11 +29,12 @@ interface NewFormProps {
 }
 
 function NewForm({ onNewMessage }: NewFormProps) {
+  const formContext = useForm<NewFormData>({ mode: "onChange" });
   const {
     register,
     handleSubmit,
     formState: { isDirty, isValid },
-  } = useForm<NewFormData>({ mode: "onChange" });
+  } = formContext;
 
   const onSubmit: SubmitHandler<NewFormData> = (data) => {
     onNewMessage(data.id, data.template);
@@ -39,62 +44,72 @@ function NewForm({ onNewMessage }: NewFormProps) {
     <>
       <Card.Title>Create a New Message</Card.Title>
       <Form onSubmit={handleSubmit(onSubmit)} className="new-form">
-        <Form.Group as={Row} controlId="message-id" className="form-row">
-          <Form.Label>Message ID</Form.Label>
-          <div className="form-input">
-            <Form.Control
-              {...register("id", { required: true })}
-              type="text"
-              className="input-monospace"
-            />
-          </div>
-        </Form.Group>
+        <FormProvider {...formContext}>
+          <Form.Group as={Row} controlId="message-id" className="form-row">
+            <Form.Label>Message ID</Form.Label>
+            <div className="form-input">
+              <RegisteredFormControl
+                name="id"
+                register={register}
+                registerOptions={{ required: true }}
+                type="text"
+                className="input-monospace"
+              />
+            </div>
+          </Form.Group>
 
-        <Form.Group as={Row} controlId="message-template" className="form-row">
-          <Form.Label>Template</Form.Label>
-          <div className="form-input form-input-check">
-            <Form.Check
-              {...register("template", { required: true })}
-              type="radio"
-              label="CFR"
-              value="cfr"
-              id="message-template-cfr"
-              disabled
-            />
-            <Form.Check
-              {...register("template", { required: true })}
-              type="radio"
-              label="InfoBar"
-              value="infobar"
-              id="message-template-infobar"
-              defaultChecked
-            />
-            <Form.Check
-              {...register("template", { required: true })}
-              type="radio"
-              name="template"
-              label="Multi-Stage Spotlight"
-              value="multistage-spotlight"
-              id="message-template-multistage-spotlight"
-              disabled
-            />
-            <Form.Check
-              {...register("template", { required: true })}
-              type="radio"
-              name="template"
-              label="Private Browsing New Tab"
-              value="pbnewtab"
-              id="message-template-pbnewtab"
-              disabled
-            />
-          </div>
-        </Form.Group>
+          <Row className="form-row">
+            <Form.Label>Template</Form.Label>
+            <div className="form-input form-input-check">
+              <RegisteredFormCheck
+                name="template"
+                register={register}
+                registerOptions={{ required: true }}
+                type="radio"
+                label="CFR"
+                value="cfr"
+                id="message-template-cfr"
+                disabled
+              />
+              <RegisteredFormCheck
+                name="template"
+                register={register}
+                registerOptions={{ required: true }}
+                type="radio"
+                label="InfoBar"
+                value="infobar"
+                id="message-template-infobar"
+                defaultChecked
+              />
+              <RegisteredFormCheck
+                name="template"
+                register={register}
+                registerOptions={{ required: true }}
+                type="radio"
+                label="Multi-Stage Spotlight"
+                value="multistage-spotlight"
+                id="message-template-multistage-spotlight"
+                disabled
+              />
+              <RegisteredFormCheck
+                name="template"
+                register={register}
+                registerOptions={{ required: true }}
+                type="radio"
+                label="Private Browsing New Tab"
+                value="pbnewtab"
+                id="message-template-pbnewtab"
+                disabled
+              />
+            </div>
+          </Row>
 
-        <div className="form-row form-buttons">
-          <Button type="submit" disabled={!isDirty || !isValid}>
-            Next
-          </Button>
-        </div>
+          <div className="form-row form-buttons">
+            <Button type="submit" disabled={!isDirty || !isValid}>
+              Next
+            </Button>
+          </div>
+        </FormProvider>
       </Form>
     </>
   );

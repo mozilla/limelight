@@ -53,9 +53,9 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
   const [metaPriorityEnabled, setMetaPriorityEnabled] = useState(false);
 
   return (
-    <Container className="mt-3 mb-3">
+    <Container className="wizard">
       <Form>
-        <Card className="mt-3">
+        <Card>
           <Card.Header className="d-flex justify-content-between">
             <Card.Title className="mb-0">
               Editing Message: <span className="message-id">{id}</span>
@@ -66,32 +66,35 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
             <ListGroup.Item className="wizard-section-header">
               Message Content
             </ListGroup.Item>
-
             <ListGroup.Item>
-              <Form.Group as={Row} controlId="content-text">
-                <Form.Label className="col-2 col-form-label">Text</Form.Label>
+              <Form.Group
+                as={Row}
+                controlId="content-text"
+                className="form-row"
+              >
+                <Form.Label>Text</Form.Label>
                 <LocalizableTextInput
                   controlPrefix="content-title"
                   as={Col}
-                  className="col-10"
+                  className="form-input"
                 />
-                <Form.Text className="offset-2">
+                <Form.Text className="row-help-text">
                   The text of the infobar. Localized text uses a Fluent string
                   ID.
                 </Form.Text>
               </Form.Group>
 
-              <Row className="mt-3">
-                <span className="col-2 col-form-label">Buttons</span>
-                <Col className="col-10">
-                  <Card>
+              <Row className="form-row">
+                <span className="form-label">Buttons</span>
+                <Col className="form-input">
+                  <Card className="infobar-buttons-input">
                     <Tab.Container defaultActiveKey={0}>
                       <Card.Header>
                         <Nav variant="tabs">
                           <Nav.Item>
                             <Nav.Link eventKey={0}>OK</Nav.Link>
                           </Nav.Item>
-                          <div className="d-flex justify-content-end flex-fill">
+                          <div className="tabs-controls">
                             <Nav.Item>
                               <Button>
                                 <FontAwesomeIcon icon={faPlus} />
@@ -107,12 +110,10 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                             <Form.Group
                               as={Row}
                               controlId="content-buttons-0-label"
-                              className="mt-2"
+                              className="form-row"
                             >
-                              <span className="form-label col-2 col-form-label">
-                                Label
-                              </span>
-                              <div className="col-10">
+                              <span className="form-label">Label</span>
+                              <div className="form-input">
                                 <LocalizableTextInput
                                   controlPrefix="content.buttons[0].label"
                                   required
@@ -122,12 +123,10 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                             <Form.Group
                               as={Row}
                               controlId="content-buttons-0-accessKey"
-                              className="mt-2"
+                              className="form-row"
                             >
-                              <Form.Label className="col-2 col-form-label">
-                                Access Key
-                              </Form.Label>
-                              <div className="col-2">
+                              <Form.Label>Access Key</Form.Label>
+                              <div className="access-key-input">
                                 <Form.Control
                                   type="text"
                                   maxLength={1}
@@ -138,50 +137,47 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                             <Form.Group
                               as={Row}
                               controlId="content-buttons-0-primary"
-                              className="mt-2"
+                              className="form-row"
                             >
-                              <Form.Check.Label className="col-2 col-form-label">
+                              <Form.Check.Label className="form-label">
                                 Primary?
                               </Form.Check.Label>
-                              <div className="col-10 pt-2">
+                              <div className="form-input form-input-check">
                                 <Form.Check.Input name="content.buttons[0].primary" />
                               </div>
                             </Form.Group>
                             <Form.Group
                               as={Row}
                               controlId="content-buttons-0-supportPage"
-                              className="mt-2"
+                              className="form-row"
                             >
-                              <Form.Label className="col-2 col-form-label">
-                                Support URL
-                              </Form.Label>
-                              <div className="col-10">
+                              <Form.Label>Support URL</Form.Label>
+                              <div className="form-input">
                                 <Form.Control
                                   type="text"
                                   name="content.buttons[0].supportPage"
+                                  className="input-monospace"
                                 />
                               </div>
                             </Form.Group>
                             <Form.Group
                               as={Row}
                               controlId="content-buttons-0-action"
-                              className="mt-2"
+                              className="form-row"
                             >
-                              <Form.Label className="col-2 col-form-label">
-                                Action
-                              </Form.Label>
-                              <div className="col-10">
+                              <Form.Label>Action</Form.Label>
+                              <div className="form-input">
                                 <Form.Control
                                   as="textarea"
                                   name="content.buttons[0].action"
-                                  className="input-action"
+                                  className="input-monospace"
                                   defaultValue="{}"
                                 />
                               </div>
                             </Form.Group>
-                            <Row className="mt-2 justify-content-end">
+                            <Row className="form-row form-buttons">
                               <Col className="col-2">
-                                <Button variant="danger" className="w-100">
+                                <Button variant="danger">
                                   <FontAwesomeIcon icon={faTrash} /> Delete
                                 </Button>
                               </Col>
@@ -194,9 +190,9 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                 </Col>
               </Row>
 
-              <Row>
-                <span className="col-2 col-form-label">Type</span>
-                <div className="col-10 pt-2">
+              <Row className="form-row">
+                <span className="form-label">Type</span>
+                <div className="form-input form-input-check">
                   <div>
                     <Form.Check
                       name="content.type"
@@ -225,11 +221,13 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                 </div>
               </Row>
 
-              <Form.Group as={Row} controlId="content-priority">
-                <Form.Label className="col-2 col-form-label">
-                  Priority
-                </Form.Label>
-                <div className="col-10 pt-2">
+              <Form.Group
+                as={Row}
+                controlId="content-priority"
+                className="form-row"
+              >
+                <Form.Label>Priority</Form.Label>
+                <div className="form-input form-input-range infobar-priority-input">
                   <Row>
                     <div>
                       <Form.Check
@@ -253,8 +251,8 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                         disabled={!contentPriorityEnabled}
                       />
                     </div>
-                    <Form.Text className="col-3">
-                      {PRIORITIES[contentPriority ?? 0]}
+                    <Form.Text className="priority-text">
+                      {PRIORITIES[contentPriority]}
                     </Form.Text>
                     <Form.Text>
                       Determines the appearance of the notification, based on
@@ -265,72 +263,64 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                 </div>
               </Form.Group>
             </ListGroup.Item>
-
             <ListGroup.Item className="wizard-section-header">
               Metadata
             </ListGroup.Item>
-
             <ListGroup.Item>
-              <Form.Group as={Row} controlId="targeting">
-                <Form.Label className="col-2 col-form-label">
-                  Targeting Expression
-                </Form.Label>
-                <div className="col-10">
+              <Form.Group as={Row} controlId="targeting" className="form-row">
+                <Form.Label>Targeting Expression</Form.Label>
+                <div className="form-input">
                   <Form.Control
                     as="textarea"
                     rows={3}
                     name="targeting"
-                    className="input-targeting"
+                    className="input-monospace"
                     required
                   />
                 </div>
-                <Form.Text className="offset-2">
+                <Form.Text className="row-help-text">
                   The JEXL targeting expression for the message
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group as={Row} controlId="groups" className="mt-3">
-                <Form.Label className="col-2 col-form-label">
-                  Message Groups
-                </Form.Label>
-                <div className="col-10">
+              <Form.Group as={Row} controlId="groups" className="form-row">
+                <Form.Label>Message Groups</Form.Label>
+                <div className="form-input">
                   <CreatableSelect
                     options={MESSAGE_GROUPS}
                     isMulti
                     classNamePrefix="react-select"
                   />
                 </div>
-                <Form.Text className="offset-2">
+                <Form.Text className="row-help-text">
                   Message groups used for frequency capping.
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group as={Row} controlId="trigger" className="mt-3">
-                <Form.Label className="col-2 col-form-label">
-                  Trigger
-                </Form.Label>
-                <div className="col-10">
+              <Form.Group as={Row} controlId="trigger" className="form-row">
+                <Form.Label>Trigger</Form.Label>
+                <div className="form-input">
                   <Form.Control
                     as="textarea"
                     rows={3}
                     name="trigger"
-                    className="input-trigger"
+                    className="input-monospace"
                     defaultValue="{}"
                     required
                   />
                 </div>
-                <Form.Text className="offset-2">
+                <Form.Text className="row-help-text">
                   The trigger that will show this message
                 </Form.Text>
               </Form.Group>
 
-              <Row className="mt-3">
-                <span className="col-2 col-form-label">Frequency</span>
-                <Col className="col-10" as="fieldset">
-                  <Row as="fieldset">
+              <Row className="form-row">
+                <span className="form-label">Frequency</span>
+                <Col className="form-input meta-frequency-input" as="fieldset">
+                  <Row as="fieldset" className="form-row">
                     <Form.Group
                       controlId="frequency-lifetime-enabled"
-                      className="col-2 pt-2"
+                      className="lifetime-enabled-input"
                     >
                       <Form.Check
                         name="frequency.lifetime.enabled"
@@ -340,7 +330,7 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                         }
                       />
                     </Form.Group>
-                    <div className="col-10">
+                    <div className="form-input">
                       <Form.Control
                         type="number"
                         name="frequency.lifetime.value"
@@ -349,30 +339,28 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                         disabled={!lifetimeCapEnabled}
                       />
                     </div>
-                    <Form.Text className="offset-2">
+                    <Form.Text className="row-help-text">
                       The total number of times this message can be shown to a
                       user.
                     </Form.Text>
                   </Row>
 
-                  <Row className="mt-1">
-                    <Form.Label className="col-2 col-form-label">
-                      Custom
-                    </Form.Label>
-                    <Col className="col-10 pt-2" as="fieldset">
-                      <Row as="fieldset">
-                        <span className="col-5">Period (ms)</span>
-                        <span className="col-5">Cap</span>
+                  <Row className="form-row">
+                    <Form.Label>Custom</Form.Label>
+                    <Col className="form-input custom-input" as="fieldset">
+                      <Row as="fieldset" className="form-row">
+                        <Col className="custom-input-col">Period (ms)</Col>
+                        <Col className="custom-input-col">Cap</Col>
                       </Row>
-                      <Row as="fieldset" className="mt-1">
-                        <div className="col-5">
+                      <Row as="fieldset" className="form-row">
+                        <Col className="custom-input-col">
                           <Form.Control
                             type="number"
                             name="frequency.custom[0].period"
                             min={1}
                           />
-                        </div>
-                        <div className="col-5">
+                        </Col>
+                        <Col className="custom-input-col">
                           <Form.Control
                             type="number"
                             name="frequency.custom[0].cap"
@@ -380,25 +368,25 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                             max={100}
                             defaultValue={1}
                           />
-                        </div>
-                        <div className="col-1 offset-1">
+                        </Col>
+                        <Col className="custom-trash-col">
                           <Button
                             variant="danger"
                             title="Delete this custom frequency"
                           >
                             <FontAwesomeIcon icon={faTrash} />
                           </Button>
-                        </div>
+                        </Col>
                       </Row>
-                      <Row className="mt-1">
-                        <div className="col-5">
+                      <Row className="form-row">
+                        <Col className="custom-input-col">
                           <Form.Control
                             type="number"
                             name="frequency.custom[1].period"
                             min={1}
                           />
-                        </div>
-                        <div className="col-5">
+                        </Col>
+                        <Col className="custom-input-col">
                           <Form.Control
                             type="number"
                             name="frequency.custom[1].cap"
@@ -406,8 +394,8 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                             max={100}
                             defaultValue={1}
                           />
-                        </div>
-                        <div className="col-1 offset-1">
+                        </Col>
+                        <div className="custom-trash-col">
                           <Button variant="danger">
                             <FontAwesomeIcon
                               icon={faTrash}
@@ -417,51 +405,51 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                         </div>
                       </Row>
                       <Row>
-                        <Form.Text className="col-5">
+                        <Form.Text className="custom-help-col">
                           The time period (in milliseconds).
                         </Form.Text>
-                        <Form.Text className="col-5">
+                        <Form.Text className="custom-help-col">
                           The number of times the message can appear in the
                           period.
                         </Form.Text>
                       </Row>
-                      <Row className="mt-1 justify-content-end">
-                        <div className="col-4">
+                      <Row className="form-row form-buttons">
+                        <Col>
                           <Button className="w-100">
                             <FontAwesomeIcon icon={faPlus} /> Add a Custom
                             Frequency
                           </Button>
-                        </div>
+                        </Col>
                       </Row>
                     </Col>
                   </Row>
                 </Col>
               </Row>
 
-              <Row className="mt-3">
-                <span className="col-2 col-form-label">Priority</span>
-                <Col as="fieldset" className="col-10 pt-2">
-                  <Row>
-                    <div>
+              <Row className="form-row">
+                <span className="form-label">Priority</span>
+                <Col as="fieldset" className="form-input meta-priority-input">
+                  <Row className="form-row">
+                    <div className="form-input-check">
                       <Form.Check
                         name="priority.enabled"
+                        id="priority-enabled"
                         label="Set Priority"
+                        checked={metaPriorityEnabled}
                         onChange={(e) =>
                           setMetaPriorityEnabled(e.target.checked)
                         }
                       />
                     </div>
                   </Row>
-                  <Row>
+                  <Row className="form-row">
                     <Form.Group
                       as={Col}
                       controlId="priority-value"
-                      className="col-6 d-flex"
+                      className="form-col"
                     >
-                      <Form.Label className="col-2 col-form-label">
-                        Priority
-                      </Form.Label>
-                      <div className="col-10">
+                      <Form.Label>Priority</Form.Label>
+                      <div className="form-input">
                         <Form.Control
                           name="priority.value"
                           type="number"
@@ -469,19 +457,17 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                           max={0}
                           min={9}
                           disabled={!metaPriorityEnabled}
-                          required={!metaPriorityEnabled}
+                          required={metaPriorityEnabled}
                         />
                       </div>
                     </Form.Group>
                     <Form.Group
                       as={Col}
                       controlId="priority-order"
-                      className="col-6 d-flex"
+                      className="form-col"
                     >
-                      <Form.Label className="col-2 col-form-label">
-                        Order
-                      </Form.Label>
-                      <div className="col-10">
+                      <Form.Label>Order</Form.Label>
+                      <div className="form-input">
                         <Form.Control
                           name="priority.order"
                           type="number"
@@ -491,24 +477,24 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                     </Form.Group>
                   </Row>
                   <Row>
-                    <Form.Text className="col-6">
+                    <Form.Text className="col-help-text">
                       Messages with higher priority will be shown first.
                     </Form.Text>
-                    <Form.Text className="col-6">
+                    <Form.Text className="col-help-text">
                       Order is used to break ties between equal priority
                       messages. Lower order messages are shown first.
                     </Form.Text>
                   </Row>
                 </Col>
-                <Form.Text className="offset-2">
+                <Form.Text className="row-help-text">
                   Determines the priority of the message in the messaging system
                   queue.
                 </Form.Text>
               </Row>
             </ListGroup.Item>
 
-            <ListGroup.Item className="d-flex justify-content-end p-3">
-              <Button className="me-2">Show JSON</Button>
+            <ListGroup.Item className="wizard-buttons">
+              <Button>Show JSON</Button>
               <Button>Preview</Button>
             </ListGroup.Item>
           </ListGroup>

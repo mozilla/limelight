@@ -41,7 +41,7 @@ export default function LocalizableTextInput({
           </Form.Group>
         </div>
       </Row>
-      <Row className="mt-3">
+      <Row>
         {localized ? (
           <Form.Group
             controlId={`${controlPrefix}.stringId`}

@@ -10,7 +10,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
-import Wizard from "./Wizard";
+import Wizard from "../Wizard";
 
 export default function App() {
   return (

@@ -38,23 +38,21 @@ function NewForm({ onNewMessage }: NewFormProps) {
   return (
     <>
       <Card.Title>Create a New Message</Card.Title>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group as={Row} controlId="message-id">
-          <Form.Label className="col-2 col-form-label">Message ID</Form.Label>
-          <div className="col-10">
+      <Form onSubmit={handleSubmit(onSubmit)} className="new-form">
+        <Form.Group as={Row} controlId="message-id" className="form-row">
+          <Form.Label>Message ID</Form.Label>
+          <div className="form-input">
             <Form.Control
               {...register("id", { required: true })}
               type="text"
-              className="input-message-id"
+              className="input-monospace"
             />
           </div>
         </Form.Group>
 
-        <Form.Group as={Row} controlId="message-template">
-          <Form.Label className="col-2 col-form-label pt-0">
-            Template
-          </Form.Label>
-          <div className="col-10">
+        <Form.Group as={Row} controlId="message-template" className="form-row">
+          <Form.Label>Template</Form.Label>
+          <div className="form-input form-input-check">
             <Form.Check
               {...register("template", { required: true })}
               type="radio"
@@ -92,12 +90,8 @@ function NewForm({ onNewMessage }: NewFormProps) {
           </div>
         </Form.Group>
 
-        <div className="d-flex justify-content-end mt-3">
-          <Button
-            type="submit"
-            className="col-2"
-            disabled={!isDirty || !isValid}
-          >
+        <div className="form-row form-buttons">
+          <Button type="submit" disabled={!isDirty || !isValid}>
             Next
           </Button>
         </div>
@@ -119,7 +113,7 @@ function ImportForm() {
   return (
     <>
       <Card.Title>Import a Message</Card.Title>
-      <Form>
+      <Form className="import-form">
         <Form.Group controlId="message-json">
           <Form.Label>Message JSON</Form.Label>
           <Form.Control
@@ -132,8 +126,8 @@ function ImportForm() {
           />
         </Form.Group>
 
-        <div className="d-flex justify-content-end mt-3">
-          <Button type="submit" className="col-2" disabled>
+        <div className="form-row form-buttons">
+          <Button type="submit" disabled>
             Next
           </Button>
         </div>

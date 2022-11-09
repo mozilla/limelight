@@ -181,3 +181,40 @@
         @extend .col-6;
     }
 }
+
+.json-modal {
+    .modal-content {
+        overflow: hidden;
+    }
+
+    .modal-body {
+        background: bootstrap.$gray-200;
+    }
+
+    .button-copy {
+        cursor: copy;
+    }
+}
+
+.__json-pretty__ {
+    color: bootstrap.$secondary;
+    line-height: 1.3;
+    margin-bottom: 0;
+    overflow: auto;
+
+    .__json-key__ {
+        color: bootstrap.$blue-500;
+    }
+
+    .__json-value__ {
+        color: bootstrap.$red-500;
+    }
+
+    .__json-string__ {
+        color: bootstrap.$green-500;
+    }
+
+    .__json-boolean__ {
+        color: bootstrap.$orange-500;
+    }
+}

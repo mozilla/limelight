@@ -26,6 +26,7 @@ import {
 } from "../../RegisteredFormControl";
 import { validateJsonAsObject } from "../validators";
 import ErrorMessage from "../../ErrorMessage";
+import { InfoBarMessage, localizableTextToJson } from "../messageTypes";
 
 const PRIORITIES = [
   "System",
@@ -43,15 +44,28 @@ const PRIORITIES = [
 interface InfoBarWizardProps {
   id: string;
   stopEditing: () => void;
+  setPreviewJson: (json: object | undefined) => void;
 }
 
-export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
+export default function InfoBarWizard({
+  id,
+  stopEditing,
+  setPreviewJson,
+}: InfoBarWizardProps) {
   const formContext = useForm<InfoBarWizardFormData>();
-  const { register, watch, trigger } = formContext;
+  const { register, watch, trigger, getValues } = formContext;
   const priority = watch("content.priority") ?? { enabled: false, value: 0 };
 
   const handleShowJson = async (): Promise<void> => {
-    await trigger(undefined, { shouldFocus: true });
+    if (await trigger(undefined, { shouldFocus: true })) {
+      const formData = getValues();
+      try {
+        const json = formDataToMessageJson(id, formData);
+        setPreviewJson(json);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   };
 
   const handlePreview = handleShowJson;
@@ -216,4 +230,62 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
       </Form>
     </Container>
   );
+}
+
+function buttonToJson({
+  label,
+  primary,
+  accessKey,
+  supportPage,
+  action,
+}: InfoBarWizardFormData["content"]["buttons"][number]): InfoBarMessage["content"]["buttons"][number] {
+  return {
+    label: localizableTextToJson(label),
+    ...(accessKey ? { accessKey } : {}),
+    ...(primary ? { primary } : {}),
+    ...(supportPage ? { supportPage } : {}),
+    action: JSON.parse(action) as object,
+  };
+}
+
+function formDataToMessageJson(id: string, data: InfoBarWizardFormData) {
+  const message: InfoBarMessage = {
+    id,
+    template: "infobar",
+    targeting: data.meta.targeting,
+    groups: data.meta.groups,
+    trigger: JSON.parse(data.meta.trigger) as object,
+
+    content: {
+      type: data.content.type,
+      text: localizableTextToJson(data.content.text),
+      buttons: data.content.buttons.map(buttonToJson),
+    },
+  };
+
+  if (data.content.priority.enabled) {
+    message.content.priority = data.content.priority.value;
+  }
+
+  if (
+    data.meta.frequency.lifetime.enabled ||
+    data.meta.frequency.custom.length
+  ) {
+    message.frequency = {};
+    if (data.meta.frequency.lifetime.enabled) {
+      message.frequency.lifetime = data.meta.frequency.lifetime.value;
+    }
+    if (data.meta.frequency.custom.length) {
+      message.frequency.custom = data.meta.frequency.custom;
+    }
+  }
+
+  if (data.meta.priority.enabled) {
+    message.priority = data.meta.priority.value;
+    if (!isNaN(data.meta.priority.order)) {
+      message.order = data.meta.priority.order;
+    }
+  }
+
+  return message;
 }

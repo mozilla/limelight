@@ -5,6 +5,9 @@
  */
 
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import JSONPretty from "react-json-pretty";
 
 import NewEditImportPane from "./NewEditImportPane";
 import { MessageTemplate } from "./messageTypes";
@@ -15,10 +18,44 @@ type MessageInfo = {
   template: MessageTemplate;
 };
 
+interface JsonPreviewProps {
+  data: object | undefined;
+  onHide: () => void;
+}
+
+function JsonPreview({ data, onHide }: JsonPreviewProps) {
+  const handleCopy = () =>
+    void navigator.clipboard.writeText(JSON.stringify(data));
+  const show = typeof data !== "undefined";
+
+  return (
+    <Modal show={show} onHide={onHide} className="json-modal">
+      {show && (
+        <>
+          <Modal.Header closeButton>
+            <Modal.Title>Preview JSON</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <JSONPretty data={data} />
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={handleCopy} className="button-copy">
+              Copy to Clipboard
+            </Button>
+          </Modal.Footer>
+        </>
+      )}
+    </Modal>
+  );
+}
+
 export default function Wizard() {
   const [messageInfo, setMessageInfo] = useState<MessageInfo | undefined>(
     undefined
   );
+  const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
 
   if (typeof messageInfo === "undefined") {
     const handleNewMessage = (id: string, template: MessageTemplate) =>
@@ -43,5 +80,16 @@ export default function Wizard() {
   }
 
   const stopEditing = () => setMessageInfo(undefined);
-  return <MessageWizard id={messageInfo.id} stopEditing={stopEditing} />;
+  const closeModal = () => setPreviewJson(undefined);
+
+  return (
+    <>
+      <MessageWizard
+        id={messageInfo.id}
+        stopEditing={stopEditing}
+        setPreviewJson={setPreviewJson}
+      />
+      <JsonPreview data={previewJson} onHide={closeModal} />
+    </>
+  );
 }

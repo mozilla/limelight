@@ -5,8 +5,9 @@
         "jsx": "react-jsx",
         "lib": [
             "DOM",
-            "ES2022",
+            "ES2022"
         ],
+        "noEmit": true
     },
     "files": [
         "src/index.tsx"

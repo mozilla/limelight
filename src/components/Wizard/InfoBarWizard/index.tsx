@@ -19,7 +19,7 @@ import CreatableSelect from "react-select/creatable";
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import LocalizableTextInput from "../LocalizableTextInput";
+import LocalizableTextInput from "../../LocalizableTextInput";
 
 const MESSAGE_GROUPS = [
   { value: "cfr", label: "cfr" },

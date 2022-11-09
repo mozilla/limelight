@@ -1,0 +1,44 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+@use "~bootstrap/scss/bootstrap";
+
+/* InfoBarWizard specific components */
+.infobar-buttons-input {
+    .tabs-controls {
+        display: flex;
+        justify-content: end;
+        flex-grow: 1;
+    }
+
+    .access-key-input {
+        @extend .col-1;
+    }
+
+    .form-row {
+        --form-row-spacing: 0.5rem;
+    }
+
+    .form-buttons {
+        .col {
+            @extend .col-2;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+}
+
+.infobar-priority-input {
+    .priority-input {
+        @extend .col-9;
+    }
+
+    .priority-text {
+        @extend .col-3;
+    }
+}

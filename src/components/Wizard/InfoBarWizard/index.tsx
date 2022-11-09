@@ -56,19 +56,38 @@ export default function InfoBarWizard({
   const { register, watch, trigger, getValues } = formContext;
   const priority = watch("content.priority") ?? { enabled: false, value: 0 };
 
-  const handleShowJson = async (): Promise<void> => {
+  const validate = async (): Promise<object | null> => {
     if (await trigger(undefined, { shouldFocus: true })) {
-      const formData = getValues();
-      try {
-        const json = formDataToMessageJson(id, formData);
+      return formDataToMessageJson(id, getValues());
+    }
+
+    return null;
+  };
+
+  const handleShowJson = async (): Promise<void> => {
+    try {
+      const json = await validate();
+      if (json) {
         setPreviewJson(json);
-      } catch (e) {
-        console.error(e);
       }
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  const handlePreview = handleShowJson;
+  const handlePreview = async (): Promise<void> => {
+    try {
+      const json = await validate();
+      if (json) {
+        const jsonStr = JSON.stringify(json);
+        const uri = `about:messagepreview?json=${btoa(jsonStr)}`;
+
+        return navigator.clipboard.writeText(uri);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Container className="wizard">
@@ -222,7 +241,12 @@ export default function InfoBarWizard({
 
               <ListGroup.Item className="wizard-buttons">
                 <Button onClick={() => void handleShowJson()}>Show JSON</Button>
-                <Button onClick={() => void handlePreview()}>Preview</Button>
+                <Button
+                  onClick={() => void handlePreview()}
+                  className="copy-button"
+                >
+                  Copy Preview Link
+                </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>

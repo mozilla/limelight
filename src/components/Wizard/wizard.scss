@@ -138,6 +138,10 @@
     > .btn:not(:last-child) {
         margin-right: 0.5rem;
     }
+
+    .copy-button {
+        cursor: copy;
+    }
 }
 
 .meta-frequency-input {

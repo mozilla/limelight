@@ -24,6 +24,8 @@ import {
   RegisteredFormCheck,
   RegisteredFormRange,
 } from "../../RegisteredFormControl";
+import { validateJsonAsObject } from "../validators";
+import ErrorMessage from "../../ErrorMessage";
 
 const PRIORITIES = [
   "System",
@@ -168,6 +170,7 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                       registerOptions={{ required: true }}
                       as="textarea"
                     />
+                    <ErrorMessage name="meta.targeting" />
                   </div>
                   <Form.Text className="row-help-text">
                     The JEXL targeting expression for the message
@@ -182,12 +185,16 @@ export default function InfoBarWizard({ id, stopEditing }: InfoBarWizardProps) {
                     <RegisteredFormControl
                       name="meta.trigger"
                       register={register}
-                      registerOptions={{ required: true }}
+                      registerOptions={{
+                        required: true,
+                        validate: validateJsonAsObject,
+                      }}
                       as="textarea"
                       rows={3}
                       className="input-monospace"
                       defaultValue="{}"
                     />
+                    <ErrorMessage name="meta.trigger" />
                   </div>
                   <Form.Text className="row-help-text">
                     The trigger that will show this message

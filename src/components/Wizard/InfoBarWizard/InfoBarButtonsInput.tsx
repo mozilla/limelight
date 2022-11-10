@@ -22,6 +22,8 @@ import {
   RegisteredFormControl,
   RegisteredFormCheck,
 } from "../../RegisteredFormControl";
+import { validateJsonAsObject } from "../validators";
+import ErrorMessage from "../../ErrorMessage";
 
 const defaults = (): InfoBarWizardFormData["content"]["buttons"][number] => ({
   label: {
@@ -145,10 +147,14 @@ export default function InfoBarButtonsInput() {
                 <RegisteredFormControl
                   name={`${tabControlPrefix}.action`}
                   register={register}
-                  registerOptions={{ required: true }}
+                  registerOptions={{
+                    required: true,
+                    validate: validateJsonAsObject,
+                  }}
                   as="textarea"
                   className="input-monospace"
                 />
+                <ErrorMessage name={`${tabControlPrefix}.action`} />
               </div>
             </Form.Group>
 

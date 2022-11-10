@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormContext, FieldPathByValue } from "react-hook-form";
 
+import ErrorMessage from "../ErrorMessage";
 import WizardFormData from "../Wizard/formData";
 import LocalizableTextFormData from "./formData";
 import {
@@ -65,6 +66,7 @@ export default function LocalizableTextInput({
                   className="input-monospace"
                   key="string-id"
                 />
+                <ErrorMessage name={`${controlPrefix}.stringId`} />
               </div>
             </Form.Group>
           ) : (
@@ -78,6 +80,7 @@ export default function LocalizableTextInput({
                   as="textarea"
                   key="text"
                 />
+                <ErrorMessage name={`${controlPrefix}.text`} />
               </div>
             </Form.Group>
           )}

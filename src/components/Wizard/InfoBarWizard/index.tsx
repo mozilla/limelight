@@ -24,7 +24,7 @@ import {
   RegisteredFormCheck,
   RegisteredFormRange,
 } from "../../RegisteredFormControl";
-import { validateJsonAsObject } from "../validators";
+import { validateJexl, validateJsonAsObject } from "../validators";
 import ErrorMessage from "../../ErrorMessage";
 import { InfoBarMessage, localizableTextToJson } from "../messageTypes";
 
@@ -200,8 +200,12 @@ export default function InfoBarWizard({
                     <RegisteredFormControl
                       name="meta.targeting"
                       register={register}
-                      registerOptions={{ required: true }}
+                      registerOptions={{
+                        required: true,
+                        validate: validateJexl,
+                      }}
                       as="textarea"
+                      className="input-monospace"
                     />
                     <ErrorMessage name="meta.targeting" />
                   </div>

@@ -6,9 +6,9 @@
   "scripts": {
     "build": "parcel build src/index.html",
     "serve": "parcel serve src/index.html",
-    "eslint": "eslint src/**/*.{ts,tsx}",
-    "stylelint": "stylelint src/**/*.scss",
-    "htmlhint": "htmlhint src/**/*.html",
+    "eslint": "eslint \"src/**/*.{ts,tsx}\"",
+    "stylelint": "stylelint \"src/**/*.scss\"",
+    "htmlhint": "htmlhint \"src/**/*.html\"",
     "tsc": "tsc"
   },
   "repository": {

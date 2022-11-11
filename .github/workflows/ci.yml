@@ -39,12 +39,17 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BRANCH: main
         LINTER_RULES_PATH: /
-        FILTER_REGEX_INCLUDE: .*src/.*
+        FILTER_REGEX_INCLUDE: .*/src/.*
         TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.cjs
         JAVASCRIPT_DEFAULT_STYLE: prettier
         TYPESCRIPT_DEFAULT_STYLE: prettier
-        VALIDATE_JAVASCRIPT_STANDARD: false
-        VALIDATE_TYPESCRIPT_STANDARD: false
+        VALIDATE_CSS: true
+        VALIDATE_GITLEAKS: true
+        VALIDATE_HTML: true
+        VALIDATE_JAVASCRIPT_ES: true
+        VALIDATE_JSX: true
+        VALIDATE_TSX: true
+        VALIDATE_TYPESCRIPT_ES: true
   tsc:
     if: github.event_name == 'pull_request'
     name: Typecheck (tsc)

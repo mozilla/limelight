@@ -16,7 +16,13 @@ import { validateJexl, validateJsonAsObject } from "./validators";
 import ErrorMessage from "../ErrorMessage";
 import WizardFormData from "./formData";
 
-export default function WizardMetaSection() {
+interface WizardMetaSectionProps {
+  triggerRequired: boolean;
+}
+
+export default function WizardMetaSection({
+  triggerRequired = false,
+}: WizardMetaSectionProps) {
   const { register } = useFormContext<WizardFormData>();
 
   return (
@@ -50,7 +56,7 @@ export default function WizardMetaSection() {
             name="meta.trigger"
             register={register}
             registerOptions={{
-              required: true,
+              required: triggerRequired,
               validate: validateJsonAsObject,
             }}
             as="textarea"

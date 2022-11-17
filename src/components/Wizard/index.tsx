@@ -131,6 +131,8 @@ export default function Wizard() {
     }
   };
 
+  const triggerRequired = ["infobar", "cfr"].includes(messageInfo.template);
+
   return (
     <>
       <Container className="wizard">
@@ -159,7 +161,7 @@ export default function Wizard() {
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <WizardMetaSection />
+                  <WizardMetaSection triggerRequired={triggerRequired} />
                 </ListGroup.Item>
 
                 <ListGroup.Item className="wizard-buttons">

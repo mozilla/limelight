@@ -11,12 +11,12 @@
  * columns.  */
 .form-row,
 .form-col {
-    & >.form-label {
+    & > .form-label {
         @extend .col-form-label;
         @extend .col-2;
     }
 
-    & >.form-input {
+    & > .form-input {
         @extend .col-10;
     }
 
@@ -25,7 +25,7 @@
         padding-top: 0.5rem;
     }
 
-    & >.row-help-text {
+    & > .row-help-text {
         @extend .offset-2;
     }
 

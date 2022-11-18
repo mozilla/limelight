@@ -18,6 +18,7 @@ import JSONPretty from "react-json-pretty";
 import NewEditImportPane from "./NewEditImportPane";
 import { MessageTemplate } from "./messageTypes";
 import InfoBarWizard from "./InfoBarWizard";
+import SpotlightWizard from "./SpotlightWizard";
 import WizardFormData from "./formData";
 import WizardMetaSection from "./WizardMetaSection";
 import serializeMessage from "./serializers";
@@ -83,8 +84,11 @@ export default function Wizard() {
       MessageContentWizard = InfoBarWizard;
       break;
 
+    case "spotlight":
+      MessageContentWizard = SpotlightWizard;
+      break;
+
     case "cfr":
-    case "multistage-spotlight":
     case "pbnewtab":
       return <></>;
   }

@@ -5,6 +5,41 @@
  */
 
 import InfoBarWizardFormData from "./InfoBarWizard/formData";
+import LocalizableTextFormData from "../LocalizableTextInput/formData";
+import SpotlightWizardFormData from "./SpotlightWizard/formData";
 
-type WizardFormData = InfoBarWizardFormData;
+export type { InfoBarWizardFormData };
+export type { LocalizableTextFormData };
+export type { SpotlightWizardFormData };
+
+export interface BaseFormData {
+  meta: {
+    targeting: string;
+
+    groups: string[];
+
+    trigger: string;
+
+    frequency: {
+      lifetime: {
+        enabled: boolean;
+        value: number;
+      };
+
+      custom: {
+        period: number;
+        cap: number;
+      }[];
+    };
+
+    priority: {
+      enabled: boolean;
+      value: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+      order: number;
+    };
+  };
+}
+
+type WizardFormData = BaseFormData &
+  (InfoBarWizardFormData | SpotlightWizardFormData);
 export default WizardFormData;

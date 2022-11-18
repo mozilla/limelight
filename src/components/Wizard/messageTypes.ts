@@ -4,28 +4,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export type MessageTemplate =
-  | "cfr"
-  | "infobar"
-  | "multistage-spotlight"
-  | "pbnewtab";
+import InfoBarMessageContent from "./InfoBarWizard/messageTypes";
+import LocalizableText from "../LocalizableTextInput/messageTypes";
+import SpotlightMessageContent from "./SpotlightWizard/messageTypes";
 
-export type LocalizableText = string | { string_id: string };
-export interface InfoBarMessageContent {
-  type: "tab" | "global";
-  text: LocalizableText;
-  priority?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-  buttons: {
-    label: LocalizableText;
-    primary?: boolean;
-    accessKey?: string;
-    supportPage?: string;
-    action: object;
-  }[];
-}
+export type { InfoBarMessageContent };
+export type { LocalizableText };
+export type { SpotlightMessageContent };
+
+export type MessageTemplate = "cfr" | "infobar" | "spotlight" | "pbnewtab";
+
 export interface BaseMessage {
   id: string;
-  template: MessageTemplate;
   targeting: string;
   groups?: string[];
   trigger: object;
@@ -40,7 +30,14 @@ export interface BaseMessage {
   };
 }
 
-export type Message = BaseMessage & {
-  template: "infobar";
-  content: InfoBarMessageContent;
-};
+export type Message = BaseMessage &
+  (
+    | {
+        template: "infobar";
+        content: InfoBarMessageContent;
+      }
+    | {
+        template: "spotlight";
+        content: SpotlightMessageContent;
+      }
+  );

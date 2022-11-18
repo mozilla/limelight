@@ -82,9 +82,8 @@ function NewForm({ onNewMessage }: NewFormProps) {
               registerOptions={{ required: true }}
               type="radio"
               label="Multi-Stage Spotlight"
-              value="multistage-spotlight"
+              value="spotlight"
               id="message-template-multistage-spotlight"
-              disabled
             />
             <RegisteredFormCheck
               name="template"

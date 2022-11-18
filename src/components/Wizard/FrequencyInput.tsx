@@ -12,7 +12,7 @@ import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-import WizardFormData from "./formData";
+import { BaseFormData } from "./formData";
 import {
   RegisteredFormControl,
   RegisteredFormCheck,
@@ -29,7 +29,7 @@ function customDefaults() {
 }
 
 export default function FrequencyInput() {
-  const { control, register, watch } = useFormContext<WizardFormData>();
+  const { control, register, watch } = useFormContext<BaseFormData>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: `${controlPrefix}.custom`,

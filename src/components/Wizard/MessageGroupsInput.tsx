@@ -8,7 +8,7 @@ import CreatableSelect from "react-select/creatable";
 import { useFormContext, useController } from "react-hook-form";
 
 import FormRow from "./FormRow";
-import WizardFormData from "./InfoBarWizard/formData";
+import { BaseFormData } from "./formData";
 
 const MESSAGE_GROUPS = [
   { value: "cfr", label: "cfr" },
@@ -20,7 +20,7 @@ const MESSAGE_GROUPS = [
 const controlId = "meta.groups";
 
 export default function MessageGroupsInput() {
-  const { control } = useFormContext<WizardFormData>();
+  const { control } = useFormContext<BaseFormData>();
   const {
     field: { onChange, onBlur, name, value: rawValue, ref },
   } = useController({

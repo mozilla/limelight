@@ -9,7 +9,7 @@ import Row from "react-bootstrap/Row";
 import { useFormContext } from "react-hook-form";
 
 import FormRow from "./FormRow";
-import WizardFormData from "./formData";
+import { BaseFormData } from "./formData";
 import {
   RegisteredFormControl,
   RegisteredFormCheck,
@@ -18,7 +18,7 @@ import {
 const controlPrefix = "meta.priority";
 
 export default function PriorityInput() {
-  const { register, watch } = useFormContext<WizardFormData>();
+  const { register, watch } = useFormContext<BaseFormData>();
   const priorityEnabled = watch(`${controlPrefix}.enabled`) ?? false;
 
   return (

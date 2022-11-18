@@ -8,7 +8,6 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
@@ -16,6 +15,7 @@ import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
+import FormRow from "../FormRow";
 import InfoBarWizardFormData from "./formData";
 import LocalizableTextInput from "../../LocalizableTextInput";
 import {
@@ -89,12 +89,10 @@ export default function InfoBarButtonsInput() {
               required
             />
 
-            <Form.Group
-              as={Row}
+            <FormRow
+              label="Access Key"
               controlId={`${controlPrefix}.accessKey`}
-              className="form-row"
             >
-              <Form.Label>Access Key</Form.Label>
               <div className="access-key-input">
                 <RegisteredFormControl
                   name={`${tabControlPrefix}.accessKey`}
@@ -103,60 +101,44 @@ export default function InfoBarButtonsInput() {
                   maxLength={1}
                 />
               </div>
-            </Form.Group>
+            </FormRow>
 
-            <Form.Group
-              as={Row}
+            <FormRow
+              label="Primary?"
               controlId={`${controlPrefix}.primary`}
-              className="form-row"
+              containerClassName="form-input-check"
             >
-              <Form.Check.Label className="form-label">
-                Primary?
-              </Form.Check.Label>
-              <div className="form-input form-input-check">
-                <RegisteredFormCheck
-                  name={`${tabControlPrefix}.primary`}
-                  register={register}
-                />
-              </div>
-            </Form.Group>
+              <RegisteredFormCheck
+                name={`${tabControlPrefix}.primary`}
+                register={register}
+              />
+            </FormRow>
 
-            <Form.Group
-              as={Row}
+            <FormRow
+              label="Support URL"
               controlId={`${controlPrefix}.supportPage`}
-              className="form-row"
             >
-              <Form.Label>Support URL</Form.Label>
-              <div className="form-input">
-                <RegisteredFormControl
-                  name={`${tabControlPrefix}.supportPage`}
-                  register={register}
-                  type="text"
-                  className="input-monospace"
-                />
-              </div>
-            </Form.Group>
+              <RegisteredFormControl
+                name={`${tabControlPrefix}.supportPage`}
+                register={register}
+                type="text"
+                className="input-monospace"
+              />
+            </FormRow>
 
-            <Form.Group
-              as={Row}
-              controlId={`${controlPrefix}.action`}
-              className="form-row"
-            >
-              <Form.Label>Action</Form.Label>
-              <div className="form-input">
-                <RegisteredFormControl
-                  name={`${tabControlPrefix}.action`}
-                  register={register}
-                  registerOptions={{
-                    required: true,
-                    validate: validateJsonAsObject,
-                  }}
-                  as="textarea"
-                  className="input-monospace"
-                />
-                <ErrorMessage name={`${tabControlPrefix}.action`} />
-              </div>
-            </Form.Group>
+            <FormRow label="Action" controlId={`${controlPrefix}.action`}>
+              <RegisteredFormControl
+                name={`${tabControlPrefix}.action`}
+                register={register}
+                registerOptions={{
+                  required: true,
+                  validate: validateJsonAsObject,
+                }}
+                as="textarea"
+                className="input-monospace"
+              />
+              <ErrorMessage name={`${tabControlPrefix}.action`} />
+            </FormRow>
 
             <Row className="form-row form-buttons">
               <Col>
@@ -171,36 +153,33 @@ export default function InfoBarButtonsInput() {
     : "There are no buttons";
 
   return (
-    <Row className="form-row">
-      <span className="form-label">Buttons</span>
-      <Col>
-        <Card className="infobar-buttons-input">
-          <Tab.Container
-            activeKey={activeKey ?? undefined}
-            onSelect={setActiveKey}
-          >
-            <Card.Header>
-              <Nav variant="tabs">
-                {tabs}
-                <div className="tabs-controls">
-                  <Nav.Item>
-                    <Button
-                      onClick={addButton}
-                      className="new-button"
-                      title="Add a button"
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </Button>
-                  </Nav.Item>
-                </div>
-              </Nav>
-            </Card.Header>
-            <Card.Body>
-              <Tab.Content>{tabContents}</Tab.Content>
-            </Card.Body>
-          </Tab.Container>
-        </Card>
-      </Col>
-    </Row>
+    <FormRow label="Buttons">
+      <Card className="infobar-buttons-input">
+        <Tab.Container
+          activeKey={activeKey ?? undefined}
+          onSelect={setActiveKey}
+        >
+          <Card.Header>
+            <Nav variant="tabs">
+              {tabs}
+              <div className="tabs-controls">
+                <Nav.Item>
+                  <Button
+                    onClick={addButton}
+                    className="new-button"
+                    title="Add a button"
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </Button>
+                </Nav.Item>
+              </div>
+            </Nav>
+          </Card.Header>
+          <Card.Body>
+            <Tab.Content>{tabContents}</Tab.Content>
+          </Card.Body>
+        </Tab.Container>
+      </Card>
+    </FormRow>
   );
 }

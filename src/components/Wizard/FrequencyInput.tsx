@@ -17,6 +17,7 @@ import {
   RegisteredFormControl,
   RegisteredFormCheck,
 } from "../RegisteredFormControl";
+import FormRow from "./FormRow";
 
 const controlPrefix = "meta.frequency";
 
@@ -79,56 +80,53 @@ export default function FrequencyInput() {
   });
 
   return (
-    <Row className="form-row">
-      <span className="form-label">Frequency</span>
-      <Col className="form-input meta-frequency-input">
-        <Row as="fieldset" className="form-row">
-          <Form.Group
-            controlId={`${controlPrefix}.lifetime.enabled`}
-            className="lifetime-enabled-input"
-          >
-            <RegisteredFormCheck
-              name={`${controlPrefix}.lifetime.enabled`}
-              register={register}
-              label="Lifetime Cap"
-            />
-          </Form.Group>
-          <div className="form-input">
-            <RegisteredFormControl
-              name={`${controlPrefix}.lifetime.value`}
-              register={register}
-              registerOptions={{
-                disabled: !lifetimeCapEnabled,
-                required: lifetimeCapEnabled,
-                min: 1,
-                max: 100,
-              }}
-              type="number"
-              defaultValue={lifetimeCapEnabled ? 1 : undefined}
-            />
-          </div>
-          <Form.Text className="row-help-text">
-            The total number of times this message can be shown to a user.
-          </Form.Text>
-        </Row>
-        <Row className="form-row">
-          <span className="form-label">Custom</span>
-          <Col className="form-input custom-input">
-            <Row className="form-row">
-              <Col>Period (ms)</Col>
-              <Col>Cap</Col>
-            </Row>
-            {customRows}
-            <Row className="form-row form-buttons">
-              <Col>
-                <Button onClick={handleAdd}>
-                  <FontAwesomeIcon icon={faPlus} /> Add a Custom Frequency
-                </Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+    <FormRow label="Frequency" containerClassName="meta-frequency-input">
+      <Row as="fieldset" className="form-row">
+        <Form.Group
+          controlId={`${controlPrefix}.lifetime.enabled`}
+          className="lifetime-enabled-input"
+        >
+          <RegisteredFormCheck
+            name={`${controlPrefix}.lifetime.enabled`}
+            register={register}
+            label="Lifetime Cap"
+          />
+        </Form.Group>
+        <div className="form-input">
+          <RegisteredFormControl
+            name={`${controlPrefix}.lifetime.value`}
+            register={register}
+            registerOptions={{
+              disabled: !lifetimeCapEnabled,
+              required: lifetimeCapEnabled,
+              min: 1,
+              max: 100,
+            }}
+            type="number"
+            defaultValue={lifetimeCapEnabled ? 1 : undefined}
+          />
+        </div>
+        <Form.Text className="row-help-text">
+          The total number of times this message can be shown to a user.
+        </Form.Text>
+      </Row>
+      <Row className="form-row">
+        <span className="form-label">Custom</span>
+        <Col className="form-input custom-input">
+          <Row className="form-row">
+            <Col>Period (ms)</Col>
+            <Col>Cap</Col>
+          </Row>
+          {customRows}
+          <Row className="form-row form-buttons">
+            <Col>
+              <Button onClick={handleAdd}>
+                <FontAwesomeIcon icon={faPlus} /> Add a Custom Frequency
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </FormRow>
   );
 }

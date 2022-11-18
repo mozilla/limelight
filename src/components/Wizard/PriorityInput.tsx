@@ -4,11 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormContext } from "react-hook-form";
 
+import FormRow from "./FormRow";
 import WizardFormData from "./formData";
 import {
   RegisteredFormControl,
@@ -22,9 +22,11 @@ export default function PriorityInput() {
   const priorityEnabled = watch(`${controlPrefix}.enabled`) ?? false;
 
   return (
-    <Row className="form-row">
-      <span className="form-label">Priority</span>
-      <Col as="fieldset" className="form-input meta-priority-input">
+    <FormRow
+      label="Priority"
+      helpText="Determines the priority of the message in the messaging system queue."
+    >
+      <fieldset className="meta-priority-input">
         <Row className="form-row">
           <Form.Group
             controlId={`${controlPrefix}.enabled`}
@@ -38,41 +40,43 @@ export default function PriorityInput() {
           </Form.Group>
         </Row>
         <Row className="form-row">
-          <Form.Group as={Col} controlId="priority-value" className="form-col">
-            <Form.Label>Priority</Form.Label>
-            <div className="form-input">
-              <RegisteredFormControl
-                name={`${controlPrefix}.value`}
-                register={register}
-                registerOptions={{
-                  required: priorityEnabled,
-                  disabled: !priorityEnabled,
-                  valueAsNumber: true,
-                  min: 0,
-                  max: 9,
-                }}
-                type="number"
-                defaultValue={0}
-                min={0}
-                max={9}
-              />
-            </div>
-          </Form.Group>
-          <Form.Group as={Col} controlId="priority-order" className="form-col">
-            <Form.Label>Order</Form.Label>
-            <div className="form-input">
-              <RegisteredFormControl
-                name={`${controlPrefix}.order`}
-                register={register}
-                registerOptions={{
-                  disabled: !priorityEnabled,
-                  valueAsNumber: true,
-                }}
-                type="number"
-                min={0}
-              />
-            </div>
-          </Form.Group>
+          <FormRow
+            label="Priority"
+            controlId={`${controlPrefix}.value`}
+            column={true}
+          >
+            <RegisteredFormControl
+              name={`${controlPrefix}.value`}
+              register={register}
+              registerOptions={{
+                required: priorityEnabled,
+                disabled: !priorityEnabled,
+                valueAsNumber: true,
+                min: 0,
+                max: 9,
+              }}
+              type="number"
+              defaultValue={0}
+              min={0}
+              max={9}
+            />
+          </FormRow>
+          <FormRow
+            label="Order"
+            controlId={`${controlPrefix}.order`}
+            column={true}
+          >
+            <RegisteredFormControl
+              name={`${controlPrefix}.order`}
+              register={register}
+              registerOptions={{
+                disabled: !priorityEnabled,
+                valueAsNumber: true,
+              }}
+              type="number"
+              min={0}
+            />
+          </FormRow>
         </Row>
         <Row>
           <Form.Text className="col-help-text">
@@ -83,10 +87,7 @@ export default function PriorityInput() {
             order messages are shown first.
           </Form.Text>
         </Row>
-      </Col>
-      <Form.Text className="row-help-text">
-        Determines the priority of the message in the messaging system queue.
-      </Form.Text>
-    </Row>
+      </fieldset>
+    </FormRow>
   );
 }

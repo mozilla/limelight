@@ -4,8 +4,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import { useFormContext } from "react-hook-form";
 
 import FrequencyInput from "./FrequencyInput";
@@ -15,6 +13,7 @@ import { RegisteredFormControl } from "../RegisteredFormControl";
 import { validateJexl, validateJsonAsObject } from "./validators";
 import ErrorMessage from "../ErrorMessage";
 import WizardFormData from "./formData";
+import FormRow from "./FormRow";
 
 interface WizardMetaSectionProps {
   triggerRequired: boolean;
@@ -27,49 +26,45 @@ export default function WizardMetaSection({
 
   return (
     <>
-      <Form.Group as={Row} controlId="targeting" className="form-row">
-        <Form.Label>Targeting Expression</Form.Label>
-        <div className="form-input">
-          <RegisteredFormControl
-            name="meta.targeting"
-            register={register}
-            registerOptions={{
-              required: true,
-              validate: validateJexl,
-            }}
-            as="textarea"
-            className="input-monospace"
-          />
-          <ErrorMessage name="meta.targeting" />
-        </div>
-        <Form.Text className="row-help-text">
-          The JEXL targeting expression for the message
-        </Form.Text>
-      </Form.Group>
+      <FormRow
+        label="Targeting Expression"
+        controlId="targeting"
+        helpText="The JEXL targeting expression for the message."
+      >
+        <RegisteredFormControl
+          name="meta.targeting"
+          register={register}
+          registerOptions={{
+            required: true,
+            validate: validateJexl,
+          }}
+          as="textarea"
+          className="input-monospace"
+        />
+        <ErrorMessage name="meta.targeting" />
+      </FormRow>
 
       <MessageGroupsInput />
 
-      <Form.Group as={Row} controlId="trigger" className="form-row">
-        <Form.Label>Trigger</Form.Label>
-        <div className="form-input">
-          <RegisteredFormControl
-            name="meta.trigger"
-            register={register}
-            registerOptions={{
-              required: triggerRequired,
-              validate: validateJsonAsObject,
-            }}
-            as="textarea"
-            rows={3}
-            className="input-monospace"
-            defaultValue="{}"
-          />
-          <ErrorMessage name="meta.trigger" />
-        </div>
-        <Form.Text className="row-help-text">
-          The trigger that will show this message
-        </Form.Text>
-      </Form.Group>
+      <FormRow
+        label="Trigger"
+        controlId="trigger"
+        helpText="The trigger that will show this message."
+      >
+        <RegisteredFormControl
+          name="meta.trigger"
+          register={register}
+          registerOptions={{
+            required: triggerRequired,
+            validate: validateJsonAsObject,
+          }}
+          as="textarea"
+          rows={3}
+          className="input-monospace"
+          defaultValue="{}"
+        />
+        <ErrorMessage name="meta.trigger" />
+      </FormRow>
 
       <FrequencyInput />
 

@@ -4,11 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import CreatableSelect from "react-select/creatable";
 import { useFormContext, useController } from "react-hook-form";
 
+import FormRow from "./FormRow";
 import WizardFormData from "./InfoBarWizard/formData";
 
 const MESSAGE_GROUPS = [
@@ -36,23 +35,21 @@ export default function MessageGroupsInput() {
   );
 
   return (
-    <Form.Group as={Row} controlId={controlId} className="form-row">
-      <Form.Label>Message Groups</Form.Label>
-      <div className="form-input">
-        <CreatableSelect
-          name={name}
-          onChange={(newValue) => onChange(newValue.map((item) => item.value))}
-          onBlur={onBlur}
-          options={MESSAGE_GROUPS}
-          value={value}
-          ref={ref}
-          isMulti
-          classNamePrefix="react-select"
-        />
-      </div>
-      <Form.Text className="row-help-text">
-        Message groups used for frequency capping.
-      </Form.Text>
-    </Form.Group>
+    <FormRow
+      label="Messge Groups"
+      controlId={controlId}
+      helpText="Message groups used for frequency capping."
+    >
+      <CreatableSelect
+        name={name}
+        onChange={(newValue) => onChange(newValue.map((item) => item.value))}
+        onBlur={onBlur}
+        options={MESSAGE_GROUPS}
+        value={value}
+        ref={ref}
+        isMulti
+        classNamePrefix="react-select"
+      />
+    </FormRow>
   );
 }

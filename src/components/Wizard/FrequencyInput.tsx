@@ -114,8 +114,8 @@ export default function FrequencyInput() {
         <span className="form-label">Custom</span>
         <Col className="form-input custom-input">
           <Row className="form-row">
-            <Col>Period (ms)</Col>
-            <Col>Cap</Col>
+            <Col className="custom-header-col">Period (ms)</Col>
+            <Col className="custom-header-col">Cap</Col>
           </Row>
           {customRows}
           <Row className="form-row form-buttons">

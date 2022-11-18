@@ -155,18 +155,27 @@
         padding-top: 0.5rem;
 
         .custom-input-col,
-        .custom-help-col {
+        .custom-help-col,
+        .custom-header-col {
             @extend .col-5;
         }
 
         .custom-trash-col {
             @extend .col-1;
             @extend .offset-1;
+
+            .btn {
+                width: 100%;
+            }
         }
     }
 
     .form-buttons .col {
         @extend .col-4;
+
+        .btn {
+            width: 100%;
+        }
     }
 
     .form-row {

@@ -16,6 +16,7 @@ import {
   RegisteredFormCheck,
   RegisteredFormRange,
 } from "../../RegisteredFormControl";
+import TabOrGlobalInput from "../TabOrGlobalInput";
 
 const PRIORITIES = [
   "System",
@@ -45,29 +46,7 @@ export default function InfoBarWizard() {
 
       <InfoBarButtonsInput />
 
-      <FormRow label="Type">
-        <RegisteredFormCheck
-          name="content.type"
-          register={register}
-          id="content-type-tab"
-          type="radio"
-          label="Tab"
-          value="tab"
-          defaultChecked
-        />
-        <Form.Text>The InfoBar will be shown on a single tab.</Form.Text>
-        <RegisteredFormCheck
-          name="content.type"
-          register={register}
-          id="content-type-global"
-          type="radio"
-          label="Global"
-          value="global"
-        />
-        <Form.Text>
-          The InfoBar will be shown browser-wide, across all tabs.
-        </Form.Text>
-      </FormRow>
+      <TabOrGlobalInput controlId="content.type" label="Type" />
 
       <FormRow
         label="Priority"

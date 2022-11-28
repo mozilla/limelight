@@ -20,7 +20,7 @@ import { MessageTemplate } from "./messageTypes";
 import InfoBarWizard from "./InfoBarWizard";
 import SpotlightWizard from "./SpotlightWizard";
 import WizardFormData from "./formData";
-import WizardMetaSection from "./WizardMetaSection";
+import { WizardMetaSection } from "./WizardSections";
 import serializeMessage from "./serializers";
 
 type MessageInfo = {
@@ -152,21 +152,9 @@ export default function Wizard() {
               </Card.Header>
 
               <ListGroup variant="flush">
-                <ListGroup.Item className="wizard-section-header">
-                  Message Content
-                </ListGroup.Item>
+                <MessageContentWizard />
 
-                <ListGroup.Item>
-                  <MessageContentWizard />
-                </ListGroup.Item>
-
-                <ListGroup.Item className="wizard-section-header">
-                  Metadata
-                </ListGroup.Item>
-
-                <ListGroup.Item>
-                  <WizardMetaSection triggerRequired={triggerRequired} />
-                </ListGroup.Item>
+                <WizardMetaSection triggerRequired={triggerRequired} />
 
                 <ListGroup.Item className="wizard-buttons">
                   <Button onClick={() => void handleShowJson()}>

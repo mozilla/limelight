@@ -17,6 +17,7 @@ import {
   RegisteredFormRange,
 } from "../../RegisteredFormControl";
 import TabOrGlobalInput from "../TabOrGlobalInput";
+import { WizardSection } from "../WizardSections";
 
 const PRIORITIES = [
   "System",
@@ -36,7 +37,7 @@ export default function InfoBarWizard() {
   const priority = watch("content.priority") ?? { enabled: false, value: 0 };
 
   return (
-    <>
+    <WizardSection label="InfoBar Content">
       <LocalizableTextInput
         controlPrefix="content.text"
         label="Text"
@@ -84,6 +85,6 @@ export default function InfoBarWizard() {
           </Form.Text>
         </Row>
       </FormRow>
-    </>
+    </WizardSection>
   );
 }

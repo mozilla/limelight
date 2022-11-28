@@ -144,6 +144,34 @@
     }
 }
 
+.tabbed-input {
+    .tabs-controls {
+        display: flex;
+        justify-content: end;
+        flex-grow: 1;
+    }
+
+    .access-key-input {
+        @extend .col-1;
+    }
+
+    .form-row {
+        --form-row-spacing: 0.5rem;
+    }
+
+    .new-button {
+        margin-bottom: 3px;
+    }
+
+    .form-buttons .col {
+        @extend .col-2;
+
+        .btn {
+            width: 100%;
+        }
+    }
+}
+
 .meta-frequency-input {
     .lifetime-enabled-input {
         @extend .col-2;

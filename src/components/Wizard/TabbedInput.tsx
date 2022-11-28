@@ -22,7 +22,7 @@ import {
 
 import WizardFormData from "./formData";
 
-type FieldNames = "content.buttons";
+type FieldNames = "content.buttons" | "content.screens";
 
 export interface TabInputProps {
   field: FieldArrayWithId<WizardFormData, FieldNames>;

@@ -14,35 +14,41 @@ import FormRow from "../FormRow";
 import TabOrGlobalInput from "../TabOrGlobalInput";
 import SpotlightWizardFormData from "./formData";
 import { WizardSection } from "../WizardSections";
+import SpotlightScreensInput from "./SpotlightScreensInput";
 
 export default function SpotlightWizard() {
   const { register } = useFormContext<SpotlightWizardFormData>();
 
   return (
-    <WizardSection label="Spotlight Content">
-      <FormRow
-        label="Transitions"
-        controlId="content.transitions"
-        containerClassName="form-input-check"
-        helpText="Show transitions within and between screens."
-      >
-        <RegisteredFormCheck name="content.transitions" register={register} />
-      </FormRow>
+    <>
+      <WizardSection label="Spotlight Content">
+        <FormRow
+          label="Transitions"
+          controlId="content.transitions"
+          containerClassName="form-input-check"
+          helpText="Show transitions within and between screens."
+        >
+          <RegisteredFormCheck name="content.transitions" register={register} />
+        </FormRow>
 
-      <FormRow
-        label="Backdrop"
-        controlId="content.backdrop"
-        helpText="Background CSS behind modal content."
-      >
-        <RegisteredFormControl
-          name="content.backdrop"
-          register={register}
-          as="textarea"
-          className="input-monospace"
-        />
-      </FormRow>
+        <FormRow
+          label="Backdrop"
+          controlId="content.backdrop"
+          helpText="Background CSS behind modal content."
+        >
+          <RegisteredFormControl
+            name="content.backdrop"
+            register={register}
+            as="textarea"
+            className="input-monospace"
+          />
+        </FormRow>
 
-      <TabOrGlobalInput label="Modal?" controlId="content.modal" />
-    </WizardSection>
+        <TabOrGlobalInput label="Modal?" controlId="content.modal" />
+      </WizardSection>
+      <WizardSection label="Screens">
+        <SpotlightScreensInput />
+      </WizardSection>
+    </>
   );
 }

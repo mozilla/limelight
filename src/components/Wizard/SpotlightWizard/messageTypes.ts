@@ -9,4 +9,15 @@ export default interface SpotlightMessageContent {
   modal?: "tab" | "global";
   transitions?: boolean;
   backdrop?: string;
+
+  screens: SpotlightScreen[];
+}
+
+export interface SpotlightScreen {
+  id: string;
+  content: Record<string, unknown>;
+}
+
+export interface SpotlightAction {
+  navigate?: true;
 }

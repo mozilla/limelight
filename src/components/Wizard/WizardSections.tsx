@@ -4,6 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import React from "react";
+import ListGroup from "react-bootstrap/ListGroup";
 import { useFormContext } from "react-hook-form";
 
 import FrequencyInput from "./FrequencyInput";
@@ -15,17 +17,33 @@ import ErrorMessage from "../ErrorMessage";
 import WizardFormData from "./formData";
 import FormRow from "./FormRow";
 
-interface WizardMetaSectionProps {
+export interface WizardSectionProps {
+  label: string;
+}
+
+export function WizardSection({
+  label,
+  children,
+}: React.PropsWithChildren<WizardSectionProps>) {
+  return (
+    <>
+      <ListGroup.Item className="wizard-section-header">{label}</ListGroup.Item>
+      <ListGroup.Item>{children}</ListGroup.Item>
+    </>
+  );
+}
+
+export interface WizardMetaSectionProps {
   triggerRequired: boolean;
 }
 
-export default function WizardMetaSection({
+export function WizardMetaSection({
   triggerRequired = false,
 }: WizardMetaSectionProps) {
   const { register } = useFormContext<WizardFormData>();
 
   return (
-    <>
+    <WizardSection label="Metadata">
       <FormRow
         label="Targeting Expression"
         controlId="targeting"
@@ -69,6 +87,6 @@ export default function WizardMetaSection({
       <FrequencyInput />
 
       <PriorityInput />
-    </>
+    </WizardSection>
   );
 }

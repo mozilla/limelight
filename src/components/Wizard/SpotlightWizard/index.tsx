@@ -13,12 +13,13 @@ import {
 import FormRow from "../FormRow";
 import TabOrGlobalInput from "../TabOrGlobalInput";
 import SpotlightWizardFormData from "./formData";
+import { WizardSection } from "../WizardSections";
 
 export default function SpotlightWizard() {
   const { register } = useFormContext<SpotlightWizardFormData>();
 
   return (
-    <>
+    <WizardSection label="Spotlight Content">
       <FormRow
         label="Transitions"
         controlId="content.transitions"
@@ -42,6 +43,6 @@ export default function SpotlightWizard() {
       </FormRow>
 
       <TabOrGlobalInput label="Modal?" controlId="content.modal" />
-    </>
+    </WizardSection>
   );
 }

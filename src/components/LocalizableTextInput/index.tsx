@@ -34,7 +34,7 @@ export default function LocalizableTextInput({
   disabled = false,
 }: LocalizableTextInputProps) {
   const { register, watch } = useFormContext<WizardFormData>();
-  const localized = watch(`${controlPrefix}.localized`);
+  const localized = watch(`${controlPrefix}.localized`) ?? false;
 
   return (
     <FormRow label={label} helpText={helpText}>
@@ -45,6 +45,7 @@ export default function LocalizableTextInput({
             name={`${controlPrefix}.localized`}
             register={register}
             disabled={disabled}
+            defaultChecked={false}
           />
         </Form.Group>
       </Row>

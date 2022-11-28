@@ -18,6 +18,12 @@ import {
   SpotlightMessageContent,
   BaseMessage,
 } from "./messageTypes";
+import {
+  SpotlightButtonFormData,
+  SpotlightLogoFormData,
+  SpotlightScreenFormData,
+} from "./SpotlightWizard/formData";
+import { SpotlightScreenKind } from "./SpotlightWizard/SpotlightScreensInput/screens";
 
 export default function serializeMessage(
   id: string,
@@ -116,6 +122,7 @@ function serializeSpotlightContent(
   const content: SpotlightMessageContent = {
     template: "multistage",
     modal: data.content.modal,
+    screens: [],
   };
 
   if (data.content.transitions) {
@@ -126,7 +133,71 @@ function serializeSpotlightContent(
     content.backdrop = data.content.backdrop;
   }
 
+  for (const screen of data.content.screens) {
+    if (!screen.kind) {
+      throw new Error("Screen must have a kind");
+    }
+
+    content.screens.push({
+      id: screen.screenId,
+      content: serializeSpotlightScreenContent(screen),
+    });
+  }
+
   return content;
+}
+
+function serializeSpotlightScreenContent(data: SpotlightScreenFormData) {
+  switch (data.kind) {
+    case SpotlightScreenKind.LogoAndTitle:
+      return Object.assign(
+        {
+          logo: serializeSpotlightLogo(data.content.logo),
+          title: serializeLocalizableText(data.content.title, true),
+          primary_button: serializeSpotlightButton(data.content.primaryButton),
+        },
+        data.content.titleStyle ? { title_style: data.content.titleStyle } : {},
+        data.content.background.length
+          ? { background: data.content.background }
+          : {},
+        data.content.subtitle?.value?.length
+          ? { subtitle: serializeLocalizableText(data.content.subtitle, true) }
+          : {},
+        data.content.secondaryButton.enabled
+          ? {
+              secondary_button: serializeSpotlightButton(
+                data.content.secondaryButton
+              ),
+            }
+          : {}
+      ) as Record<string, unknown>;
+
+    default:
+      throw new Error("Unsupported screen kind");
+  }
+}
+
+function serializeSpotlightLogo(data: SpotlightLogoFormData) {
+  const imageURL = data.hasImageURL ? data.imageURL : "none";
+
+  const logo: Record<string, string> = { imageURL };
+
+  if (data.height.length) {
+    logo.height = data.height;
+  }
+
+  return logo;
+}
+
+function serializeSpotlightButton(data: SpotlightButtonFormData) {
+  return {
+    label: serializeLocalizableText(data.label, true),
+    action: Object.assign(
+      data.action.navigate ? { navigate: true } : {},
+      data.action.type ? { type: data.action.type } : {},
+      { data: JSON.parse(data.action.data) as unknown }
+    ),
+  };
 }
 
 function serializeLocalizableText(

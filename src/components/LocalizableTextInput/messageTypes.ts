@@ -4,5 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-type LocalizableText = string | { string_id: string };
+import { RichTextProperties } from "./formData";
+
+type LocalizableText =
+  | string
+  | (({ raw: string } | { string_id: string }) & { rich?: RichTextProperties });
 export default LocalizableText;

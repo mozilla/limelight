@@ -4,14 +4,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-type LocalizableTextFormData =
-  | {
-      localized: true;
-      stringId: string;
-    }
-  | {
-      localized: false;
-      text: string;
-    };
+export interface RichTextProperties {
+  zap?: boolean;
+  color?: string;
+  fontSize?: string;
+  fontWeight?: number;
+  letterSpacing?: string;
+  lineHeight?: string;
+  marginBlock?: string;
+  marginInline?: string;
+  paddingBlock?: string;
+  paddingInline?: string;
+}
 
-export default LocalizableTextFormData;
+export default interface LocalizableTextFormData {
+  localized: boolean;
+  value: string;
+  rich?: RichTextProperties;
+}

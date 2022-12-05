@@ -130,13 +130,25 @@ function serializeSpotlightContent(
 }
 
 function serializeLocalizableText(
-  data: LocalizableTextFormData
+  data: LocalizableTextFormData,
+  rich = false
 ): LocalizableText {
-  if (data.localized) {
-    return { string_id: data.stringId };
-  } else {
-    return data.text;
+  if (!rich && !data.localized) {
+    return data.value;
   }
+
+  let text: LocalizableText;
+  if (data.localized) {
+    text = { string_id: data.value };
+  } else {
+    text = { raw: data.value };
+  }
+
+  if ("rich" in data) {
+    text.rich = { ...data.rich };
+  }
+
+  return text;
 }
 
 function serializeInfoBarButton({

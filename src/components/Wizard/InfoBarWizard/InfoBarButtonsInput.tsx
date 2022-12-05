@@ -24,10 +24,7 @@ import TabbedInput, { TabInputProps } from "../TabbedInput";
 
 function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
   return {
-    label: {
-      localized: false,
-      text: "",
-    },
+    label: { localized: false, value: "" },
     accessKey: "",
     primary: false,
     supportPage: "",

@@ -28,6 +28,14 @@ interface NewFormProps {
   onNewMessage: (id: string, template: MessageTemplate) => void;
 }
 
+interface EditFormData {
+  id: string;
+}
+
+interface EditFormProps {
+  onEditMessage: (id: string) => void;
+}
+
 function NewForm({ onNewMessage }: NewFormProps) {
   const formContext = useForm<NewFormData>({ mode: "onChange" });
   const {
@@ -108,11 +116,45 @@ function NewForm({ onNewMessage }: NewFormProps) {
   );
 }
 
-function EditForm() {
+function EditForm({ onEditMessage }: EditFormProps) {
+  const formContext = useForm<EditFormData>({ mode: "onChange" });
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = formContext;
+
+  const onSubmit: SubmitHandler<EditFormData> = (data) => {
+    onEditMessage(data.id);
+  };
   return (
     <>
       <Card.Title>Edit an Existing Message</Card.Title>
       <Card.Text>There are no messages saved.</Card.Text>
+      <Form onSubmit={handleSubmit(onSubmit)} className="edit-form">
+        <FormProvider {...formContext}>
+          <Form.Group controlId="message-select">
+            <FormRow label="Select Message">
+              <RegisteredFormCheck
+                name="id"
+                register={register}
+                registerOptions={{ required: true }}
+                type="radio"
+                label="Dummy ID"
+                value="dummyId"
+                id="dummyId-select"
+                disabled
+              />
+            </FormRow>
+          </Form.Group>
+        </FormProvider>
+
+        <div className="form-row form-buttons">
+          <Button type="submit" disabled>
+            Next
+          </Button>
+        </div>
+      </Form>
     </>
   );
 }

@@ -139,6 +139,17 @@ export default function Wizard() {
     }
   };
 
+  const handleSaveMessage = async (): Promise<void> => {
+    try {
+      const json = await validate();
+      if (json) {
+        alert(JSON.stringify(json));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const triggerRequired = ["infobar", "cfr"].includes(messageInfo.template);
 
   return (
@@ -169,6 +180,9 @@ export default function Wizard() {
                     className="copy-button"
                   >
                     Copy Preview Link
+                  </Button>
+                  <Button onClick={() => void handleSaveMessage()}>
+                    Save Message
                   </Button>
                 </ListGroup.Item>
               </ListGroup>

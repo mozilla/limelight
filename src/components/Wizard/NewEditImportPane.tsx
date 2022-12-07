@@ -10,10 +10,14 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
+import Row from "react-bootstrap/Row";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import FormRow from "./FormRow";
 import { MessageTemplate } from "./messageTypes";
+import { SavedMessages } from "../../hooks/useSavedMessages";
 import {
   RegisteredFormControl,
   RegisteredFormCheck,
@@ -26,6 +30,16 @@ interface NewFormData {
 
 interface NewFormProps {
   onNewMessage: (id: string, template: MessageTemplate) => void;
+}
+
+interface EditFormData {
+  id: string;
+}
+
+interface EditFormProps {
+  onEditMessage: (id: string) => void;
+  onDeleteMessage: (key: string) => void;
+  messages: SavedMessages;
 }
 
 function NewForm({ onNewMessage }: NewFormProps) {
@@ -108,11 +122,72 @@ function NewForm({ onNewMessage }: NewFormProps) {
   );
 }
 
-function EditForm() {
+function EditForm({ onEditMessage, onDeleteMessage, messages }: EditFormProps) {
+  const formContext = useForm<EditFormData>({ mode: "onChange" });
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = formContext;
+
+  const onSubmit: SubmitHandler<EditFormData> = (data: EditFormData) => {
+    onEditMessage(data.id);
+  };
+
+  const onDelete = (id: string) => {
+    onDeleteMessage(id);
+  };
   return (
     <>
       <Card.Title>Edit an Existing Message</Card.Title>
-      <Card.Text>There are no messages saved.</Card.Text>
+
+      <Form onSubmit={handleSubmit(onSubmit)} className="edit-form">
+        <FormProvider {...formContext}>
+          <Form.Group controlId="message-select">
+            <FormRow
+              label="Select Message"
+              containerClassName="form-input-check"
+            >
+              {Object.keys(messages).length ? (
+                Object.keys(messages).map((id) => {
+                  return (
+                    <Row className="edit-entry" key={id}>
+                      <RegisteredFormCheck
+                        name="id"
+                        register={register}
+                        registerOptions={{ required: true }}
+                        type="radio"
+                        key={id}
+                        label={id}
+                        value={id}
+                        id={`message-select-${id}`}
+                      />
+                      <div className="delete-col">
+                        <Button
+                          key={`delete-${id}`}
+                          type="button"
+                          variant="danger"
+                          onClick={() => onDelete(id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                      </div>
+                    </Row>
+                  );
+                })
+              ) : (
+                <Card.Text>There are no messages saved.</Card.Text>
+              )}
+            </FormRow>
+          </Form.Group>
+        </FormProvider>
+
+        <div className="form-row form-buttons">
+          <Button type="submit" disabled={!isDirty || !isValid}>
+            Next
+          </Button>
+        </div>
+      </Form>
     </>
   );
 }
@@ -150,10 +225,13 @@ enum EventKeys {
   Import = "import",
 }
 
-type NewEditImportPaneProps = NewFormProps;
+type NewEditImportPaneProps = NewFormProps & EditFormProps;
 
 export default function NewEditImportPane({
   onNewMessage,
+  onEditMessage,
+  onDeleteMessage,
+  messages,
 }: NewEditImportPaneProps) {
   return (
     <Container>
@@ -179,7 +257,11 @@ export default function NewEditImportPane({
                 <NewForm onNewMessage={onNewMessage} />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Edit}>
-                <EditForm />
+                <EditForm
+                  onEditMessage={onEditMessage}
+                  onDeleteMessage={onDeleteMessage}
+                  messages={messages}
+                />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Import}>
                 <ImportForm />

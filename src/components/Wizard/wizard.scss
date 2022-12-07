@@ -30,7 +30,6 @@
         @extend .offset-2;
         @extend .col-10;
     }
-
 }
 
 .form-buttons {
@@ -86,8 +85,33 @@
 
 /* NewEditImportPane specific components */
 
+.edit-form {
+    .edit-entry {
+        display: flex;
+    }
+
+    .form-check {
+        @extend .col-11;
+        
+        align-self: center;
+    }
+
+    .delete-col {
+       @extend .col-1;
+
+       .btn {
+            border-radius: 0.25em;
+            font-size: 0.75em;
+            margin: 0.25em 0;
+            padding: 0.5em 1em;
+            width: 100%;
+        }
+    }
+}
+
 .new-form .form-buttons,
-.import-form .form-buttons {
+.import-form .form-buttons,
+.edit-form .form-buttons {
     margin-top: 1rem;
 
     .btn {
@@ -112,7 +136,6 @@
             padding-left: 0;
             padding-right: 0;
 
-
             .accordion-flush > .accordion-item:last-child {
                 border-bottom: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
             }
@@ -124,7 +147,6 @@
             }
         }
     }
-
 }
 
 .wizard-section-header {

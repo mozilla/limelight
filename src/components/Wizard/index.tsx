@@ -22,6 +22,7 @@ import SpotlightWizard from "./SpotlightWizard";
 import WizardFormData from "./formData";
 import { WizardMetaSection } from "./WizardSections";
 import serializeMessage from "./serializers";
+import useSavedMessages from "../../hooks/useSavedMessages";
 
 type MessageInfo = {
   id: string;
@@ -66,8 +67,9 @@ export default function Wizard() {
     undefined
   );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
+  const { messages, saveMessage, deleteMessage } = useSavedMessages();
   const formContext = useForm<WizardFormData>();
-  const { reset } = formContext;
+  const { reset, setValue } = formContext;
 
   if (typeof messageInfo === "undefined") {
     const handleNewMessage = (id: string, template: MessageTemplate) =>
@@ -76,7 +78,28 @@ export default function Wizard() {
         template,
       });
 
-    return <NewEditImportPane onNewMessage={handleNewMessage} />;
+    const handleEditMessage = (id: string) => {
+      const data = messages[id];
+      setMessageInfo({
+        id: id,
+        template: data.template,
+      });
+      for (const [key, value] of Object.entries(data.formData)) {
+        setValue(
+          key as keyof WizardFormData,
+          value as WizardFormData[keyof WizardFormData]
+        );
+      }
+    };
+
+    return (
+      <NewEditImportPane
+        onNewMessage={handleNewMessage}
+        onEditMessage={handleEditMessage}
+        onDeleteMessage={deleteMessage}
+        messages={messages}
+      />
+    );
   }
 
   let MessageContentWizard;
@@ -139,6 +162,18 @@ export default function Wizard() {
     }
   };
 
+  const handleSaveMessage = () => {
+    try {
+      const json = getValues();
+      if (json) {
+        alert("Message Saved!");
+        saveMessage(messageInfo.id, messageInfo.template, json);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const triggerRequired = ["infobar", "cfr"].includes(messageInfo.template);
 
   return (
@@ -169,6 +204,9 @@ export default function Wizard() {
                     className="copy-button"
                   >
                     Copy Preview Link
+                  </Button>
+                  <Button onClick={() => void handleSaveMessage()}>
+                    Save Message
                   </Button>
                 </ListGroup.Item>
               </ListGroup>

@@ -38,15 +38,15 @@ export default function LocalizableTextInput({
 
   return (
     <FormRow label={label} helpText={helpText}>
-      <Row>
-        <div>
+      <Row className="form-row">
+        <Form.Group className="form-input-check">
           <RegisteredFormCheck
             label="Localized?"
             name={`${controlPrefix}.localized`}
             register={register}
             disabled={disabled}
           />
-        </div>
+        </Form.Group>
       </Row>
       <Row>
         {localized ? (

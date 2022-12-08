@@ -67,7 +67,7 @@ export default function Wizard() {
   );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
   const formContext = useForm<WizardFormData>();
-  const { reset } = formContext;
+  const { setValue, reset } = formContext;
 
   if (typeof messageInfo === "undefined") {
     const handleNewMessage = (id: string, template: MessageTemplate) =>
@@ -76,7 +76,26 @@ export default function Wizard() {
         template,
       });
 
-    return <NewEditImportPane onNewMessage={handleNewMessage} />;
+    const handleEditMessage = (id: string) => {
+      const data = JSON.parse(localStorage.getItem(id) as string) as Record<
+        string,
+        unknown
+      >;
+      setMessageInfo({
+        id: id,
+        template: data.template as MessageTemplate,
+      });
+      for (const [key, value] of Object.entries(data.formData)) {
+        setValue(key, value);
+      }
+    };
+
+    return (
+      <NewEditImportPane
+        onNewMessage={handleNewMessage}
+        onEditMessage={handleEditMessage}
+      />
+    );
   }
 
   let MessageContentWizard;
@@ -141,9 +160,13 @@ export default function Wizard() {
 
   const handleSaveMessage = async (): Promise<void> => {
     try {
-      const json = await validate();
+      const json = getValues();
       if (json) {
-        alert(JSON.stringify(json));
+        alert("Message Saved!");
+        localStorage.setItem(
+          messageInfo.id,
+          JSON.stringify({ template: messageInfo.template, formData: json })
+        );
       }
     } catch (e) {
       console.error(e);

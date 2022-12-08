@@ -130,29 +130,35 @@ function EditForm({ onEditMessage }: EditFormProps) {
   return (
     <>
       <Card.Title>Edit an Existing Message</Card.Title>
-      <Card.Text>There are no messages saved.</Card.Text>
+
       <Form onSubmit={handleSubmit(onSubmit)} className="edit-form">
         <FormProvider {...formContext}>
           <Form.Group controlId="message-select">
             <FormRow label="Select Message">
-              <RegisteredFormCheck
-                name="id"
-                register={register}
-                registerOptions={{ required: true }}
-                type="radio"
-                label="Dummy ID"
-                value="dummyId"
-                id="dummyId-select"
-                disabled
-              />
+              {localStorage.length ? (
+                Object.keys(localStorage).map((key) => {
+                  return (
+                    <RegisteredFormCheck
+                      name="id"
+                      register={register}
+                      registerOptions={{ required: true }}
+                      type="radio"
+                      key={key}
+                      label={key}
+                      value={key}
+                      id={`message-select-${key}`}
+                    />
+                  );
+                })
+              ) : (
+                <Card.Text>There are no messages saved.</Card.Text>
+              )}
             </FormRow>
           </Form.Group>
         </FormProvider>
 
         <div className="form-row form-buttons">
-          <Button type="submit" disabled>
-            Next
-          </Button>
+          <Button type="submit">Next</Button>
         </div>
       </Form>
     </>
@@ -192,10 +198,11 @@ enum EventKeys {
   Import = "import",
 }
 
-type NewEditImportPaneProps = NewFormProps;
+type NewEditImportPaneProps = NewFormProps & EditFormProps;
 
 export default function NewEditImportPane({
   onNewMessage,
+  onEditMessage,
 }: NewEditImportPaneProps) {
   return (
     <Container>
@@ -221,7 +228,7 @@ export default function NewEditImportPane({
                 <NewForm onNewMessage={onNewMessage} />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Edit}>
-                <EditForm />
+                <EditForm onEditMessage={onEditMessage} />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Import}>
                 <ImportForm />

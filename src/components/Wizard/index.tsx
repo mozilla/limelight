@@ -67,6 +67,7 @@ export default function Wizard() {
   );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
   const formContext = useForm<WizardFormData>();
+  const { reset } = formContext;
 
   if (typeof messageInfo === "undefined") {
     const handleNewMessage = (id: string, template: MessageTemplate) =>
@@ -93,7 +94,10 @@ export default function Wizard() {
       return <></>;
   }
 
-  const stopEditing = () => setMessageInfo(undefined);
+  const stopEditing = () => {
+    setMessageInfo(undefined);
+    reset();
+  };
   const closeModal = () => setPreviewJson(undefined);
 
   const { trigger, getValues } = formContext;

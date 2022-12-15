@@ -15,3 +15,9 @@ To run the development server, run:
 ```
 npm run serve
 ```
+
+To install Git hooks, run:
+
+```
+npm run install-hooks
+```

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#
+# Clear the parcel cache when switching branches.
+set -euo pipefail
+
+cd $(git rev-parse --show-toplevel)
+rm -rf -- .parcel-cache

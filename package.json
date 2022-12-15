@@ -9,7 +9,8 @@
     "eslint": "eslint \"src/**/*.{ts,tsx}\"",
     "stylelint": "stylelint \"src/**/*.scss\"",
     "htmlhint": "htmlhint \"src/**/*.html\"",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "install-hooks": "git config core.hooksPath .hooks"
   },
   "repository": {
     "type": "git",

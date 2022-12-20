@@ -37,6 +37,7 @@ function LogoAndTitleScreen({ controlPrefix }: ScreenComponentProps) {
       <LocalizableTextInput
         label="Title"
         controlPrefix={`${controlPrefix}.title`}
+        rich
         required
       />
       <FormRow label="Title Style" containerClassName="form-input-check">
@@ -68,6 +69,7 @@ function LogoAndTitleScreen({ controlPrefix }: ScreenComponentProps) {
       <LocalizableTextInput
         label="Subtitle"
         controlPrefix={`${controlPrefix}.subtitle`}
+        rich
       />
       <SpotlightButtonInput
         label="Primary Button"

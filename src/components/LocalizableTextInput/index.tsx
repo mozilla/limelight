@@ -4,9 +4,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import React from "react";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import { useFormContext, FieldPathByValue } from "react-hook-form";
 
 import FormRow from "../Wizard/FormRow";
@@ -24,7 +21,22 @@ interface LocalizableTextInputProps {
   helpText?: string;
   required?: boolean;
   disabled?: boolean;
+  rich?: boolean;
 }
+
+export const RichTextPresets = {
+  TITLE: {
+    paddingBlock: "8px",
+  },
+  SUBTITLE: {
+    fontSize: "15px",
+    fontWeight: 400,
+    letterSpacing: 0,
+    lineHeight: "1.33",
+    marginBlock: "4px 12px",
+    paddingInline: "16px",
+  },
+} as const;
 
 export default function LocalizableTextInput({
   controlPrefix,
@@ -32,57 +44,60 @@ export default function LocalizableTextInput({
   helpText = undefined,
   required = false,
   disabled = false,
+  rich = undefined,
 }: LocalizableTextInputProps) {
   const { register, watch } = useFormContext<WizardFormData>();
   const localized = watch(`${controlPrefix}.localized`) ?? false;
 
   return (
     <FormRow label={label} helpText={helpText}>
-      <Row className="form-row">
-        <Form.Group className="form-input-check">
-          <RegisteredFormCheck
-            label="Localized?"
-            name={`${controlPrefix}.localized`}
+      <FormRow label="Localized?" containerClassName="form-input-check">
+        <RegisteredFormCheck
+          name={`${controlPrefix}.localized`}
+          register={register}
+          disabled={disabled}
+          defaultChecked={false}
+        />
+      </FormRow>
+      {localized ? (
+        <FormRow label="String ID">
+          <RegisteredFormControl
+            name={`${controlPrefix}.value`}
             register={register}
+            registerOptions={{ required, shouldUnregister: true }}
+            type="text"
+            className="input-monospace"
+            key="string-id"
             disabled={disabled}
-            defaultChecked={false}
           />
-        </Form.Group>
-      </Row>
-      <Row>
-        {localized ? (
-          <Form.Group controlId={`${controlPrefix}.value`} as={React.Fragment}>
-            <Form.Label>String ID</Form.Label>
-            <div>
-              <RegisteredFormControl
-                name={`${controlPrefix}.value`}
-                register={register}
-                registerOptions={{ required, shouldUnregister: true }}
-                type="text"
-                className="input-monospace"
-                key="string-id"
-                disabled={disabled}
-              />
-              <ErrorMessage name={`${controlPrefix}.value`} />
-            </div>
-          </Form.Group>
-        ) : (
-          <Form.Group controlId={`${controlPrefix}.value`} as={React.Fragment}>
-            <Form.Label>Text</Form.Label>
-            <div>
-              <RegisteredFormControl
-                name={`${controlPrefix}.value`}
-                register={register}
-                registerOptions={{ required, shouldUnregister: true }}
-                as="textarea"
-                key="text"
-                disabled={disabled}
-              />
-              <ErrorMessage name={`${controlPrefix}.value`} />
-            </div>
-          </Form.Group>
-        )}
-      </Row>
+          <ErrorMessage name={`${controlPrefix}.value`} />
+        </FormRow>
+      ) : (
+        <FormRow label="Text">
+          <RegisteredFormControl
+            name={`${controlPrefix}.value`}
+            register={register}
+            registerOptions={{ required, shouldUnregister: true }}
+            as="textarea"
+            key="text"
+            disabled={disabled}
+          />
+          <ErrorMessage name={`${controlPrefix}.value`} />
+        </FormRow>
+      )}
+      {rich && (
+        <FormRow
+          label="Rich Text?"
+          helpText="Use the rich text preset used in experiments"
+        >
+          <RegisteredFormCheck
+            name={`${controlPrefix}.rich`}
+            register={register}
+            registerOptions={{ shouldUnregister: true }}
+            defaultChecked
+          />
+        </FormRow>
+      )}
     </FormRow>
   );
 }

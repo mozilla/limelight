@@ -4,9 +4,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { RichTextProperties } from "./formData";
+export interface RichTextProperties {
+  zap?: boolean;
+  color?: string;
+  fontSize?: string;
+  fontWeight?: number;
+  letterSpacing?: number;
+  lineHeight?: string;
+  marginBlock?: string;
+  marginInline?: string;
+  paddingBlock?: string;
+  paddingInline?: string;
+}
 
 type LocalizableText =
   | string
-  | (({ raw: string } | { string_id: string }) & { rich?: RichTextProperties });
+  | (({ raw: string } | { string_id: string }) & RichTextProperties);
 export default LocalizableText;

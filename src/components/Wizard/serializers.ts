@@ -4,6 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { RichTextPresets } from "../LocalizableTextInput";
+import { RichTextProperties } from "../LocalizableTextInput/messageTypes";
 import WizardFormData, {
   BaseFormData,
   InfoBarWizardFormData,
@@ -153,7 +155,10 @@ function serializeSpotlightScreenContent(data: SpotlightScreenFormData) {
       return Object.assign(
         {
           logo: serializeSpotlightLogo(data.content.logo),
-          title: serializeLocalizableText(data.content.title, true),
+          title: serializeLocalizableText(
+            data.content.title,
+            RichTextPresets.TITLE
+          ),
           primary_button: serializeSpotlightButton(data.content.primaryButton),
         },
         data.content.titleStyle ? { title_style: data.content.titleStyle } : {},
@@ -161,7 +166,12 @@ function serializeSpotlightScreenContent(data: SpotlightScreenFormData) {
           ? { background: data.content.background }
           : {},
         data.content.subtitle?.value?.length
-          ? { subtitle: serializeLocalizableText(data.content.subtitle, true) }
+          ? {
+              subtitle: serializeLocalizableText(
+                data.content.subtitle,
+                RichTextPresets.SUBTITLE
+              ),
+            }
           : {},
         data.content.secondaryButton.enabled
           ? {
@@ -191,7 +201,7 @@ function serializeSpotlightLogo(data: SpotlightLogoFormData) {
 
 function serializeSpotlightButton(data: SpotlightButtonFormData) {
   return {
-    label: serializeLocalizableText(data.label, true),
+    label: serializeLocalizableText(data.label),
     action: Object.assign(
       data.action.navigate ? { navigate: true } : {},
       data.action.type ? { type: data.action.type } : {},
@@ -202,9 +212,9 @@ function serializeSpotlightButton(data: SpotlightButtonFormData) {
 
 function serializeLocalizableText(
   data: LocalizableTextFormData,
-  rich = false
+  richTextPreset?: RichTextProperties
 ): LocalizableText {
-  if (!rich && !data.localized) {
+  if (!richTextPreset && !data.localized) {
     return data.value;
   }
 
@@ -215,8 +225,8 @@ function serializeLocalizableText(
     text = { raw: data.value };
   }
 
-  if ("rich" in data) {
-    text.rich = { ...data.rich };
+  if (data.rich) {
+    Object.assign(text, richTextPreset);
   }
 
   return text;

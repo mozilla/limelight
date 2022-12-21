@@ -58,6 +58,7 @@ export function WizardMetaSection({
           }}
           as="textarea"
           className="input-monospace"
+          defaultValue="true"
         />
         <ErrorMessage name="meta.targeting" />
       </FormRow>

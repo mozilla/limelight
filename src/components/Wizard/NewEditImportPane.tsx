@@ -120,6 +120,7 @@ function NewForm({ onNewMessage }: NewFormProps) {
 
 function EditForm({ onEditMessage, onDeleteMessage }: EditFormProps) {
   const formContext = useForm<EditFormData>({ mode: "onChange" });
+  const savedMessages = JSON.parse(localStorage.savedMessages);
   const {
     register,
     handleSubmit,
@@ -127,11 +128,13 @@ function EditForm({ onEditMessage, onDeleteMessage }: EditFormProps) {
   } = formContext;
 
   const onSubmit: SubmitHandler<EditFormData> = (data) => {
+    console.log(savedMessages);
+    console.log(data);
     onEditMessage(data.id);
   };
 
-  const onDelete = (key: string) => {
-    onDeleteMessage(key);
+  const onDelete = (id: string) => {
+    onDeleteMessage(id);
   };
 
   return (
@@ -142,8 +145,8 @@ function EditForm({ onEditMessage, onDeleteMessage }: EditFormProps) {
         <FormProvider {...formContext}>
           <Form.Group controlId="message-select">
             <FormRow label="Select Message">
-              {localStorage.length ? (
-                Object.keys(localStorage).map((key) => {
+              {savedMessages.length ? (
+                savedMessages.map((message) => {
                   return (
                     <div className="edit-entry">
                       <RegisteredFormCheck
@@ -151,16 +154,16 @@ function EditForm({ onEditMessage, onDeleteMessage }: EditFormProps) {
                         register={register}
                         registerOptions={{ required: true }}
                         type="radio"
-                        key={key}
-                        label={key}
-                        value={key}
-                        id={`message-select-${key}`}
+                        key={message.id}
+                        label={message.id}
+                        value={message.id}
+                        id={`message-select-${message.id}`}
                       />
                       <Button
-                        key={`delete-${key}`}
+                        key={`delete-${message.id}`}
                         type="button"
                         bsPrefix="btn-del"
-                        onClick={() => onDelete(key)}
+                        onClick={() => onDelete(message.id)}
                       >
                         Delete
                       </Button>

@@ -170,10 +170,18 @@ export default function Wizard() {
       const json = getValues();
       if (json) {
         alert("Message Saved!");
-        localStorage.setItem(
-          messageInfo.id,
-          JSON.stringify({ template: messageInfo.template, formData: json })
-        );
+        const message = {
+          id: messageInfo.id,
+          data: { template: messageInfo.template, formData: json },
+        };
+        const savedMessages =
+          JSON.parse(localStorage.getItem("savedMessages") as string) || [];
+        savedMessages.push(message);
+        localStorage.setItem("savedMessages", JSON.stringify(savedMessages));
+        // localStorage.setItem(
+        //   messageInfo.id,
+        //   JSON.stringify({ template: messageInfo.template, formData: json })
+        // );
       }
     } catch (e) {
       console.error(e);

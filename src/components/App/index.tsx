@@ -10,9 +10,13 @@ import Navbar from "react-bootstrap/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
+import useToasts from "../../hooks/useToasts";
+import Toasts from "../Toasts";
 import Wizard from "../Wizard";
 
 export default function App() {
+  const toastCtx = useToasts();
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -27,6 +31,8 @@ export default function App() {
       </Navbar>
 
       <Wizard />
+
+      <Toasts context={toastCtx} />
     </>
   );
 }

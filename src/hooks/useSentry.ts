@@ -25,7 +25,6 @@ export default function useSentry({ dsn, release }: SentryConfig) {
 
   useEffect(() => {
     if (!dsn) {
-      console.log("disable");
       setStatus(SentryStatus.Disabled);
       return;
     }

@@ -90,8 +90,18 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Set Sentry Release (PR)
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "SENTRY_RELEASE=${{ github.event.pull_request.head.sha }}" >> ${GITHUB_ENV}
+
+    - name: Setup Sentry Release (Push)
+      if: ${{ github.event_name == 'push' }}
+      run: echo "SENTRY_RELEASE=${GITHUB_SHA}" >> ${GITHUB_ENV}
+
     - name: Build
       run: npm run build -- --public-url "https://mozilla.github.io/limelight/"
+      env:
+        SENTRY_DSN: "https://ee81b39e144b4223b6b0b93ac7b093ae@o1069899.ingest.sentry.io/4504371030327296"
 
     - name: Upload Artifact
       if: github.event_name == 'push'

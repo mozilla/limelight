@@ -45,6 +45,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/error-message": "^2.0.1",
+    "@sentry/react": "^7.28.0",
+    "@sentry/tracing": "^7.28.0",
     "@types/react": "^18.0.23",
     "@types/react-bootstrap": "^0.32.31",
     "@types/react-dom": "^18.0.7",
@@ -57,5 +59,8 @@
     "react-hook-form": "^7.39.1",
     "react-json-pretty": "^2.2.0",
     "react-select": "^5.6.0"
+  },
+  "@parcel/transformer-js": {
+    "inlineEnvironment":  ["SENTRY_DSN", "SENTRY_RELEASE"]
   }
 }

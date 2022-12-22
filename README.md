@@ -21,3 +21,11 @@ To install Git hooks, run:
 ```
 npm run install-hooks
 ```
+
+### Sentry Integration
+
+The following environment variables can be set to test the Sentry integration
+locally:
+
+- `SENTRY_DSN`, the client key for the Sentry project.
+- `SENTRY_RELEASE`, the version to record as the release.

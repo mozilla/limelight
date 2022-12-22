@@ -12,11 +12,12 @@ import { UseToasts } from "../hooks/useToasts";
 interface ToastsProps {
   context: UseToasts;
 }
+
 export default function Toasts({ context }: ToastsProps) {
   const toasts = context.toasts.map((toast) => (
     <Toast key={toast.id} onClose={() => context.dismissToast(toast.id)}>
       <Toast.Header>
-        <strong className="me-auto">{toast.title}</strong>
+        <div className="toast-title">{toast.title}</div>
       </Toast.Header>
       <Toast.Body>
         {toast.body instanceof Function ? toast.body() : toast.body}

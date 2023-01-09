@@ -66,8 +66,9 @@ export default function Wizard() {
     undefined
   );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
+  const [storage, setStorage] = useState<object | undefined>(undefined);
   const formContext = useForm<WizardFormData>();
-  const { reset } = formContext;
+  const { reset, setValue } = formContext;
 
   if (typeof messageInfo === "undefined") {
     const handleNewMessage = (id: string, template: MessageTemplate) =>
@@ -76,7 +77,32 @@ export default function Wizard() {
         template,
       });
 
-    return <NewEditImportPane onNewMessage={handleNewMessage} />;
+    const handleEditMessage = (id: string) => {
+      const data = JSON.parse(localStorage.getItem(id) as string) as Record<
+        string,
+        unknown
+      >;
+      setMessageInfo({
+        id: id,
+        template: data.template as MessageTemplate,
+      });
+      for (const [key, value] of Object.entries(data.formData)) {
+        setValue(key, value);
+      }
+    };
+
+    const handleDeleteMessage = (key: string) => {
+      localStorage.removeItem(key);
+      setStorage({ ...localStorage });
+    };
+
+    return (
+      <NewEditImportPane
+        onNewMessage={handleNewMessage}
+        onEditMessage={handleEditMessage}
+        onDeleteMessage={handleDeleteMessage}
+      />
+    );
   }
 
   let MessageContentWizard;
@@ -139,6 +165,29 @@ export default function Wizard() {
     }
   };
 
+  const handleSaveMessage = async (): Promise<void> => {
+    try {
+      const json = getValues();
+      if (json) {
+        alert("Message Saved!");
+        const message = {
+          id: messageInfo.id,
+          data: { template: messageInfo.template, formData: json },
+        };
+        const savedMessages =
+          JSON.parse(localStorage.getItem("savedMessages") as string) || [];
+        savedMessages.push(message);
+        localStorage.setItem("savedMessages", JSON.stringify(savedMessages));
+        // localStorage.setItem(
+        //   messageInfo.id,
+        //   JSON.stringify({ template: messageInfo.template, formData: json })
+        // );
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const triggerRequired = ["infobar", "cfr"].includes(messageInfo.template);
 
   return (
@@ -169,6 +218,9 @@ export default function Wizard() {
                     className="copy-button"
                   >
                     Copy Preview Link
+                  </Button>
+                  <Button onClick={() => void handleSaveMessage()}>
+                    Save Message
                   </Button>
                 </ListGroup.Item>
               </ListGroup>

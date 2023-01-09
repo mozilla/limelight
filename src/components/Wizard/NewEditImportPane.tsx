@@ -18,6 +18,7 @@ import {
   RegisteredFormControl,
   RegisteredFormCheck,
 } from "../RegisteredFormControl";
+import { useState } from "react";
 
 interface NewFormData {
   id: string;
@@ -26,6 +27,15 @@ interface NewFormData {
 
 interface NewFormProps {
   onNewMessage: (id: string, template: MessageTemplate) => void;
+}
+
+interface EditFormData {
+  id: string;
+}
+
+interface EditFormProps {
+  onEditMessage: (id: string) => void;
+  onDeleteMessage: (key: string) => void;
 }
 
 function NewForm({ onNewMessage }: NewFormProps) {
@@ -108,11 +118,71 @@ function NewForm({ onNewMessage }: NewFormProps) {
   );
 }
 
-function EditForm() {
+function EditForm({ onEditMessage, onDeleteMessage }: EditFormProps) {
+  const formContext = useForm<EditFormData>({ mode: "onChange" });
+  const savedMessages = JSON.parse(localStorage.savedMessages);
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty, isValid },
+  } = formContext;
+
+  const onSubmit: SubmitHandler<EditFormData> = (data) => {
+    console.log(savedMessages);
+    console.log(data);
+    onEditMessage(data.id);
+  };
+
+  const onDelete = (id: string) => {
+    onDeleteMessage(id);
+  };
+
   return (
     <>
       <Card.Title>Edit an Existing Message</Card.Title>
-      <Card.Text>There are no messages saved.</Card.Text>
+
+      <Form onSubmit={handleSubmit(onSubmit)} className="edit-form">
+        <FormProvider {...formContext}>
+          <Form.Group controlId="message-select">
+            <FormRow label="Select Message">
+              {savedMessages.length ? (
+                savedMessages.map((message) => {
+                  return (
+                    <div className="edit-entry">
+                      <RegisteredFormCheck
+                        name="id"
+                        register={register}
+                        registerOptions={{ required: true }}
+                        type="radio"
+                        key={message.id}
+                        label={message.id}
+                        value={message.id}
+                        id={`message-select-${message.id}`}
+                      />
+                      <Button
+                        key={`delete-${message.id}`}
+                        type="button"
+                        bsPrefix="btn-del"
+                        onClick={() => onDelete(message.id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  );
+                })
+              ) : (
+                <Card.Text>There are no messages saved.</Card.Text>
+              )}
+            </FormRow>
+          </Form.Group>
+        </FormProvider>
+
+        <div className="form-row form-buttons">
+          <Button type="submit" disabled={localStorage.length ? false : true}>
+            Next
+          </Button>
+        </div>
+      </Form>
     </>
   );
 }
@@ -150,10 +220,12 @@ enum EventKeys {
   Import = "import",
 }
 
-type NewEditImportPaneProps = NewFormProps;
+type NewEditImportPaneProps = NewFormProps & EditFormProps;
 
 export default function NewEditImportPane({
   onNewMessage,
+  onEditMessage,
+  onDeleteMessage,
 }: NewEditImportPaneProps) {
   return (
     <Container>
@@ -179,7 +251,10 @@ export default function NewEditImportPane({
                 <NewForm onNewMessage={onNewMessage} />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Edit}>
-                <EditForm />
+                <EditForm
+                  onEditMessage={onEditMessage}
+                  onDeleteMessage={onDeleteMessage}
+                />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Import}>
                 <ImportForm />

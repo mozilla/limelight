@@ -18,6 +18,9 @@ import {
   FieldArray,
   FieldArrayWithId,
   UseFieldArrayProps,
+  UseFormRegister,
+  FieldValues,
+  Path,
 } from "react-hook-form";
 
 import WizardFormData from "./formData";
@@ -28,6 +31,7 @@ export interface TabInputProps {
   field: FieldArrayWithId<WizardFormData, FieldNames>;
   index: number;
   handleDelete: () => void;
+  register: UseFormRegister<WizardFormData>;
 }
 
 interface TabbedInputProps {
@@ -51,7 +55,7 @@ export default function TabbedInput({
   addText,
   rules = {},
 }: TabbedInputProps) {
-  const { control } = useFormContext<WizardFormData>();
+  const { control, register } = useFormContext<WizardFormData>();
   const { fields, append, remove } = useFieldArray<WizardFormData, FieldNames>({
     control,
     name: controlPrefix,
@@ -96,7 +100,14 @@ export default function TabbedInput({
           remove(index);
         };
 
-        const content = renderTab({ field, handleDelete, index });
+        const focusTab = () => setActiveKey(index.toString());
+        const content = renderTab({
+          field,
+          handleDelete,
+          index,
+          register: proxyRegister(register, focusTab),
+        });
+
         return (
           <Tab.Pane eventKey={index} key={field.id} as="fieldset">
             {content}
@@ -132,4 +143,67 @@ export default function TabbedInput({
       </Tab.Container>
     </Card>
   );
+}
+
+/**
+ * Return a wrapped register() function that will proxy the ref callback to
+ * handle focusing elements not currently visible.
+ */
+function proxyRegister<TFieldValues extends FieldValues = FieldValues>(
+  register: UseFormRegister<TFieldValues>,
+  focusTab: () => void
+): UseFormRegister<TFieldValues> {
+  type GenericRegister<T extends Path<TFieldValues>> = typeof register<T>;
+
+  return function <TFieldName extends Path<TFieldValues> = Path<TFieldValues>>(
+    name: TFieldName,
+    options: Parameters<GenericRegister<TFieldName>>[1]
+  ) {
+    const rv = register(name, options);
+
+    return {
+      ...rv,
+      ref: (instance: HTMLFormElement | null) =>
+        rv.ref(makeFocusProxy(instance, focusTab)),
+    };
+  };
+}
+
+/**
+ * Return a proxy around the original element that focuses the tab before
+ * focusing the element.
+ */
+function makeFocusProxy(
+  instance: HTMLFormElement | null,
+  focusTab: () => void
+): HTMLFormElement | null {
+  if (instance) {
+    return new Proxy(instance, {
+      get(target, handler) {
+        if (handler === "focus") {
+          return () => {
+            focusTab();
+
+            // If we call target.focus() immediately, the tab won't actually be
+            // active yet -- it will still be transitioning. Calling it after
+            // the stack clears will correctly focus the element.
+            setTimeout(() => target.focus(), 0);
+          };
+        }
+
+        // ProxyHandler.get has a return type of any.  This won't really be type
+        // checked anywhere because all the consumers won't know they're
+        // consuming this Proxy.
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return Reflect.get(target, handler);
+      },
+
+      set(target, handler, newValue) {
+        return Reflect.set(target, handler, newValue);
+      },
+    });
+  } else {
+    return instance;
+  }
 }

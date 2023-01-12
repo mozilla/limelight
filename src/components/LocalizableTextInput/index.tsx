@@ -4,7 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useFormContext, FieldPathByValue } from "react-hook-form";
+import {
+  useFormContext,
+  FieldPathByValue,
+  UseFormRegister,
+} from "react-hook-form";
 
 import FormRow from "../Wizard/FormRow";
 import ErrorMessage from "../ErrorMessage";
@@ -22,6 +26,7 @@ interface LocalizableTextInputProps {
   required?: boolean;
   disabled?: boolean;
   rich?: boolean;
+  register?: UseFormRegister<WizardFormData>;
 }
 
 export const RichTextPresets = {
@@ -45,9 +50,13 @@ export default function LocalizableTextInput({
   required = false,
   disabled = false,
   rich = undefined,
+  register = undefined,
 }: LocalizableTextInputProps) {
-  const { register, watch } = useFormContext<WizardFormData>();
+  const context = useFormContext<WizardFormData>();
+  const { watch } = context;
   const localized = watch(`${controlPrefix}.localized`) ?? false;
+
+  register = register ?? context.register;
 
   return (
     <FormRow label={label} helpText={helpText}>

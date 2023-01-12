@@ -4,10 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { TabInputProps } from "../../TabbedInput";
+
 export enum SpotlightScreenKind {
   LogoAndTitle = "LOGO_AND_TITLE",
 }
 
-export interface ScreenComponentProps {
+export interface ScreenComponentProps extends TabInputProps {
   controlPrefix: `content.screens.${number}.content`;
 }

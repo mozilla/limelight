@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFormContext } from "react-hook-form";
 
 import FormRow from "../FormRow";
 import InfoBarWizardFormData from "./formData";
@@ -34,10 +33,8 @@ function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
 
 const controlPrefix = "content.buttons";
 
-export default function InfoBaorButtonsInput() {
-  const { register } = useFormContext<InfoBarWizardFormData>();
-
-  const renderTab = ({ index, handleDelete }: TabInputProps) => {
+export default function InfoBarButtonsInput() {
+  const renderTab = ({ index, handleDelete, register }: TabInputProps) => {
     const tabControlPrefix = `${controlPrefix}.${index}` as const;
     return (
       <>
@@ -45,6 +42,7 @@ export default function InfoBaorButtonsInput() {
           controlPrefix={`${tabControlPrefix}.label`}
           label="Label"
           required
+          register={register}
         />
 
         <FormRow label="Access Key" controlId={`${controlPrefix}.accessKey`}>

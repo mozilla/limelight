@@ -37,8 +37,8 @@ export default function SpotlightScreensInput() {
     useFormContext<SpotlightWizardFormData>();
   const { error } = getFieldState(`content.screens`, formState);
 
-  const renderTab = ({ field, index, handleDelete }: TabInputProps) => (
-    <ScreenInput key={field.id} index={index} handleDelete={handleDelete} />
+  const renderTab = ({ field, ...props }: TabInputProps) => (
+    <ScreenInput key={field.id} field={field} {...props} />
   );
 
   const emptyTabs = () => {
@@ -63,13 +63,9 @@ export default function SpotlightScreensInput() {
   );
 }
 
-interface ScreenInputProps {
-  index: number;
-  handleDelete: (index: number) => void;
-}
-
-function ScreenInput({ index, handleDelete }: ScreenInputProps) {
-  const { register, watch } = useFormContext<SpotlightWizardFormData>();
+function ScreenInput(props: TabInputProps) {
+  const { handleDelete, index, register } = props;
+  const { watch } = useFormContext<SpotlightWizardFormData>();
   const screenControlPrefix = `${controlPrefix}.${index}` as const;
 
   const kind = watch(`${screenControlPrefix}.kind`);
@@ -91,11 +87,11 @@ function ScreenInput({ index, handleDelete }: ScreenInputProps) {
         />
       </FormRow>
 
-      <Component controlPrefix={`${screenControlPrefix}.content`} />
+      <Component controlPrefix={`${screenControlPrefix}.content`} {...props} />
 
       <Row className="form-row form-buttons">
         <Col>
-          <Button variant="danger" onClick={() => handleDelete(index)}>
+          <Button variant="danger" onClick={handleDelete}>
             <FontAwesomeIcon icon={faTrash} /> Delete
           </Button>
         </Col>

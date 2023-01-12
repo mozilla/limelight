@@ -28,6 +28,7 @@
 
     & > .row-help-text {
         @extend .offset-2;
+        @extend .col-10;
     }
 
 }

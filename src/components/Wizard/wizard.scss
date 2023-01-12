@@ -11,8 +11,9 @@
 
 /* A form grid where each label takes up two columns and each input takes up 10
  * columns.  */
-.form-row,
-.form-col {
+.form-row {
+  --form-row-spacing: 1rem;
+
   & > .form-label {
     @extend .col-form-label;
     @extend .col-2;
@@ -22,6 +23,14 @@
     @extend .col-10;
   }
 
+  & > .row-help-text {
+    @extend .offset-2;
+    @extend .col-10;
+  }
+}
+
+.form-col,
+.form-row {
   & > .form-input-check,
   & > .form-input-range {
     // To match .form-row > .form-label in Bootstrap.
@@ -41,10 +50,6 @@
   .btn:not(:last-child) {
     margin-right: 0.5rem;
   }
-}
-
-.form-row {
-  --form-row-spacing: 1rem;
 }
 
 .form-row + .form-row {

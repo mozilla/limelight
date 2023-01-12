@@ -4,6 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useFormContext } from "react-hook-form";
@@ -39,44 +40,40 @@ export default function PriorityInput() {
             />
           </Form.Group>
         </Row>
-        <Row className="form-row">
-          <FormRow
-            label="Priority"
-            controlId={`${controlPrefix}.value`}
-            column={true}
-          >
-            <RegisteredFormControl
-              name={`${controlPrefix}.value`}
-              register={register}
-              registerOptions={{
-                required: priorityEnabled,
-                disabled: !priorityEnabled,
-                valueAsNumber: true,
-                min: 0,
-                max: 9,
-              }}
-              type="number"
-              defaultValue={0}
-              min={0}
-              max={9}
-            />
-          </FormRow>
-          <FormRow
-            label="Order"
-            controlId={`${controlPrefix}.order`}
-            column={true}
-          >
-            <RegisteredFormControl
-              name={`${controlPrefix}.order`}
-              register={register}
-              registerOptions={{
-                disabled: !priorityEnabled,
-                valueAsNumber: true,
-              }}
-              type="number"
-              min={0}
-            />
-          </FormRow>
+        <Row>
+          <Col>
+            <FormRow label="Priority" controlId={`${controlPrefix}.value`}>
+              <RegisteredFormControl
+                name={`${controlPrefix}.value`}
+                register={register}
+                registerOptions={{
+                  required: priorityEnabled,
+                  disabled: !priorityEnabled,
+                  valueAsNumber: true,
+                  min: 0,
+                  max: 9,
+                }}
+                type="number"
+                defaultValue={0}
+                min={0}
+                max={9}
+              />
+            </FormRow>
+          </Col>
+          <Col>
+            <FormRow label="Order" controlId={`${controlPrefix}.order`}>
+              <RegisteredFormControl
+                name={`${controlPrefix}.order`}
+                register={register}
+                registerOptions={{
+                  disabled: !priorityEnabled,
+                  valueAsNumber: true,
+                }}
+                type="number"
+                min={0}
+              />
+            </FormRow>
+          </Col>
         </Row>
         <Row>
           <Form.Text className="col-help-text">

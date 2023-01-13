@@ -35,6 +35,7 @@ module.exports = {
                 "checksVoidReturn": false
             }
         ],
+        "@typescript-eslint/no-unused-vars": "error",
         "no-console": [
             "error",
             {

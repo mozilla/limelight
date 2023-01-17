@@ -46,6 +46,11 @@ export default function App({ sentryConfig }: AppProps) {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand>Limelight</Navbar.Brand>
+          <Nav>
+            <Nav.Link href="https://github.com/mozilla/limelight/wiki/Documentation">
+              Help
+            </Nav.Link>
+          </Nav>
           <Navbar.Collapse className="justify-content-end">
             <Nav.Link href="https://github.com/mozilla/limelight">
               <FontAwesomeIcon icon={faGithub} color="white" />

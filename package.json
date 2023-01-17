@@ -61,6 +61,9 @@
     "react-select": "^5.6.0"
   },
   "@parcel/transformer-js": {
-    "inlineEnvironment":  ["SENTRY_DSN", "SENTRY_RELEASE"]
+    "inlineEnvironment": [
+      "SENTRY_DSN",
+      "SENTRY_RELEASE"
+    ]
   }
 }

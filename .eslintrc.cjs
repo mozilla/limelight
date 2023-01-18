@@ -13,7 +13,7 @@ module.exports = {
         "plugin:prettier/recommended",
     ],
     plugins: [
-        "@typescript-eslint"
+        "@typescript-eslint",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -43,4 +43,11 @@ module.exports = {
             }
         ]
     },
+    overrides: [
+        {
+            "files": ["*.test.ts", "*.test.tsx"],
+            "plugins": ["testing-library"],
+            "extends": ["plugin:testing-library/react"],
+        }
+    ],
 };

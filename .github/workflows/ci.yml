@@ -48,6 +48,7 @@ jobs:
         VALIDATE_JSX: true
         VALIDATE_TSX: true
         VALIDATE_TYPESCRIPT_ES: true
+
   tsc:
     if: github.event_name == 'pull_request'
     name: Typecheck (tsc)
@@ -69,7 +70,7 @@ jobs:
       run: npm ci
 
     - name: Run tsc
-      run: tsc
+      run: npm run tsc
 
   build:
     name: Build

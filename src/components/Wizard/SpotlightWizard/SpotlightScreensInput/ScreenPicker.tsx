@@ -29,7 +29,7 @@ export default function ScreenPicker({ index }: ScreenPickerProps) {
     required: "You must select a screen template.",
   });
 
-  const onClick = (screen: typeof SPOTLIGHT_SCREENS[number]) => {
+  const onClick = (screen: (typeof SPOTLIGHT_SCREENS)[number]) => {
     update(index, {
       kind: screen.kind,
       screenId: "",

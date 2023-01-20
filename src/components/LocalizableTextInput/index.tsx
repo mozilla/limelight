@@ -102,6 +102,7 @@ export default function LocalizableTextInput<TFieldValues extends FieldValues>({
           label="Rich Text?"
           helpText="Use the rich text preset used in experiments"
           controlId={fieldname(controlPrefix, "rich")}
+          containerClassName="form-input-check"
         >
           <RegisteredFormCheck
             name={fieldname(controlPrefix, "rich")}

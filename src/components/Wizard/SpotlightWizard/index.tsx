@@ -28,7 +28,11 @@ export default function SpotlightWizard() {
           containerClassName="form-input-check"
           helpText="Show transitions within and between screens."
         >
-          <RegisteredFormCheck name="content.transitions" register={register} />
+          <RegisteredFormCheck
+            name="content.transitions"
+            register={register}
+            defaultChecked
+          />
         </FormRow>
 
         <FormRow

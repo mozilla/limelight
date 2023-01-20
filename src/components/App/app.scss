@@ -3,6 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+@use "../../defs";
+
 #app {
   min-height: 100vh;
   display: flex;
@@ -10,5 +12,5 @@
 }
 
 .input-monospace {
-  font-family: Menlo, Consolas, "Courier New", monospace;
+  font-family: defs.$monospace-font;
 }

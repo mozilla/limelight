@@ -88,9 +88,18 @@
 /* NewEditImportPane specific components */
 
 .edit-form {
+  .form-label {
+    line-height: 2em;
+  }
+
   .edit-entry {
     display: flex;
     font-family: defs.$monospace-font;
+    line-height: 2em;
+
+    .form-check .form-check-input {
+      margin-top: 0.5em;
+    }
   }
 
   .form-check {

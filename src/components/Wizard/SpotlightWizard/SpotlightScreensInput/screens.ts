@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { TabInputProps } from "../../TabbedInput";
+import { RenderTabProps } from "../../TabbedInput";
 import WizardFormData from "../../formData";
 
 export enum SpotlightScreenKind {
@@ -12,6 +12,6 @@ export enum SpotlightScreenKind {
 }
 
 export interface ScreenComponentProps
-  extends TabInputProps<WizardFormData, "content.screens"> {
+  extends RenderTabProps<WizardFormData, "content.screens"> {
   controlPrefix: `content.screens.${number}.content`;
 }

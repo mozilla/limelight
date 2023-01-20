@@ -25,7 +25,7 @@ import {
   FormProvider,
 } from "react-hook-form";
 
-export interface TabInputProps<
+export interface RenderTabProps<
   TFieldValues extends FieldValues,
   TFieldName extends FieldArrayPath<TFieldValues>
 > {
@@ -40,7 +40,7 @@ export interface TabbedInputProps<
 > {
   controlPrefix: TFieldName;
   className?: string;
-  renderTab: (props: TabInputProps<TFieldValues, TFieldName>) => JSX.Element;
+  renderTab: (props: RenderTabProps<TFieldValues, TFieldName>) => JSX.Element;
   emptyTabs: string | (() => JSX.Element);
   focusName?: string;
   defaults: () => FieldArray<TFieldValues, TFieldName>;
@@ -160,7 +160,7 @@ interface TabContentProps<
   field: FieldArrayWithId<TFieldValues, TFieldName>;
   index: number;
   handleDelete: () => void;
-  renderTab: (props: TabInputProps<TFieldValues, TFieldName>) => JSX.Element;
+  renderTab: (props: RenderTabProps<TFieldValues, TFieldName>) => JSX.Element;
 }
 
 function TabContent<

@@ -12,7 +12,7 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import FormRow from "../FormRow";
 import LocalizableTextInput from "../../LocalizableTextInput";
 import { RegisteredFormControl } from "../../RegisteredFormControl";
-import TabbedInput, { TabInputProps } from "../TabbedInput";
+import TabbedInput, { RenderTabProps } from "../TabbedInput";
 import { LocalizableTextFormData } from "../formData";
 
 interface FormData<T> {
@@ -62,7 +62,7 @@ describe("TabbedInput", () => {
     function renderTab({
       handleDelete,
       index,
-    }: TabInputProps<FormData<string>, typeof CONTROL_PREFIX>) {
+    }: RenderTabProps<FormData<string>, typeof CONTROL_PREFIX>) {
       const { register } = useFormContext<FormData<string>>();
       return (
         <>
@@ -223,7 +223,7 @@ describe("TabbedInput", () => {
     function renderTab({
       handleDelete,
       index,
-    }: TabInputProps<
+    }: RenderTabProps<
       FormData<LocalizableTextFormData>,
       typeof CONTROL_PREFIX
     >) {

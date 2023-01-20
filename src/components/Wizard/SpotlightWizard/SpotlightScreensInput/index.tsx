@@ -10,7 +10,7 @@ import Row from "react-bootstrap/Row";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormContext } from "react-hook-form";
-import TabbedInput, { TabInputProps } from "../../TabbedInput";
+import TabbedInput, { RenderTabProps } from "../../TabbedInput";
 
 import FormRow from "../../FormRow";
 import SpotlightWizardFormData, { SpotlightScreenFormData } from "../formData";
@@ -41,7 +41,7 @@ export default function SpotlightScreensInput() {
   const renderTab = ({
     field,
     ...props
-  }: TabInputProps<WizardFormData, typeof controlPrefix>) => (
+  }: RenderTabProps<WizardFormData, typeof controlPrefix>) => (
     <ScreenInput key={field.id} field={field} {...props} />
   );
 
@@ -68,7 +68,7 @@ export default function SpotlightScreensInput() {
 }
 
 function ScreenInput(
-  props: TabInputProps<WizardFormData, typeof controlPrefix>
+  props: RenderTabProps<WizardFormData, typeof controlPrefix>
 ) {
   const { handleDelete, index } = props;
   const { register, watch } = useFormContext<SpotlightWizardFormData>();

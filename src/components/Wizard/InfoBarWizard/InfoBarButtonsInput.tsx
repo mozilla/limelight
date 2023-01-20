@@ -19,7 +19,7 @@ import {
 } from "../../RegisteredFormControl";
 import { validateJsonAsObject } from "../validators";
 import ErrorMessage from "../../ErrorMessage";
-import TabbedInput, { TabInputProps } from "../TabbedInput";
+import TabbedInput, { RenderTabProps } from "../TabbedInput";
 import WizardFormData, { InfoBarWizardFormData } from "../formData";
 
 function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
@@ -38,7 +38,7 @@ export default function InfoBarButtonsInput() {
   const renderTab = ({
     index,
     handleDelete,
-  }: TabInputProps<WizardFormData, typeof controlPrefix>) => {
+  }: RenderTabProps<WizardFormData, typeof controlPrefix>) => {
     const { register } = useFormContext<InfoBarWizardFormData>();
     const tabControlPrefix = `${controlPrefix}.${index}` as const;
 

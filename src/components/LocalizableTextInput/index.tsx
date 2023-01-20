@@ -7,26 +7,27 @@
 import {
   useFormContext,
   FieldPathByValue,
+  FieldValues,
+  Path,
   UseFormRegister,
 } from "react-hook-form";
 
 import FormRow from "../Wizard/FormRow";
 import ErrorMessage from "../ErrorMessage";
-import WizardFormData from "../Wizard/formData";
 import LocalizableTextFormData from "./formData";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../RegisteredFormControl";
 
-interface LocalizableTextInputProps {
-  controlPrefix: FieldPathByValue<WizardFormData, LocalizableTextFormData>;
+interface LocalizableTextInputProps<TFieldValues extends FieldValues> {
+  controlPrefix: FieldPathByValue<TFieldValues, LocalizableTextFormData>;
   label: string;
   helpText?: string;
   required?: boolean;
   disabled?: boolean;
   rich?: boolean;
-  register?: UseFormRegister<WizardFormData>;
+  register?: UseFormRegister<TFieldValues>;
 }
 
 export const RichTextPresets = {
@@ -43,7 +44,7 @@ export const RichTextPresets = {
   },
 } as const;
 
-export default function LocalizableTextInput({
+export default function LocalizableTextInput<TFieldValues extends FieldValues>({
   controlPrefix,
   label,
   helpText = undefined,
@@ -51,10 +52,12 @@ export default function LocalizableTextInput({
   disabled = false,
   rich = undefined,
   register = undefined,
-}: LocalizableTextInputProps) {
-  const context = useFormContext<WizardFormData>();
+}: LocalizableTextInputProps<TFieldValues>) {
+  const context = useFormContext<TFieldValues>();
   const { watch } = context;
-  const localized = watch(`${controlPrefix}.localized`) ?? false;
+
+  const localized =
+    watch(fieldname<TFieldValues>(controlPrefix, "localized")) ?? false;
 
   register = register ?? context.register;
 
@@ -62,7 +65,7 @@ export default function LocalizableTextInput({
     <FormRow label={label} helpText={helpText}>
       <FormRow label="Localized?" containerClassName="form-input-check">
         <RegisteredFormCheck
-          name={`${controlPrefix}.localized`}
+          name={fieldname(controlPrefix, "localized")}
           register={register}
           disabled={disabled}
           defaultChecked={false}
@@ -71,7 +74,7 @@ export default function LocalizableTextInput({
       {localized ? (
         <FormRow label="String ID">
           <RegisteredFormControl
-            name={`${controlPrefix}.value`}
+            name={fieldname(controlPrefix, "value")}
             register={register}
             registerOptions={{ required, shouldUnregister: true }}
             type="text"
@@ -84,7 +87,7 @@ export default function LocalizableTextInput({
       ) : (
         <FormRow label="Text">
           <RegisteredFormControl
-            name={`${controlPrefix}.value`}
+            name={fieldname(controlPrefix, "value")}
             register={register}
             registerOptions={{ required, shouldUnregister: true }}
             as="textarea"
@@ -100,7 +103,7 @@ export default function LocalizableTextInput({
           helpText="Use the rich text preset used in experiments"
         >
           <RegisteredFormCheck
-            name={`${controlPrefix}.rich`}
+            name={fieldname(controlPrefix, "rich")}
             register={register}
             registerOptions={{ shouldUnregister: true }}
             defaultChecked
@@ -109,4 +112,21 @@ export default function LocalizableTextInput({
       )}
     </FormRow>
   );
+}
+
+/**
+ * Build a Path<TFieldValues>, asserting that `fieldName` is a valid field in
+ * `LocalizableTextFormData`.
+ */
+function fieldname<TFieldValues extends FieldValues>(
+  controlPrefix: FieldPathByValue<TFieldValues, LocalizableTextFormData>,
+  fieldName: keyof LocalizableTextFormData
+): Path<TFieldValues> {
+  // TypeScript cannot deduce that `${controlPrefix}` will map to a
+  // LocalizableTextFormData because TFieldValues is generic, so it deduces type
+  // `string` for `${controlPrefix}.localized`
+  //
+  // However, we have a constraint on `controlPrefix` that it *must* point to a
+  // `LocalizableTextFormData`, so this cast is safe.
+  return `${controlPrefix}.${fieldName}` as Path<TFieldValues>;
 }

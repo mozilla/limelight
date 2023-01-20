@@ -24,7 +24,8 @@
 
   & > .form-input-check,
   & > .form-input-range {
-    padding-top: 0.5rem;
+    // To match .form-row > .form-label in Bootstrap.
+    padding-top: calc(0.375rem + 1px);
   }
 
   & > .row-help-text {

@@ -19,6 +19,7 @@ import ScreenPicker from "./ScreenPicker";
 import { SpotlightScreenKind } from "./screens";
 import LogoAndTitleScreen from "./LogoAndTitleScreen";
 import ErrorMessage from "../../../ErrorMessage";
+import WizardFormData from "../../formData";
 
 function defaults(): SpotlightScreenFormData {
   return {
@@ -37,7 +38,10 @@ export default function SpotlightScreensInput() {
     useFormContext<SpotlightWizardFormData>();
   const { error } = getFieldState(`content.screens`, formState);
 
-  const renderTab = ({ field, ...props }: TabInputProps) => (
+  const renderTab = ({
+    field,
+    ...props
+  }: TabInputProps<WizardFormData, typeof controlPrefix>) => (
     <ScreenInput key={field.id} field={field} {...props} />
   );
 
@@ -63,7 +67,9 @@ export default function SpotlightScreensInput() {
   );
 }
 
-function ScreenInput(props: TabInputProps) {
+function ScreenInput(
+  props: TabInputProps<WizardFormData, typeof controlPrefix>
+) {
   const { handleDelete, index, register } = props;
   const { watch } = useFormContext<SpotlightWizardFormData>();
   const screenControlPrefix = `${controlPrefix}.${index}` as const;

@@ -21,31 +21,37 @@ import {
   UseFormRegister,
   FieldValues,
   Path,
+  FieldArrayPath,
 } from "react-hook-form";
 
-import WizardFormData from "./formData";
-
-type FieldNames = "content.buttons" | "content.screens";
-
-export interface TabInputProps {
-  field: FieldArrayWithId<WizardFormData, FieldNames>;
+export interface TabInputProps<
+  TFieldValues extends FieldValues,
+  TFieldNames extends FieldArrayPath<TFieldValues>
+> {
+  field: FieldArrayWithId<TFieldValues, TFieldNames>;
   index: number;
   handleDelete: () => void;
-  register: UseFormRegister<WizardFormData>;
+  register: UseFormRegister<TFieldValues>;
 }
 
-interface TabbedInputProps {
-  controlPrefix: FieldNames;
+interface TabbedInputProps<
+  TFieldValues extends FieldValues,
+  TFieldName extends FieldArrayPath<TFieldValues>
+> {
+  controlPrefix: TFieldName;
   className?: string;
-  renderTab: (props: TabInputProps) => JSX.Element;
+  renderTab: (props: TabInputProps<TFieldValues, TFieldName>) => JSX.Element;
   emptyTabs: string | (() => JSX.Element);
   focusName?: string;
-  defaults: () => FieldArray<WizardFormData, FieldNames>;
+  defaults: () => FieldArray<TFieldValues, TFieldName>;
   addText: string;
   rules?: UseFieldArrayProps["rules"];
 }
 
-export default function TabbedInput({
+export default function TabbedInput<
+  TFieldValues extends FieldValues,
+  TFieldName extends FieldArrayPath<TFieldValues>
+>({
   className = undefined,
   controlPrefix,
   emptyTabs,
@@ -54,9 +60,9 @@ export default function TabbedInput({
   defaults,
   addText,
   rules = {},
-}: TabbedInputProps) {
-  const { control, register } = useFormContext<WizardFormData>();
-  const { fields, append, remove } = useFieldArray<WizardFormData, FieldNames>({
+}: TabbedInputProps<TFieldValues, TFieldName>) {
+  const { control, register } = useFormContext<TFieldValues>();
+  const { fields, append, remove } = useFieldArray<TFieldValues, TFieldName>({
     control,
     name: controlPrefix,
     rules: rules,
@@ -105,7 +111,7 @@ export default function TabbedInput({
           field,
           handleDelete,
           index,
-          register: proxyRegister(register, focusTab),
+          register: proxyRegister<TFieldValues>(register, focusTab),
         });
 
         return (

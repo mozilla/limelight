@@ -11,7 +11,6 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import FormRow from "../FormRow";
-import InfoBarWizardFormData from "./formData";
 import LocalizableTextInput from "../../LocalizableTextInput";
 import {
   RegisteredFormControl,
@@ -20,6 +19,7 @@ import {
 import { validateJsonAsObject } from "../validators";
 import ErrorMessage from "../../ErrorMessage";
 import TabbedInput, { TabInputProps } from "../TabbedInput";
+import WizardFormData, { InfoBarWizardFormData } from "../formData";
 
 function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
   return {
@@ -34,7 +34,11 @@ function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
 const controlPrefix = "content.buttons";
 
 export default function InfoBarButtonsInput() {
-  const renderTab = ({ index, handleDelete, register }: TabInputProps) => {
+  const renderTab = ({
+    index,
+    handleDelete,
+    register,
+  }: TabInputProps<WizardFormData, typeof controlPrefix>) => {
     const tabControlPrefix = `${controlPrefix}.${index}` as const;
     return (
       <>

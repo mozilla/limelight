@@ -5,11 +5,13 @@
  */
 
 import { TabInputProps } from "../../TabbedInput";
+import WizardFormData from "../../formData";
 
 export enum SpotlightScreenKind {
   LogoAndTitle = "LOGO_AND_TITLE",
 }
 
-export interface ScreenComponentProps extends TabInputProps {
+export interface ScreenComponentProps
+  extends TabInputProps<WizardFormData, "content.screens"> {
   controlPrefix: `content.screens.${number}.content`;
 }

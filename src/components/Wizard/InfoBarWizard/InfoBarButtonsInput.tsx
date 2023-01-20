@@ -108,7 +108,7 @@ export default function InfoBarButtonsInput() {
         controlPrefix="content.buttons"
         emptyTabs="There are no buttons."
         renderTab={renderTab}
-        focusName="label.raw"
+        focusName="label.value"
         defaults={defaults}
         addText="Add button"
       />

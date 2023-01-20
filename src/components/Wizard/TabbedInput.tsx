@@ -34,7 +34,7 @@ export interface TabInputProps<
   register: UseFormRegister<TFieldValues>;
 }
 
-interface TabbedInputProps<
+export interface TabbedInputProps<
   TFieldValues extends FieldValues,
   TFieldName extends FieldArrayPath<TFieldValues>
 > {

@@ -63,7 +63,11 @@ export default function LocalizableTextInput<TFieldValues extends FieldValues>({
 
   return (
     <FormRow label={label} helpText={helpText}>
-      <FormRow label="Localized?" containerClassName="form-input-check">
+      <FormRow
+        label="Localized?"
+        containerClassName="form-input-check"
+        controlId={fieldname(controlPrefix, "localized")}
+      >
         <RegisteredFormCheck
           name={fieldname(controlPrefix, "localized")}
           register={register}
@@ -72,7 +76,10 @@ export default function LocalizableTextInput<TFieldValues extends FieldValues>({
         />
       </FormRow>
       {localized ? (
-        <FormRow label="String ID">
+        <FormRow
+          label="String ID"
+          controlId={fieldname(controlPrefix, "value")}
+        >
           <RegisteredFormControl
             name={fieldname(controlPrefix, "value")}
             register={register}
@@ -85,7 +92,7 @@ export default function LocalizableTextInput<TFieldValues extends FieldValues>({
           <ErrorMessage name={`${controlPrefix}.value`} />
         </FormRow>
       ) : (
-        <FormRow label="Text">
+        <FormRow label="Text" controlId={fieldname(controlPrefix, "value")}>
           <RegisteredFormControl
             name={fieldname(controlPrefix, "value")}
             register={register}
@@ -101,6 +108,7 @@ export default function LocalizableTextInput<TFieldValues extends FieldValues>({
         <FormRow
           label="Rich Text?"
           helpText="Use the rich text preset used in experiments"
+          controlId={fieldname(controlPrefix, "rich")}
         >
           <RegisteredFormCheck
             name={fieldname(controlPrefix, "rich")}

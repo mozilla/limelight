@@ -36,7 +36,7 @@ export default function MessageGroupsInput() {
 
   return (
     <FormRow
-      label="Messge Groups"
+      label="Message Groups"
       controlId={controlId}
       helpText="Message groups used for frequency capping."
     >

@@ -9,7 +9,6 @@ import {
   FieldPathByValue,
   FieldValues,
   Path,
-  UseFormRegister,
 } from "react-hook-form";
 
 import FormRow from "../Wizard/FormRow";
@@ -27,7 +26,6 @@ interface LocalizableTextInputProps<TFieldValues extends FieldValues> {
   required?: boolean;
   disabled?: boolean;
   rich?: boolean;
-  register?: UseFormRegister<TFieldValues>;
 }
 
 export const RichTextPresets = {
@@ -51,15 +49,10 @@ export default function LocalizableTextInput<TFieldValues extends FieldValues>({
   required = false,
   disabled = false,
   rich = undefined,
-  register = undefined,
 }: LocalizableTextInputProps<TFieldValues>) {
-  const context = useFormContext<TFieldValues>();
-  const { watch } = context;
-
+  const { register, watch } = useFormContext<TFieldValues>();
   const localized =
     watch(fieldname<TFieldValues>(controlPrefix, "localized")) ?? false;
-
-  register = register ?? context.register;
 
   return (
     <FormRow label={label} helpText={helpText}>

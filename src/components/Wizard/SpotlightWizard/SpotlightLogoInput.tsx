@@ -4,12 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useFormContext, UseFormRegister } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 import FormRow from "../FormRow";
-import WizardFormData, { SpotlightWizardFormData } from "../formData";
+import SpotlightWizardFormData from "./formData";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
@@ -18,14 +18,12 @@ import ErrorMessage from "../../ErrorMessage";
 
 interface SpotlightLogoInputProps {
   controlPrefix: `content.screens.${number}.content.logo`;
-  register: UseFormRegister<WizardFormData>;
 }
 
 export default function SpotlightLogoInput({
   controlPrefix,
-  register,
 }: SpotlightLogoInputProps) {
-  const { watch } = useFormContext<SpotlightWizardFormData>();
+  const { register, watch } = useFormContext<SpotlightWizardFormData>();
   const hasImageURL = watch(`${controlPrefix}.hasImageURL`);
 
   return (

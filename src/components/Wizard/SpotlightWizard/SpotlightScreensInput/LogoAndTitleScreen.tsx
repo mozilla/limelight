@@ -4,6 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { useFormContext } from "react-hook-form";
+
 import { ScreenComponentProps, SpotlightScreenKind } from "./screens";
 import FormRow from "../../FormRow";
 import {
@@ -13,14 +15,13 @@ import {
 import LocalizableTextInput from "../../../LocalizableTextInput";
 import SpotlightButtonInput from "../SpotlightButtonInput";
 import SpotlightLogoInput from "../SpotlightLogoInput";
+import SpotlightWizardFormData from "../formData";
 
-function LogoAndTitleScreen({ controlPrefix, register }: ScreenComponentProps) {
+function LogoAndTitleScreen({ controlPrefix }: ScreenComponentProps) {
+  const { register } = useFormContext<SpotlightWizardFormData>();
   return (
     <>
-      <SpotlightLogoInput
-        controlPrefix={`${controlPrefix}.logo`}
-        register={register}
-      />
+      <SpotlightLogoInput controlPrefix={`${controlPrefix}.logo`} />
       <FormRow
         label="Background"
         controlId={`${controlPrefix}.background`}
@@ -35,7 +36,6 @@ function LogoAndTitleScreen({ controlPrefix, register }: ScreenComponentProps) {
       <LocalizableTextInput
         label="Title"
         controlPrefix={`${controlPrefix}.title`}
-        register={register}
         rich
         required
       />
@@ -68,19 +68,16 @@ function LogoAndTitleScreen({ controlPrefix, register }: ScreenComponentProps) {
       <LocalizableTextInput
         label="Subtitle"
         controlPrefix={`${controlPrefix}.subtitle`}
-        register={register}
         rich
       />
       <SpotlightButtonInput
         label="Primary Button"
         controlPrefix={`${controlPrefix}.primaryButton`}
-        register={register}
         required
       />
       <SpotlightButtonInput
         label="Secondary Button"
         controlPrefix={`${controlPrefix}.secondaryButton`}
-        register={register}
       />
     </>
   );

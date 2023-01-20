@@ -7,7 +7,7 @@ import { describe, expect, test } from "@jest/globals";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ReactNode } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import FormRow from "../FormRow";
 import LocalizableTextInput from "../../LocalizableTextInput";
@@ -62,8 +62,8 @@ describe("TabbedInput", () => {
     function renderTab({
       handleDelete,
       index,
-      register,
     }: TabInputProps<FormData<string>, typeof CONTROL_PREFIX>) {
+      const { register } = useFormContext<FormData<string>>();
       return (
         <>
           <FormRow
@@ -223,7 +223,6 @@ describe("TabbedInput", () => {
     function renderTab({
       handleDelete,
       index,
-      register,
     }: TabInputProps<
       FormData<LocalizableTextFormData>,
       typeof CONTROL_PREFIX
@@ -233,7 +232,6 @@ describe("TabbedInput", () => {
           <FormRow label="Field">
             <LocalizableTextInput
               controlPrefix={`${CONTROL_PREFIX}.${index}.field`}
-              register={register}
               label={FIELD_LABEL}
               required
             />

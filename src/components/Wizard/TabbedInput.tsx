@@ -22,16 +22,16 @@ import {
   FieldValues,
   Path,
   FieldArrayPath,
+  FormProvider,
 } from "react-hook-form";
 
 export interface TabInputProps<
   TFieldValues extends FieldValues,
-  TFieldNames extends FieldArrayPath<TFieldValues>
+  TFieldName extends FieldArrayPath<TFieldValues>
 > {
-  field: FieldArrayWithId<TFieldValues, TFieldNames>;
+  field: FieldArrayWithId<TFieldValues, TFieldName>;
   index: number;
   handleDelete: () => void;
-  register: UseFormRegister<TFieldValues>;
 }
 
 export interface TabbedInputProps<
@@ -61,7 +61,8 @@ export default function TabbedInput<
   addText,
   rules = {},
 }: TabbedInputProps<TFieldValues, TFieldName>) {
-  const { control, register } = useFormContext<TFieldValues>();
+  const formContext = useFormContext<TFieldValues>();
+  const { control, register } = formContext;
   const { fields, append, remove } = useFieldArray<TFieldValues, TFieldName>({
     control,
     name: controlPrefix,
@@ -105,19 +106,20 @@ export default function TabbedInput<
 
           remove(index);
         };
-
         const focusTab = () => setActiveKey(index.toString());
-        const content = renderTab({
-          field,
-          handleDelete,
-          index,
+        const proxiedContext = {
+          ...formContext,
           register: proxyRegister<TFieldValues>(register, focusTab),
-        });
-
+        };
         return (
-          <Tab.Pane eventKey={index} key={field.id} as="fieldset">
-            {content}
-          </Tab.Pane>
+          <FormProvider {...proxiedContext} key={index}>
+            <TabContent
+              field={field}
+              index={index}
+              handleDelete={handleDelete}
+              renderTab={renderTab}
+            />
+          </FormProvider>
         );
       })
     : typeof emptyTabs === "string"
@@ -148,6 +150,34 @@ export default function TabbedInput<
         </Card.Body>
       </Tab.Container>
     </Card>
+  );
+}
+
+interface TabContentProps<
+  TFieldValues extends FieldValues,
+  TFieldName extends FieldArrayPath<TFieldValues>
+> {
+  field: FieldArrayWithId<TFieldValues, TFieldName>;
+  index: number;
+  handleDelete: () => void;
+  renderTab: (props: TabInputProps<TFieldValues, TFieldName>) => JSX.Element;
+}
+
+function TabContent<
+  TFieldValues extends FieldValues,
+  TFieldName extends FieldArrayPath<TFieldValues>
+>({
+  field,
+  index,
+  handleDelete,
+  renderTab,
+}: TabContentProps<TFieldValues, TFieldName>) {
+  const content = renderTab({ field, handleDelete, index });
+
+  return (
+    <Tab.Pane eventKey={index} as="fieldset">
+      {content}
+    </Tab.Pane>
   );
 }
 

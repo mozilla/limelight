@@ -7,18 +7,13 @@
 import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import {
-  useFormContext,
-  FieldPathByValue,
-  UseFormRegister,
-} from "react-hook-form";
+import { useFormContext, FieldPathByValue } from "react-hook-form";
 
 import FormRow from "../FormRow";
 import { RegisteredFormCheck } from "../../RegisteredFormControl";
 import SpotlightWizardFormData, { SpotlightButtonFormData } from "./formData";
 import SpotlightActionInput from "./SpotlightActionInput";
 import LocalizableTextInput from "../../LocalizableTextInput";
-import WizardFormData from "../formData";
 
 interface SpotlightButtonInputProps {
   controlPrefix: FieldPathByValue<
@@ -28,7 +23,6 @@ interface SpotlightButtonInputProps {
   label: string;
   helpText?: string;
   required?: boolean;
-  register: UseFormRegister<WizardFormData>;
 }
 
 export default function SpotlightButtonInput({
@@ -36,9 +30,9 @@ export default function SpotlightButtonInput({
   label,
   helpText = undefined,
   required = false,
-  register,
 }: SpotlightButtonInputProps) {
-  const { watch, setValue } = useFormContext<SpotlightWizardFormData>();
+  const { register, setValue, watch } =
+    useFormContext<SpotlightWizardFormData>();
 
   useEffect(() => {
     if (required) {

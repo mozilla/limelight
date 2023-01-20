@@ -70,8 +70,8 @@ export default function SpotlightScreensInput() {
 function ScreenInput(
   props: TabInputProps<WizardFormData, typeof controlPrefix>
 ) {
-  const { handleDelete, index, register } = props;
-  const { watch } = useFormContext<SpotlightWizardFormData>();
+  const { handleDelete, index } = props;
+  const { register, watch } = useFormContext<SpotlightWizardFormData>();
   const screenControlPrefix = `${controlPrefix}.${index}` as const;
 
   const kind = watch(`${screenControlPrefix}.kind`);

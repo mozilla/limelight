@@ -179,17 +179,17 @@ export default function Wizard() {
   return (
     <>
       <Container className="wizard">
-        <FormProvider {...formContext}>
-          <Form>
-            <Card>
-              <Card.Header className="d-flex justify-content-between">
-                <Card.Title className="mb-0">
-                  Editing Message:{" "}
-                  <span className="message-id">{messageInfo.id}</span>
-                </Card.Title>
-                <CloseButton onClick={stopEditing} title="Stop Editing" />
-              </Card.Header>
+        <Card>
+          <Card.Header className="d-flex justify-content-between">
+            <Card.Title className="mb-0">
+              Editing Message:{" "}
+              <span className="message-id">{messageInfo.id}</span>
+            </Card.Title>
+            <CloseButton onClick={stopEditing} title="Stop Editing" />
+          </Card.Header>
 
+          <FormProvider {...formContext}>
+            <Form>
               <ListGroup variant="flush">
                 <MessageContentWizard />
 
@@ -210,9 +210,9 @@ export default function Wizard() {
                   </Button>
                 </ListGroup.Item>
               </ListGroup>
-            </Card>
-          </Form>
-        </FormProvider>
+            </Form>
+          </FormProvider>
+        </Card>
       </Container>
       <JsonPreview data={previewJson} onHide={closeModal} />
     </>

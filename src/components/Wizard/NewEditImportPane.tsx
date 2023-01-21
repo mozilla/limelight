@@ -22,6 +22,11 @@ import {
   RegisteredFormControl,
   RegisteredFormCheck,
 } from "../RegisteredFormControl";
+import { validateJsonAsObject } from "./validators";
+import deserialize from "./deserializers";
+import WizardFormData from "./formData";
+import ErrorMessage from "../ErrorMessage";
+import { useToastsContext } from "../../hooks/useToasts";
 
 interface NewFormData {
   id: string;
@@ -187,28 +192,84 @@ function EditForm({ onEditMessage, onDeleteMessage, messages }: EditFormProps) {
   );
 }
 
-function ImportForm() {
+interface ImportFormData {
+  messageJson: string;
+}
+
+interface ImportFormProps {
+  onImportMessage: (
+    messageId: string,
+    messageTemplate: MessageTemplate,
+    formData: WizardFormData
+  ) => void;
+}
+
+function ImportForm({ onImportMessage }: ImportFormProps) {
+  const { addToast } = useToastsContext();
+  const formContext = useForm<ImportFormData>({ mode: "onChange" });
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty, isValid },
+    setError,
+  } = formContext;
+
+  const onSubmit: SubmitHandler<ImportFormData> = (data: ImportFormData) => {
+    const json = JSON.parse(data.messageJson) as Record<string, unknown>;
+    let result;
+
+    try {
+      result = deserialize(json);
+    } catch (e) {
+      setError("messageJson", {
+        message: `Could not import message: ${String(e)}`,
+      });
+      console.error(e);
+      return;
+    }
+
+    if (result.warnings.length) {
+      console.warn(`Message ${result.id} imported with warnings: `);
+      for (const { field, message } of result.warnings) {
+        console.warn(`[${field}]: ${message}`);
+      }
+
+      addToast(
+        "Message imported with warnings",
+        "See browser console for full details"
+      );
+    }
+
+    onImportMessage(result.id, result.template, result.formData);
+  };
+
   return (
     <>
       <Card.Title>Import a Message</Card.Title>
-      <Form className="import-form">
-        <Form.Group controlId="message-json">
-          <Form.Label>Message JSON</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            placeholder="Paste JSON"
-            name="message-json"
-            className="input-message-json"
-            disabled
-          />
-        </Form.Group>
+      <Form onSubmit={handleSubmit(onSubmit)} className="import-form">
+        <FormProvider {...formContext}>
+          <Form.Group controlId="message-json">
+            <FormRow label="Message JSON" controlId="messageJson">
+              <RegisteredFormControl
+                as="textarea"
+                name="messageJson"
+                register={register}
+                registerOptions={{
+                  required: true,
+                  validate: validateJsonAsObject,
+                }}
+                className="input-monospace"
+              />
+              <ErrorMessage name="messageJson" />
+            </FormRow>
+          </Form.Group>
 
-        <div className="form-row form-buttons">
-          <Button type="submit" disabled>
-            Next
-          </Button>
-        </div>
+          <div className="form-row form-buttons">
+            <Button type="submit" disabled={!isValid || !isDirty}>
+              Next
+            </Button>
+          </div>
+        </FormProvider>
       </Form>
     </>
   );
@@ -220,12 +281,13 @@ enum EventKeys {
   Import = "import",
 }
 
-type NewEditImportPaneProps = NewFormProps & EditFormProps;
+type NewEditImportPaneProps = NewFormProps & EditFormProps & ImportFormProps;
 
 export default function NewEditImportPane({
   onNewMessage,
   onEditMessage,
   onDeleteMessage,
+  onImportMessage,
   messages,
 }: NewEditImportPaneProps) {
   return (
@@ -259,7 +321,7 @@ export default function NewEditImportPane({
                 />
               </Tab.Pane>
               <Tab.Pane eventKey={EventKeys.Import}>
-                <ImportForm />
+                <ImportForm onImportMessage={onImportMessage} />
               </Tab.Pane>
             </Tab.Content>
           </Card.Body>

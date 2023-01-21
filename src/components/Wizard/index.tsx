@@ -92,11 +92,26 @@ export default function Wizard() {
       }
     };
 
+    const handleImportMessage = (
+      id: string,
+      template: MessageTemplate,
+      formData: WizardFormData
+    ) => {
+      setMessageInfo({ id, template });
+      for (const [key, value] of Object.entries(formData)) {
+        setValue(
+          key as keyof WizardFormData,
+          value as WizardFormData[keyof WizardFormData]
+        );
+      }
+    };
+
     return (
       <NewEditImportPane
         onNewMessage={handleNewMessage}
         onEditMessage={handleEditMessage}
         onDeleteMessage={deleteMessage}
+        onImportMessage={handleImportMessage}
         messages={messages}
       />
     );

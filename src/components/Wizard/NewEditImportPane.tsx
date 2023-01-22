@@ -134,52 +134,47 @@ function EditForm({ onEditMessage, onDeleteMessage, messages }: EditFormProps) {
     onEditMessage(data.id);
   };
 
-  const onDelete = (id: string) => {
-    onDeleteMessage(id);
-  };
+  const messageIds = Object.keys(messages);
+
   return (
     <>
       <Card.Title>Edit an Existing Message</Card.Title>
 
       <Form onSubmit={handleSubmit(onSubmit)} className="edit-form">
         <FormProvider {...formContext}>
-          <Form.Group controlId="message-select">
+          {messageIds.length ? (
             <FormRow
               label="Select Message"
               containerClassName="form-input-check"
             >
-              {Object.keys(messages).length ? (
-                Object.keys(messages).map((id) => {
-                  return (
-                    <Row className="edit-entry" key={id}>
-                      <RegisteredFormCheck
-                        name="id"
-                        register={register}
-                        registerOptions={{ required: true }}
-                        type="radio"
-                        key={id}
-                        label={id}
-                        value={id}
-                        id={`message-select-${id}`}
-                      />
-                      <div className="delete-col">
-                        <Button
-                          key={`delete-${id}`}
-                          type="button"
-                          variant="danger"
-                          onClick={() => onDelete(id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                      </div>
-                    </Row>
-                  );
-                })
-              ) : (
-                <Card.Text>There are no messages saved.</Card.Text>
-              )}
+              {messageIds.map((id) => (
+                <Row className="edit-entry" key={id}>
+                  <RegisteredFormCheck
+                    name="id"
+                    register={register}
+                    registerOptions={{ required: true }}
+                    type="radio"
+                    key={id}
+                    label={id}
+                    value={id}
+                    id={`message-select-${id}`}
+                  />
+                  <div className="delete-col">
+                    <Button
+                      key={`delete-${id}`}
+                      type="button"
+                      variant="danger"
+                      onClick={() => onDeleteMessage(id)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </div>
+                </Row>
+              ))}
             </FormRow>
-          </Form.Group>
+          ) : (
+            <Card.Text>There are no messages saved.</Card.Text>
+          )}
         </FormProvider>
 
         <div className="form-row form-buttons">

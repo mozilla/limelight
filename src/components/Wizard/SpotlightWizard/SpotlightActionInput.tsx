@@ -29,7 +29,10 @@ export default function SpotlightActionInput({
   required = false,
   disabled = false,
 }: SpotlightActionInputProps) {
-  const { register } = useFormContext<SpotlightWizardFormData>();
+  const { register, watch } = useFormContext<SpotlightWizardFormData>();
+
+  const dismiss = watch(`${controlPrefix}.dismiss`);
+  const navigate = watch(`${controlPrefix}.navigate`);
 
   return (
     <FormRow label="Action">
@@ -41,7 +44,18 @@ export default function SpotlightActionInput({
         <RegisteredFormCheck
           name={`${controlPrefix}.navigate`}
           register={register}
-          disabled={disabled}
+          disabled={disabled || dismiss}
+        />
+      </FormRow>
+      <FormRow
+        label="Dismiss?"
+        containerClassName="form-input-check"
+        helpText="Dismiss the spotlight when this action triggers"
+      >
+        <RegisteredFormCheck
+          name={`${controlPrefix}.dismiss`}
+          register={register}
+          disabled={disabled || navigate}
         />
       </FormRow>
       <FormRow

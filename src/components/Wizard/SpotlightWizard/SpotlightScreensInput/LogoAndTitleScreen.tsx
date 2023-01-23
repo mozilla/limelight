@@ -14,6 +14,7 @@ import {
 } from "../../../RegisteredFormControl";
 import LocalizableTextInput from "../../../LocalizableTextInput";
 import SpotlightButtonInput from "../SpotlightButtonInput";
+import SpotlightDismissButtonInput from "../SpotlightDismissButtonInput";
 import SpotlightLogoInput from "../SpotlightLogoInput";
 import SpotlightWizardFormData from "../formData";
 
@@ -22,6 +23,9 @@ function LogoAndTitleScreen({ controlPrefix }: ScreenComponentProps) {
   return (
     <>
       <SpotlightLogoInput controlPrefix={`${controlPrefix}.logo`} />
+      <SpotlightDismissButtonInput
+        controlPrefix={`${controlPrefix}.dismissButton`}
+      />
       <FormRow
         label="Background"
         controlId={`${controlPrefix}.background`}
@@ -112,6 +116,7 @@ export default Object.assign(LogoAndTitleScreen, {
           },
           action: {
             navigate: true,
+            dismiss: false,
             type: "",
             data: "{}",
           },
@@ -124,9 +129,13 @@ export default Object.assign(LogoAndTitleScreen, {
           },
           action: {
             navigate: true,
+            dismiss: false,
             type: "",
             data: "{}",
           },
+        },
+        dismissButton: {
+          enabled: false,
         },
       },
     } as const),

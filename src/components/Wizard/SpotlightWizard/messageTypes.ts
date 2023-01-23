@@ -20,4 +20,5 @@ export interface SpotlightScreen {
 
 export interface SpotlightAction {
   navigate?: true;
+  dismiss?: true;
 }

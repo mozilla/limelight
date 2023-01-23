@@ -22,6 +22,7 @@ import {
 } from "./messageTypes";
 import {
   SpotlightButtonFormData,
+  SpotlightDismissButtonFormData,
   SpotlightLogoFormData,
   SpotlightScreenFormData,
 } from "./SpotlightWizard/formData";
@@ -159,6 +160,9 @@ function serializeSpotlightScreenContent(data: SpotlightScreenFormData) {
             data.content.title,
             RichTextPresets.TITLE
           ),
+          dismiss_button: serializeSpotlightDismissButton(
+            data.content.dismissButton
+          ),
           primary_button: serializeSpotlightButton(data.content.primaryButton),
         },
         data.content.titleStyle ? { title_style: data.content.titleStyle } : {},
@@ -199,11 +203,21 @@ function serializeSpotlightLogo(data: SpotlightLogoFormData) {
   return logo;
 }
 
+function serializeSpotlightDismissButton(data: SpotlightDismissButtonFormData) {
+  if (data.enabled) {
+    return {
+      action: { dismiss: true },
+    };
+  }
+  return undefined;
+}
+
 function serializeSpotlightButton(data: SpotlightButtonFormData) {
   return {
     label: serializeLocalizableText(data.label),
     action: Object.assign(
       data.action.navigate ? { navigate: true } : {},
+      data.action.dismiss ? { dismiss: true } : {},
       data.action.type ? { type: data.action.type } : {},
       { data: JSON.parse(data.action.data) as unknown }
     ),

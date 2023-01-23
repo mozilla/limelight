@@ -28,8 +28,13 @@ export type SpotlightButtonFormData = {
   action: SpotlightActionFormData;
 };
 
+export type SpotlightDismissButtonFormData = {
+  enabled: boolean;
+};
+
 export interface SpotlightActionFormData {
   navigate: boolean;
+  dismiss: boolean;
   type: string;
   data: string;
 }
@@ -53,4 +58,5 @@ interface LogoAndTitleScreenContent {
   subtitle: LocalizableTextFormData;
   primaryButton: SpotlightButtonFormData;
   secondaryButton: SpotlightButtonFormData;
+  dismissButton: SpotlightDismissButtonFormData;
 }

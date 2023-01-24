@@ -35,6 +35,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Label",
+          rich: false,
         },
         primary: false,
         accessKey: "",
@@ -59,6 +60,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Label",
+          rich: false,
         },
         primary: true,
         accessKey: "",
@@ -83,6 +85,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Label",
+          rich: false,
         },
         primary: false,
         accessKey: "l",
@@ -107,6 +110,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Label",
+          rich: false,
         },
         primary: false,
         accessKey: "",
@@ -133,6 +137,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Label",
+          rich: false,
         },
         primary: true,
         accessKey: "l",
@@ -160,6 +165,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: true,
           value: "string-id",
+          rich: false,
         },
         primary: true,
         accessKey: "l",
@@ -168,6 +174,36 @@ describe("deserializeInfobarButtons", () => {
       },
     ]);
     expect(ctx.warnings).toEqual([]);
+  });
+
+  test("button with rich localized text (ignored)", () => {
+    expect(
+      deserializeInfoBarButtons(ctx, [
+        {
+          label: { string_id: "string-id", zap: true },
+          primary: true,
+          accessKey: "l",
+          action: { type: "SET_DEFAULT_BROWSER" },
+        },
+      ])
+    ).toEqual([
+      {
+        label: {
+          localized: true,
+          value: "string-id",
+          rich: false,
+        },
+        primary: true,
+        accessKey: "l",
+        supportPage: "",
+        action: JSON.stringify({ type: "SET_DEFAULT_BROWSER" }, null, 2),
+      },
+    ]);
+    expect(ctx.warnings.length).toEqual(1);
+    expect(ctx.warnings[0]).toEqual({
+      field: "content.buttons.0.label",
+      message: "Rich text not supported",
+    });
   });
 
   test("multiple buttons", () => {
@@ -190,6 +226,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Primary",
+          rich: false,
         },
         primary: true,
         accessKey: "p",
@@ -200,6 +237,7 @@ describe("deserializeInfobarButtons", () => {
         label: {
           localized: false,
           value: "Cancel",
+          rich: false,
         },
         primary: false,
         accessKey: "c",
@@ -225,6 +263,7 @@ describe("deserializeInfoBarContent", () => {
       text: {
         localized: false,
         value: "Hello, world",
+        rich: false,
       },
       buttons: [],
       type: "tab",
@@ -248,6 +287,7 @@ describe("deserializeInfoBarContent", () => {
       text: {
         localized: false,
         value: "Hello, world",
+        rich: false,
       },
       buttons: [],
       type: "global",
@@ -272,6 +312,7 @@ describe("deserializeInfoBarContent", () => {
       text: {
         localized: false,
         value: "Hello, world",
+        rich: false,
       },
       buttons: [],
       type: "tab",
@@ -310,6 +351,7 @@ describe("deserializeInfoBarContent", () => {
       text: {
         localized: false,
         value: "Hello, world",
+        rich: false,
       },
       // Use a separate context so that ctx is not polluted.
       buttons: deserializeInfoBarButtons(new DeserializationContext(), buttons),

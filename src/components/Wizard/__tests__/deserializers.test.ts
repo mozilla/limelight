@@ -302,6 +302,7 @@ describe("deserialize", () => {
             text: {
               localized: false,
               value: "Hello, world",
+              rich: false,
             },
             buttons: [],
             type: "tab",
@@ -347,6 +348,7 @@ describe("deserialize", () => {
           text: {
             localized: false,
             value: "Hello, world",
+            rich: false,
           },
           buttons: [],
           type: "tab",

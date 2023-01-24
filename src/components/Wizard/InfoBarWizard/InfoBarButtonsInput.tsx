@@ -20,11 +20,12 @@ import {
 import { validateJsonAsObject } from "../validators";
 import ErrorMessage from "../../ErrorMessage";
 import TabbedInput, { RenderTabProps } from "../TabbedInput";
+import { defaultLocalizableTextFormData } from "../../LocalizableTextInput/formData";
 import WizardFormData, { InfoBarWizardFormData } from "../formData";
 
 function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
   return {
-    label: { localized: false, value: "" },
+    label: defaultLocalizableTextFormData({ rich: false }),
     accessKey: "",
     primary: false,
     supportPage: "",

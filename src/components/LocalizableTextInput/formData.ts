@@ -9,3 +9,11 @@ export default interface LocalizableTextFormData {
   value: string;
   rich?: boolean;
 }
+
+export function defaultLocalizableTextFormData({ rich }: { rich: boolean }) {
+  return {
+    localized: false,
+    value: "",
+    rich,
+  };
+}

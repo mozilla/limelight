@@ -318,6 +318,34 @@ describe("deserialize", () => {
     });
   });
 
+  describe("Spotlight", () => {
+    test("minimal message", () => {
+      expect(
+        deserialize({
+          ...baseMessage(),
+          template: "spotlight",
+          content: {
+            template: "multistage",
+            screens: [],
+          },
+        })
+      ).toEqual({
+        id: "message-id",
+        template: "spotlight",
+        formData: {
+          content: {
+            modal: "tab",
+            backdrop: "",
+            transitions: false,
+            screens: [],
+          },
+          meta: metaFormData(),
+        },
+        warnings: [],
+      });
+    });
+  });
+
   test("unknown template", () => {
     expect(() =>
       deserialize({

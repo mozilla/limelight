@@ -40,6 +40,10 @@ export interface BaseFormData {
   };
 }
 
-type WizardFormData = BaseFormData &
-  (InfoBarWizardFormData | SpotlightWizardFormData);
+interface WizardFormData extends BaseFormData {
+  content:
+    | InfoBarWizardFormData["content"]
+    | SpotlightWizardFormData["content"];
+}
+
 export default WizardFormData;

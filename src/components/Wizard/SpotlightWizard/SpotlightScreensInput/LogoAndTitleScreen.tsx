@@ -16,7 +16,10 @@ import LocalizableTextInput from "../../../LocalizableTextInput";
 import SpotlightButtonInput from "../SpotlightButtonInput";
 import SpotlightDismissButtonInput from "../SpotlightDismissButtonInput";
 import SpotlightLogoInput from "../SpotlightLogoInput";
-import SpotlightWizardFormData from "../formData";
+import SpotlightWizardFormData, {
+  defaultSpotlightButtonFormData,
+} from "../formData";
+import { defaultLocalizableTextFormData } from "../../../LocalizableTextInput/formData";
 
 function LogoAndTitleScreen({ controlPrefix }: ScreenComponentProps) {
   const { register } = useFormContext<SpotlightWizardFormData>();
@@ -99,41 +102,11 @@ export default Object.assign(LogoAndTitleScreen, {
           height: "",
         },
         background: "",
-        title: {
-          localized: false,
-          value: "",
-        },
+        title: defaultLocalizableTextFormData({ rich: true }),
         titleStyle: "",
-        subtitle: {
-          localized: false,
-          value: "",
-        },
-        primaryButton: {
-          enabled: true,
-          label: {
-            localized: false,
-            value: "",
-          },
-          action: {
-            navigate: true,
-            dismiss: false,
-            type: "",
-            data: "",
-          },
-        },
-        secondaryButton: {
-          enabled: false,
-          label: {
-            localized: false,
-            value: "",
-          },
-          action: {
-            navigate: true,
-            dismiss: false,
-            type: "",
-            data: "",
-          },
-        },
+        subtitle: defaultLocalizableTextFormData({ rich: true }),
+        primaryButton: defaultSpotlightButtonFormData({ enabled: true }),
+        secondaryButton: defaultSpotlightButtonFormData({ enabled: false }),
         dismissButton: {
           enabled: false,
         },

@@ -5,7 +5,9 @@
  */
 
 import { SpotlightScreenKind } from "./SpotlightScreensInput/screens";
-import { LocalizableTextFormData } from "../formData";
+import LocalizableTextFormData, {
+  defaultLocalizableTextFormData,
+} from "../../LocalizableTextInput/formData";
 
 export default interface SpotlightWizardFormData {
   content: {
@@ -40,17 +42,14 @@ export interface SpotlightActionFormData {
 }
 
 export type SpotlightScreenFormData =
+  | { kind: undefined }
   | {
-      kind: undefined;
-    }
-  | ({
       screenId: string;
-    } & {
       kind: SpotlightScreenKind.LogoAndTitle;
-      content: LogoAndTitleScreenContent;
-    });
+      content: LogoAndTitleScreenFormData;
+    };
 
-interface LogoAndTitleScreenContent {
+export interface LogoAndTitleScreenFormData {
   logo: SpotlightLogoFormData;
   background: string;
   title: LocalizableTextFormData;
@@ -59,4 +58,21 @@ interface LogoAndTitleScreenContent {
   primaryButton: SpotlightButtonFormData;
   secondaryButton: SpotlightButtonFormData;
   dismissButton: SpotlightDismissButtonFormData;
+}
+
+export function defaultSpotlightButtonFormData({
+  enabled,
+}: {
+  enabled: boolean;
+}): SpotlightButtonFormData {
+  return {
+    enabled,
+    label: defaultLocalizableTextFormData({ rich: false }),
+    action: {
+      navigate: true,
+      dismiss: false,
+      type: "",
+      data: "",
+    },
+  };
 }

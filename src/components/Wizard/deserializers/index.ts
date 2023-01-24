@@ -6,9 +6,10 @@
 
 import DeserializationContext from "./context";
 import { BaseMessage, Message, MessageTemplate } from "../messageTypes";
-import WizardFormData, { InfoBarWizardFormData } from "../formData";
+import WizardFormData from "../formData";
 
 import deserializeInfoBarContent from "../InfoBarWizard/deserializers";
+import deserializeSpotlightContent from "../SpotlightWizard/deserializers";
 
 export interface DeserializeResult {
   id: string;
@@ -33,7 +34,7 @@ export default function deserialize(
 
   const message = data as unknown as Message;
 
-  const SUPPORTED_TEMPLATES = ["infobar"];
+  const SUPPORTED_TEMPLATES = ["infobar", "spotlight"];
 
   if (!SUPPORTED_TEMPLATES.includes(message.template)) {
     throw ctx.error(
@@ -48,7 +49,7 @@ export default function deserialize(
     }
   }
 
-  let content: InfoBarWizardFormData["content"];
+  let content: WizardFormData["content"];
 
   switch (message.template) {
     case "infobar":
@@ -59,7 +60,11 @@ export default function deserialize(
       break;
 
     case "spotlight":
-      throw new Error("unreachable");
+      content = deserializeSpotlightContent(
+        ctx.field("content"),
+        message.content
+      );
+      break;
   }
 
   ctx.warnOnUnknown(data, [

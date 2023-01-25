@@ -4,16 +4,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { PropsWithChildren } from "react";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
-import { UseToasts } from "../hooks/useToasts";
+import { UseToasts, ToastsContext, useToastsContext } from "../hooks/useToasts";
 
 interface ToastsProps {
   context: UseToasts;
 }
 
-export default function Toasts({ context }: ToastsProps) {
+function Toasts() {
+  const context = useToastsContext();
+
   const toasts = context.toasts.map((toast) => (
     <Toast key={toast.id} onClose={() => context.dismissToast(toast.id)}>
       <Toast.Header>
@@ -31,3 +34,13 @@ export default function Toasts({ context }: ToastsProps) {
     </ToastContainer>
   );
 }
+
+function ToastProvider({ context, children }: PropsWithChildren<ToastsProps>) {
+  return (
+    <ToastsContext.Provider value={context}>{children}</ToastsContext.Provider>
+  );
+}
+
+export default Object.assign(Toasts, {
+  Provider: ToastProvider,
+});

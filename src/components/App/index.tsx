@@ -43,20 +43,22 @@ export default function App({ sentryConfig }: AppProps) {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand>Limelight</Navbar.Brand>
-          <Navbar.Collapse className="justify-content-end">
-            <Nav.Link href="https://github.com/mozilla/limelight">
-              <FontAwesomeIcon icon={faGithub} color="white" />
-            </Nav.Link>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <Toasts.Provider context={toastCtx}>
+        <Navbar bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand>Limelight</Navbar.Brand>
+            <Navbar.Collapse className="justify-content-end">
+              <Nav.Link href="https://github.com/mozilla/limelight">
+                <FontAwesomeIcon icon={faGithub} color="white" />
+              </Nav.Link>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
 
-      <Wizard />
+        <Wizard />
 
-      <Toasts context={toastCtx} />
+        <Toasts />
+      </Toasts.Provider>
     </>
   );
 }

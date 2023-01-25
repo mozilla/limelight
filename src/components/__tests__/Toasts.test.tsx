@@ -20,7 +20,11 @@ function Component() {
     addToast("toast two title", () => <p>rich toast</p>);
   }, []);
 
-  return <Toasts context={context} />;
+  return (
+    <Toasts.Provider context={context}>
+      <Toasts />
+    </Toasts.Provider>
+  );
 }
 
 describe("Toasts", () => {

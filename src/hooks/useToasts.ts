@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 export type ToastBody = string | (() => JSX.Element);
 export interface Toast {
@@ -18,6 +18,8 @@ export interface UseToasts {
   addToast: (title: string, body: ToastBody) => void;
   dismissToast: (id: string) => void;
 }
+
+export const ToastsContext = createContext<UseToasts>({} as UseToasts);
 
 export default function useToasts(): UseToasts {
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -49,4 +51,8 @@ export default function useToasts(): UseToasts {
     addToast,
     dismissToast,
   };
+}
+
+export function useToastsContext(): UseToasts {
+  return useContext(ToastsContext);
 }

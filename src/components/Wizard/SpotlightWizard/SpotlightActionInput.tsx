@@ -74,7 +74,6 @@ export default function SpotlightActionInput({
           name={`${controlPrefix}.data`}
           register={register}
           registerOptions={{
-            required: !disabled,
             validate: !disabled ? validateJsonAsObject : undefined,
           }}
           disabled={disabled}

@@ -118,7 +118,7 @@ export default Object.assign(LogoAndTitleScreen, {
             navigate: true,
             dismiss: false,
             type: "",
-            data: "{}",
+            data: "",
           },
         },
         secondaryButton: {
@@ -131,7 +131,7 @@ export default Object.assign(LogoAndTitleScreen, {
             navigate: true,
             dismiss: false,
             type: "",
-            data: "{}",
+            data: "",
           },
         },
         dismissButton: {

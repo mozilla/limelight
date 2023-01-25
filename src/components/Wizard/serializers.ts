@@ -219,7 +219,9 @@ function serializeSpotlightButton(data: SpotlightButtonFormData) {
       data.action.navigate ? { navigate: true } : {},
       data.action.dismiss ? { dismiss: true } : {},
       data.action.type ? { type: data.action.type } : {},
-      { data: JSON.parse(data.action.data) as unknown }
+      data.action.type && data.action.data
+        ? { data: JSON.parse(data.action.data) as unknown }
+        : {}
     ),
   };
 }

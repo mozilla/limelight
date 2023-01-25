@@ -294,5 +294,32 @@ describe("TabbedInput", () => {
         expect(getFocusedElement()).toBe(screen.getAllByLabelText("Text")[0])
       );
     });
+
+    test("LocalizableTextInput toggles correctly inside a TabbedInput", async () => {
+      // Issue 56.
+
+      renderWrapped(<TabbedInput {...defaultProps} />);
+
+      // Add a tab.
+      await userEvent.click(screen.getByTitle(ADD_TAB_TEXT));
+
+      // There should be a text input and not a string ID input.
+      screen.getByLabelText("Text");
+      expect(screen.queryByLabelText("String ID")).toBeNull();
+
+      // Toggle localization checkbox.
+      await userEvent.click(screen.getByLabelText("Localized?"));
+
+      // There should be a string ID input and no text input.
+      screen.getByLabelText("String ID");
+      expect(screen.queryByLabelText("Text")).toBeNull();
+
+      // Toggle localization checkbox.
+      await userEvent.click(screen.getByLabelText("Localized?"));
+
+      // There should be a text input and not a string ID input.
+      screen.getByLabelText("Text");
+      expect(screen.queryByLabelText("String ID")).toBeNull();
+    });
   });
 });

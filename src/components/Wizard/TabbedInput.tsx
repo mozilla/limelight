@@ -181,6 +181,14 @@ function TabContent<
   );
 }
 
+type InputOrTextAreaElement = HTMLInputElement | HTMLTextAreaElement;
+
+/**
+ * A map of elements to their proxies to keep reference equality between
+ * renders.
+ */
+const PROXIES = new WeakMap<InputOrTextAreaElement, InputOrTextAreaElement>();
+
 /**
  * Return a wrapped register() function that will proxy the ref callback to
  * handle focusing elements not currently visible.
@@ -199,7 +207,7 @@ function proxyRegister<TFieldValues extends FieldValues = FieldValues>(
 
     return {
       ...rv,
-      ref: (instance: HTMLFormElement | null) =>
+      ref: (instance: InputOrTextAreaElement | null) =>
         rv.ref(makeFocusProxy(instance, focusTab)),
     };
   };
@@ -210,35 +218,51 @@ function proxyRegister<TFieldValues extends FieldValues = FieldValues>(
  * focusing the element.
  */
 function makeFocusProxy(
-  instance: HTMLFormElement | null,
+  instance: InputOrTextAreaElement | null,
   focusTab: () => void
-): HTMLFormElement | null {
+): InputOrTextAreaElement | null {
   if (instance) {
-    return new Proxy(instance, {
-      get(target, handler) {
-        if (handler === "focus") {
-          return () => {
-            focusTab();
+    // If we return a new Proxy each render(), they will not compare identical
+    // to the old proxy. Hence we cache them in a a WeakMap, which will not keep
+    // our references alive if they get removed from the DOM.
+    //
+    // If we don't do this, react-hook-form gets confused and starts
+    // accumulating multiple refs for fields and will end up setting invalid
+    // state (especially for checkbox fields, which will report a value of `[]`
+    // instead of `false`).
+    let proxy = PROXIES.get(instance);
 
-            // If we call target.focus() immediately, the tab won't actually be
-            // active yet -- it will still be transitioning. Calling it after
-            // the stack clears will correctly focus the element.
-            setTimeout(() => target.focus(), 0);
-          };
-        }
+    if (!proxy) {
+      proxy = new Proxy(instance, {
+        get(target, handler) {
+          if (handler === "focus") {
+            return () => {
+              focusTab();
 
-        // ProxyHandler.get has a return type of any.  This won't really be type
-        // checked anywhere because all the consumers won't know they're
-        // consuming this Proxy.
+              // If we call target.focus() immediately, the tab won't actually be
+              // active yet -- it will still be transitioning. Calling it after
+              // the stack clears will correctly focus the element.
+              setTimeout(() => target.focus(), 0);
+            };
+          }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return Reflect.get(target, handler);
-      },
+          // ProxyHandler.get has a return type of any.  This won't really be type
+          // checked anywhere because all the consumers won't know they're
+          // consuming this Proxy.
 
-      set(target, handler, newValue) {
-        return Reflect.set(target, handler, newValue);
-      },
-    });
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          return Reflect.get(target, handler);
+        },
+
+        set(target, handler, newValue) {
+          return Reflect.set(target, handler, newValue);
+        },
+      });
+
+      PROXIES.set(instance, proxy);
+    }
+
+    return proxy;
   } else {
     return instance;
   }

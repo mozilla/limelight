@@ -2,7 +2,7 @@ module.exports = {
     root: true,
     env: {
         browser: true,
-        es2021: true // TODO: Change to es2022 and remove ecmaVersion
+        es2022: true,
     },
     extends: [
         "eslint:recommended",
@@ -17,7 +17,6 @@ module.exports = {
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
-        ecmaVersion: 2022,
         tsconfigRootDir: __dirname,
         project: [
             "./tsconfig.json",

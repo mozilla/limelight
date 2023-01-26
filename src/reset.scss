@@ -8,11 +8,11 @@
  * We reset this to only inherit box-sizing in case we include a 3-rd party
  * component that requires content-box sizing.  */
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }

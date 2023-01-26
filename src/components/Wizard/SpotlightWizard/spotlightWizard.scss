@@ -5,14 +5,13 @@
  */
 
 .spotlight-screen-chooser {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    & ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-
-    }
+  & ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 }

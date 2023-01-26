@@ -11,7 +11,10 @@
     "htmlhint": "htmlhint \"src/**/*.html\"",
     "tsc": "tsc",
     "install-hooks": "git config core.hooksPath .hooks",
-    "test": "jest"
+    "test": "jest",
+    "fixlints:eslint": "npm run eslint -- --fix",
+    "fixlints:stylelint": "npm run stylelint -- --fix",
+    "fixlints": "npm run fixlints:eslint && npm run fixlints:stylelint"
   },
   "repository": {
     "type": "git",

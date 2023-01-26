@@ -8,17 +8,17 @@
 
 /* InfoBarWizard specific components */
 .infobar-buttons-input {
-    .access-key-input {
-        @extend .col-1;
-    }
+  .access-key-input {
+    @extend .col-1;
+  }
 }
 
 .infobar-priority-input {
-    .priority-input {
-        @extend .col-9;
-    }
+  .priority-input {
+    @extend .col-9;
+  }
 
-    .priority-text {
-        @extend .col-3;
-    }
+  .priority-text {
+    @extend .col-3;
+  }
 }

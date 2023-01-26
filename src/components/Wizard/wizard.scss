@@ -12,274 +12,275 @@
  * columns.  */
 .form-row,
 .form-col {
-    & > .form-label {
-        @extend .col-form-label;
-        @extend .col-2;
-    }
+  & > .form-label {
+    @extend .col-form-label;
+    @extend .col-2;
+  }
 
-    & > .form-input {
-        @extend .col-10;
-    }
+  & > .form-input {
+    @extend .col-10;
+  }
 
-    & > .form-input-check,
-    & > .form-input-range {
-        padding-top: 0.5rem;
-    }
+  & > .form-input-check,
+  & > .form-input-range {
+    padding-top: 0.5rem;
+  }
 
-    & > .row-help-text {
-        @extend .offset-2;
-        @extend .col-10;
-    }
+  & > .row-help-text {
+    @extend .offset-2;
+    @extend .col-10;
+  }
 }
 
 .form-buttons {
-    display: flex;
-    justify-content: end;
+  display: flex;
+  justify-content: end;
 
-    .btn:not(:last-child) {
-        margin-right: 0.5rem;
-    }
+  .btn:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 }
 
 .form-row {
-    --form-row-spacing: 1rem;
+  --form-row-spacing: 1rem;
 }
 
 .form-row + .form-row {
-    margin-top: var(--form-row-spacing);
+  margin-top: var(--form-row-spacing);
 }
 
 /* Use a specificity hack to override react-select styles without using
  * !important */
 .react-select__control.react-select__control {
-    border: bootstrap.$input-border-width solid bootstrap.$input-border-color;
-    transition: bootstrap.$input-transition;
+  border: bootstrap.$input-border-width solid bootstrap.$input-border-color;
+  transition: bootstrap.$input-transition;
+
+  &:hover {
+    border-color: var(--bs-gray-400);
+  }
+
+  &--is-focused {
+    background-color: bootstrap.$input-focus-bg;
+    border-color: bootstrap.$input-focus-border-color;
+    outline: 0;
+    box-shadow: bootstrap.$input-box-shadow, bootstrap.$input-focus-box-shadow;
 
     &:hover {
-        border-color: var(--bs-gray-400);
+      border-color: bootstrap.$input-focus-border-color;
     }
-
-    &--is-focused {
-        background-color: bootstrap.$input-focus-bg;
-        border-color: bootstrap.$input-focus-border-color;
-        outline: 0;
-        box-shadow: bootstrap.$input-box-shadow, bootstrap.$input-focus-box-shadow;
-
-        &:hover {
-            border-color: bootstrap.$input-focus-border-color;
-        }
-    }
+  }
 }
 
 /* The default accordion style has a border-bottom on the card header and when
  * the card body is collapsed, the card and card header borders overlap. */
 .card-accordion {
-    .card-header {
-        border-bottom: none;
-    }
+  .card-header {
+    border-bottom: none;
+  }
 
-    .card-body {
-        border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
-    }
+  .card-body {
+    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  }
 }
 
 /* NewEditImportPane specific components */
 
 .edit-form {
-    .edit-entry {
-        display: flex;
-    }
+  .edit-entry {
+    display: flex;
+  }
 
-    .form-check {
-        @extend .col-11;
-        
-        align-self: center;
-    }
+  .form-check {
+    @extend .col-11;
 
-    .delete-col {
-       @extend .col-1;
+    align-self: center;
+  }
 
-       .btn {
-            border-radius: 0.25em;
-            font-size: 0.75em;
-            margin: 0.25em 0;
-            padding: 0.5em 1em;
-            width: 100%;
-        }
+  .delete-col {
+    @extend .col-1;
+
+    .btn {
+      border-radius: 0.25em;
+      font-size: 0.75em;
+      margin: 0.25em 0;
+      padding: 0.5em 1em;
+      width: 100%;
     }
+  }
 }
 
 .new-form .form-buttons,
 .import-form .form-buttons,
 .edit-form .form-buttons {
-    margin-top: 1rem;
+  margin-top: 1rem;
 
-    .btn {
-        @extend .col-2;
-    }
+  .btn {
+    @extend .col-2;
+  }
 }
 
 /* Wizard specific components */
 
 .wizard {
-    margin-top: 1em;
-    margin-bottom: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 
-    & > .card {
-        & > .card-header {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        & > .card-body {
-            padding-top: 0;
-            padding-left: 0;
-            padding-right: 0;
-
-            .accordion-flush > .accordion-item:last-child {
-                border-bottom: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
-            }
-
-            .form-buttons {
-                margin-top: 1rem;
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-        }
+  & > .card {
+    & > .card-header {
+      display: flex;
+      justify-content: space-between;
     }
+
+    & > .card-body {
+      padding-top: 0;
+      padding-left: 0;
+      padding-right: 0;
+
+      .accordion-flush > .accordion-item:last-child {
+        border-bottom: var(--bs-accordion-border-width) solid
+          var(--bs-accordion-border-color);
+      }
+
+      .form-buttons {
+        margin-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  }
 }
 
 .wizard-section-header {
-    font-size: 1.125rem;
-    background-color: bootstrap.$blue-100;
+  font-size: 1.125rem;
+  background-color: bootstrap.$blue-100;
 }
 
 .wizard-buttons {
-    display: flex;
-    justify-content: end;
-    padding: 1rem;
+  display: flex;
+  justify-content: end;
+  padding: 1rem;
 
-    > .btn:not(:last-child) {
-        margin-right: 0.5rem;
-    }
+  > .btn:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 
-    .copy-button {
-        cursor: copy;
-    }
+  .copy-button {
+    cursor: copy;
+  }
 }
 
 .tabbed-input {
-    .tabs-controls {
-        display: flex;
-        justify-content: end;
-        flex-grow: 1;
-    }
+  .tabs-controls {
+    display: flex;
+    justify-content: end;
+    flex-grow: 1;
+  }
 
-    .access-key-input {
-        @extend .col-1;
-    }
+  .access-key-input {
+    @extend .col-1;
+  }
 
-    .form-row {
-        --form-row-spacing: 0.5rem;
-    }
+  .form-row {
+    --form-row-spacing: 0.5rem;
+  }
 
-    .new-button {
-        margin-bottom: 3px;
-    }
+  .new-button {
+    margin-bottom: 3px;
+  }
 
-    .form-buttons .col {
-        @extend .col-2;
+  .form-buttons .col {
+    @extend .col-2;
 
-        .btn {
-            width: 100%;
-        }
+    .btn {
+      width: 100%;
     }
+  }
 }
 
 .meta-frequency-input {
-    .lifetime-enabled-input {
-        @extend .col-2;
+  .lifetime-enabled-input {
+    @extend .col-2;
 
-        padding-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .custom-input {
+    padding-top: 0.5rem;
+
+    .custom-input-col,
+    .custom-help-col,
+    .custom-header-col {
+      @extend .col-5;
     }
 
-    .custom-input {
-        padding-top: 0.5rem;
+    .custom-trash-col {
+      @extend .col-1;
+      @extend .offset-1;
 
-        .custom-input-col,
-        .custom-help-col,
-        .custom-header-col {
-            @extend .col-5;
-        }
-
-        .custom-trash-col {
-            @extend .col-1;
-            @extend .offset-1;
-
-            .btn {
-                width: 100%;
-            }
-        }
+      .btn {
+        width: 100%;
+      }
     }
+  }
 
-    .form-buttons .col {
-        @extend .col-4;
+  .form-buttons .col {
+    @extend .col-4;
 
-        .btn {
-            width: 100%;
-        }
+    .btn {
+      width: 100%;
     }
+  }
 
-    .form-row {
-        --form-row-spacing: 0.25rem;
-    }
+  .form-row {
+    --form-row-spacing: 0.25rem;
+  }
 }
 
 .meta-priority-input {
-    .form-col {
-        @extend .col-6;
+  .form-col {
+    @extend .col-6;
 
-        display: flex;
-    }
+    display: flex;
+  }
 
-    .col-help-text {
-        @extend .col-6;
-    }
+  .col-help-text {
+    @extend .col-6;
+  }
 }
 
 .json-modal {
-    .modal-content {
-        overflow: hidden;
-    }
+  .modal-content {
+    overflow: hidden;
+  }
 
-    .modal-body {
-        background: bootstrap.$gray-200;
-    }
+  .modal-body {
+    background: bootstrap.$gray-200;
+  }
 
-    .button-copy {
-        cursor: copy;
-    }
+  .button-copy {
+    cursor: copy;
+  }
 }
 
 .__json-pretty__ {
-    color: bootstrap.$secondary;
-    line-height: 1.3;
-    margin-bottom: 0;
-    overflow: auto;
+  color: bootstrap.$secondary;
+  line-height: 1.3;
+  margin-bottom: 0;
+  overflow: auto;
 
-    .__json-key__ {
-        color: bootstrap.$blue-500;
-    }
+  .__json-key__ {
+    color: bootstrap.$blue-500;
+  }
 
-    .__json-value__ {
-        color: bootstrap.$red-500;
-    }
+  .__json-value__ {
+    color: bootstrap.$red-500;
+  }
 
-    .__json-string__ {
-        color: bootstrap.$green-500;
-    }
+  .__json-string__ {
+    color: bootstrap.$green-500;
+  }
 
-    .__json-boolean__ {
-        color: bootstrap.$orange-500;
-    }
+  .__json-boolean__ {
+    color: bootstrap.$orange-500;
+  }
 }

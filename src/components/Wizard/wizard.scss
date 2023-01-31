@@ -134,6 +134,15 @@
   }
 }
 
+.experiment-import-message-form .messageId-select {
+  /* Use a specificity hack to override react-select styles without using
+   * !important */
+  .react-select__single-value.react-select__single-value,
+  .react-select__option.react-select__option {
+    font-family: defs.$monospace-font;
+  }
+}
+
 /* Wizard specific components */
 
 .wizard {

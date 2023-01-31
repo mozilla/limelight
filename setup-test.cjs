@@ -5,8 +5,27 @@
 
 const nodeCrypto = require("node:crypto");
 
-Object.defineProperty(globalThis, "crypto", {
-  value: {
-    randomUUID: () => nodeCrypto.randomUUID(),
+Object.defineProperties(globalThis, {
+  crypto: {
+    value: {
+      randomUUID: () => nodeCrypto.randomUUID(),
+    },
+  },
+  fetch: {
+    value: () => {
+      throw new Error("fetch was not mocked");
+    },
+    writable: true, // Allow mocking.
+  },
+  Response: {
+    value: class Response {
+      constructor(body) {
+        this._body = body;
+      }
+
+      async json() {
+        return JSON.parse(this._body);
+      }
+    },
   },
 });

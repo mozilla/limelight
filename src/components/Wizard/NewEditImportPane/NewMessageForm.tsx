@@ -15,14 +15,11 @@ import {
   RegisteredFormControl,
   RegisteredFormCheck,
 } from "../../RegisteredFormControl";
+import { NewMessageFormProps } from "./propTypes";
 
 interface NewMessageFormData {
   id: string;
   template: MessageTemplate;
-}
-
-export interface NewMessageFormProps {
-  onNewMessage: (id: string, template: MessageTemplate) => void;
 }
 
 export default function NewMessageForm({ onNewMessage }: NewMessageFormProps) {

@@ -10,29 +10,20 @@ import Form from "react-bootstrap/Form";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 
 import FormRow from "../FormRow";
-import { MessageTemplate } from "../messageTypes";
 import { RegisteredFormControl } from "../../RegisteredFormControl";
 import { validateJsonAsObject } from "../validators";
 import deserialize from "../deserializers";
-import WizardFormData from "../formData";
 import ErrorMessage from "../../ErrorMessage";
 import { useToastsContext } from "../../../hooks/useToasts";
+import { ImportMessageFormProps } from "./propTypes";
 
 interface JsonMessageImportFormData {
   messageJson: string;
 }
 
-export interface JsonMessageImportFormProps {
-  onImportMessage: (
-    messageId: string,
-    messageTemplate: MessageTemplate,
-    formData: WizardFormData
-  ) => void;
-}
-
 export default function JsonMessageImportForm({
   onImportMessage,
-}: JsonMessageImportFormProps) {
+}: ImportMessageFormProps) {
   const { addToast } = useToastsContext();
   const formContext = useForm<JsonMessageImportFormData>({ mode: "onChange" });
   const {

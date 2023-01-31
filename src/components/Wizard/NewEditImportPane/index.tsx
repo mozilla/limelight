@@ -9,21 +9,18 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
 
-import NewMessageForm, { NewMessageFormProps } from "./NewMessageForm";
-import EditMessageForm, { EditMessageFormProps } from "./EditMessageForm";
-import JsonMessageImportForm, {
-  JsonMessageImportFormProps,
-} from "./JsonImportMessageForm";
+import NewMessageForm from "./NewMessageForm";
+import EditMessageForm from "./EditMessageForm";
+import JsonMessageImportForm from "./JsonImportMessageForm";
+import ExperimentMessageImportForm from "./ExperimentImportMessageForm";
+import NewEditImportPaneProps from "./propTypes";
 
 enum EventKeys {
-  New = "new",
-  Edit = "edit",
-  Import = "import",
+  New = "NEW",
+  Edit = "EDIT",
+  JsonImport = "JSON_IMPORT",
+  ExperimentImport = "EXPERIMENT_IMPORT",
 }
-
-type NewEditImportPaneProps = NewMessageFormProps &
-  EditMessageFormProps &
-  JsonMessageImportFormProps;
 
 export default function NewEditImportPane({
   onNewMessage,
@@ -45,7 +42,12 @@ export default function NewEditImportPane({
                 <Nav.Link eventKey={EventKeys.Edit}>Edit</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey={EventKeys.Import}>Import</Nav.Link>
+                <Nav.Link eventKey={EventKeys.JsonImport}>Import JSON</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey={EventKeys.ExperimentImport}>
+                  Import from Nimbus
+                </Nav.Link>
               </Nav.Item>
             </Nav>
           </Card.Header>
@@ -62,8 +64,13 @@ export default function NewEditImportPane({
                   messages={messages}
                 />
               </Tab.Pane>
-              <Tab.Pane eventKey={EventKeys.Import}>
+              <Tab.Pane eventKey={EventKeys.JsonImport}>
                 <JsonMessageImportForm onImportMessage={onImportMessage} />
+              </Tab.Pane>
+              <Tab.Pane eventKey={EventKeys.ExperimentImport}>
+                <ExperimentMessageImportForm
+                  onImportMessage={onImportMessage}
+                />
               </Tab.Pane>
             </Tab.Content>
           </Card.Body>

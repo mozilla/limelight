@@ -13,17 +13,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import FormRow from "../FormRow";
-import { SavedMessages } from "../../../hooks/useSavedMessages";
+import { EditMessageFormProps } from "./propTypes";
 import { RegisteredFormCheck } from "../../RegisteredFormControl";
 
 interface EditMessageFormData {
   id: string;
-}
-
-export interface EditMessageFormProps {
-  onEditMessage: (id: string) => void;
-  onDeleteMessage: (key: string) => void;
-  messages: SavedMessages;
 }
 
 export default function EditMessageForm({

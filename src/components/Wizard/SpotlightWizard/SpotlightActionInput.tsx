@@ -13,7 +13,7 @@ import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../../RegisteredFormControl";
-import { validateJsonAsObject } from "../validators";
+import { validateJsonAsObjectOptional } from "../validators";
 
 interface SpotlightActionInputProps {
   controlPrefix: FieldPathByValue<
@@ -74,7 +74,7 @@ export default function SpotlightActionInput({
           name={`${controlPrefix}.data`}
           register={register}
           registerOptions={{
-            validate: !disabled ? validateJsonAsObject : undefined,
+            validate: !disabled ? validateJsonAsObjectOptional : undefined,
           }}
           disabled={disabled}
           as="textarea"

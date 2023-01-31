@@ -39,7 +39,9 @@ function serializeBaseMessage(
     id,
     targeting: data.meta.targeting,
     groups: data.meta.groups,
-    trigger: JSON.parse(data.meta.trigger) as object,
+    trigger: data.meta.trigger
+      ? (JSON.parse(data.meta.trigger) as object)
+      : undefined,
   };
 
   if (

@@ -25,6 +25,14 @@ export function validateJsonAsObject(s: string): true | string {
   return true;
 }
 
+export function validateJsonAsObjectOptional(s: string): true | string {
+  if (s.trim().length === 0) {
+    return true;
+  }
+
+  return validateJsonAsObject(s);
+}
+
 export async function validateJexl(s: string): Promise<true | string> {
   try {
     await evalJexl(s);

@@ -12,7 +12,11 @@ import FrequencyInput from "./FrequencyInput";
 import MessageGroupsInput from "./MessageGroupsInput";
 import PriorityInput from "./PriorityInput";
 import { RegisteredFormControl } from "../RegisteredFormControl";
-import { validateJexl, validateJsonAsObject } from "./validators";
+import {
+  validateJexl,
+  validateJsonAsObject,
+  validateJsonAsObjectOptional,
+} from "./validators";
 import ErrorMessage from "../ErrorMessage";
 import WizardFormData from "./formData";
 import FormRow from "./FormRow";
@@ -75,7 +79,9 @@ export function WizardMetaSection({
           register={register}
           registerOptions={{
             required: triggerRequired,
-            validate: validateJsonAsObject,
+            validate: triggerRequired
+              ? validateJsonAsObject
+              : validateJsonAsObjectOptional,
           }}
           as="textarea"
           rows={3}

@@ -93,7 +93,7 @@ jobs:
       run: echo "SENTRY_RELEASE=${GITHUB_SHA}" >> ${GITHUB_ENV}
 
     - name: Build
-      run: npm run build -- --public-url "https://mozilla.github.io/limelight/"
+      run: env NODE_ENV=production npm run build -- --public-url "https://mozilla.github.io/limelight/"
       env:
         SENTRY_DSN: "https://ee81b39e144b4223b6b0b93ac7b093ae@o1069899.ingest.sentry.io/4504371030327296"
 

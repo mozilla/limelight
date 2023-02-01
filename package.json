@@ -77,7 +77,8 @@
   "@parcel/transformer-js": {
     "inlineEnvironment": [
       "SENTRY_DSN",
-      "SENTRY_RELEASE"
+      "SENTRY_RELEASE",
+      "NODE_ENV"
     ]
   }
 }

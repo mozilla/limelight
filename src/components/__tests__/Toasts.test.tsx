@@ -4,7 +4,7 @@
  */
 
 import { describe, expect, test } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import { useEffect } from "react";
 import userEvent from "@testing-library/user-event";
 
@@ -18,6 +18,7 @@ function Component() {
   useEffect(() => {
     addToast("toast one title", "body of toast one");
     addToast("toast two title", () => <p>rich toast</p>);
+    addToast("toast three title", "autohiding toast", { autohide: true });
   }, []);
 
   return (
@@ -31,29 +32,42 @@ describe("Toasts", () => {
   test("lifecycle", async () => {
     render(<Component />);
 
-    // Both toasts should render.
+    // All toasts should render.
     screen.getByText("toast one title");
     screen.getByText("body of toast one");
     screen.getByText("toast two title");
     screen.getByText("rich toast");
+    screen.getByText("toast three title");
+    screen.getByText("autohiding toast");
 
-    // Both toasts should have a close button.
-    expect(screen.getAllByLabelText("Close").length).toEqual(2);
+    // All toasts should have a close button.
+    expect(screen.getAllByLabelText("Close").length).toEqual(3);
 
     // Remove the first toast.
     await userEvent.click(screen.getAllByLabelText("Close")[0]);
 
-    // Only the second toast should render.
+    // Only the second  and third toasts should render.
     expect(screen.queryByText("toast one title")).toBeNull();
     expect(screen.queryByText("body of toast one")).toBeNull();
     screen.getByText("toast two title");
     screen.getByText("rich toast");
+    screen.getByText("toast three title");
+    screen.getByText("autohiding toast");
 
     // Remove the second toast.
-    await userEvent.click(screen.getByLabelText("Close"));
+    await userEvent.click(screen.getAllByLabelText("Close")[0]);
 
-    // No toasts should render.
+    // Only the third toast should render.
     expect(screen.queryByText("toast two title")).toBeNull();
     expect(screen.queryByText("rich toast")).toBeNull();
+    screen.getByText("toast three title");
+    screen.getByText("autohiding toast");
+
+    // Wait for the third toast to auto-dismiss
+    await act(() => new Promise((resolve) => setTimeout(resolve, 3500)));
+
+    // No toasts should render.
+    expect(screen.queryByText("toast three title")).toBeNull();
+    expect(screen.queryByText("autohiding toast")).toBeNull();
   });
 });

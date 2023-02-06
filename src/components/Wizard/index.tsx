@@ -23,6 +23,7 @@ import WizardFormData from "./formData";
 import { WizardMetaSection } from "./WizardSections";
 import serializeMessage from "./serializers";
 import useSavedMessages from "../../hooks/useSavedMessages";
+import { useToastsContext } from "../../hooks/useToasts";
 
 type MessageInfo = {
   id: string;
@@ -70,6 +71,7 @@ export default function Wizard() {
   const { messages, saveMessage, deleteMessage } = useSavedMessages();
   const formContext = useForm<WizardFormData>();
   const { reset, setValue } = formContext;
+  const { addToast } = useToastsContext();
 
   if (typeof messageInfo === "undefined") {
     const handleNewMessage = (id: string, template: MessageTemplate) =>
@@ -169,6 +171,7 @@ export default function Wizard() {
       if (json) {
         const jsonStr = JSON.stringify(json);
         const uri = `about:messagepreview?json=${btoa(jsonStr)}`;
+        addToast("Success", "Copied!", { autohide: true });
 
         return navigator.clipboard.writeText(uri);
       }
@@ -181,7 +184,7 @@ export default function Wizard() {
     try {
       const json = getValues();
       if (json) {
-        alert("Message Saved!");
+        addToast("Success", "Message Saved!", { autohide: true });
         saveMessage(messageInfo.id, messageInfo.template, json);
       }
     } catch (e) {

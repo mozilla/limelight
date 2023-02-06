@@ -16,9 +16,15 @@ interface ToastsProps {
 
 function Toasts() {
   const context = useToastsContext();
+  const defaultDelay = 3000;
 
   const toasts = context.toasts.map((toast) => (
-    <Toast key={toast.id} onClose={() => context.dismissToast(toast.id)}>
+    <Toast
+      key={toast.id}
+      onClose={() => context.dismissToast(toast.id)}
+      autohide={toast.autohide}
+      delay={defaultDelay}
+    >
       <Toast.Header>
         <div className="toast-title">{toast.title}</div>
       </Toast.Header>
@@ -29,7 +35,11 @@ function Toasts() {
   ));
 
   return (
-    <ToastContainer position="bottom-end" className="me-2 mb-2">
+    <ToastContainer
+      position="bottom-end"
+      className="me-2 mb-2"
+      containerPosition="fixed"
+    >
       {toasts}
     </ToastContainer>
   );

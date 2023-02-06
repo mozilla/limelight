@@ -11,11 +11,16 @@ export interface Toast {
   id: string;
   title: string;
   body: ToastBody;
+  autohide: boolean;
 }
 
 export interface UseToasts {
   toasts: Toast[];
-  addToast: (title: string, body: ToastBody) => void;
+  addToast: (
+    title: string,
+    body: ToastBody,
+    options?: { autohide?: boolean }
+  ) => void;
   dismissToast: (id: string) => void;
 }
 
@@ -24,16 +29,24 @@ export const ToastsContext = createContext<UseToasts>({} as UseToasts);
 export default function useToasts(): UseToasts {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback((title: string, body: ToastBody) => {
-    setToasts((oldToasts) => [
-      ...oldToasts,
-      {
-        id: window.crypto.randomUUID(),
-        title,
-        body,
-      },
-    ]);
-  }, []);
+  const addToast = useCallback(
+    (
+      title: string,
+      body: ToastBody,
+      { autohide = false }: { autohide?: boolean } = {}
+    ) => {
+      setToasts((oldToasts) => [
+        ...oldToasts,
+        {
+          id: window.crypto.randomUUID(),
+          title,
+          body,
+          autohide,
+        },
+      ]);
+    },
+    []
+  );
 
   const dismissToast = useCallback((id: string) => {
     setToasts((oldToasts) => {

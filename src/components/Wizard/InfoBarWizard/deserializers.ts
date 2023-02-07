@@ -14,6 +14,8 @@ export default function deserializeInfoBarContent(
   ctx: DeserializationContext,
   data: InfoBarMessageContent
 ): InfoBarWizardFormData["content"] {
+  ctx.warnOnUnknown(data, ["text", "buttons", "type", "priority"]);
+
   return {
     text: deserializeLocalizableText(ctx.field("text"), data.text),
     buttons: deserializeInfoBarButtons(ctx.field("buttons"), data.buttons),
@@ -29,11 +31,23 @@ export function deserializeInfoBarButtons(
   ctx: DeserializationContext,
   data: InfoBarMessageContent["buttons"]
 ): InfoBarWizardFormData["content"]["buttons"] {
-  return data.map((btn, index) => ({
-    label: deserializeLocalizableText(ctx.field(`${index}.label`), btn.label),
-    primary: btn.primary ?? false,
-    accessKey: btn.accessKey ?? "",
-    action: JSON.stringify(btn.action, undefined, 2),
-    supportPage: btn.supportPage ?? "",
-  }));
+  return data.map((btn, index) => {
+    const btnCtx = ctx.field(`${index}.label`);
+
+    btnCtx.warnOnUnknown(btn, [
+      "label",
+      "primary",
+      "accessKey",
+      "action",
+      "supportPage",
+    ]);
+
+    return {
+      label: deserializeLocalizableText(btnCtx, btn.label),
+      primary: btn.primary ?? false,
+      accessKey: btn.accessKey ?? "",
+      action: JSON.stringify(btn.action, undefined, 2),
+      supportPage: btn.supportPage ?? "",
+    };
+  });
 }

@@ -58,6 +58,20 @@ export default function deserializeLocalizableText(
     }
   }
 
+  ctx.warnOnUnknown(data, [
+    "raw",
+    "string_id",
+    "zap",
+    "color",
+    "fontSize",
+    "fontWeight",
+    "letterSpacing",
+    "lineHeight",
+    "marginBlock",
+    "marginInline",
+    "paddingBlock",
+    "paddingInline",
+  ]);
   if ("raw" in data) {
     return {
       localized: false,

@@ -161,6 +161,8 @@ export function deserializeSpotlightLogo(
 ): SpotlightLogoFormData {
   const hasImageURL = data.imageURL !== "none";
 
+  ctx.warnOnUnknown(data, ["imageURL", "height"]);
+
   return {
     hasImageURL,
     imageURL: hasImageURL ? data.imageURL || DEFAULT_LOGO_URL : "",
@@ -175,6 +177,8 @@ export function deserializeSpotlightButton(
   if (typeof data === "undefined") {
     return defaultSpotlightButtonFormData({ enabled: false });
   }
+
+  ctx.warnOnUnknown(data, ["label", "action"]);
 
   return {
     enabled: true,
@@ -195,6 +199,10 @@ export function deserializeSpotlightDismissButton(
   ctx: DeserializerContext,
   data: SpotlightDismissButton | undefined
 ): SpotlightDismissButtonFormData {
+  if (typeof data === "object" && data !== null) {
+    ctx.warnOnUnknown(data, ["action"]);
+  }
+
   return {
     enabled: data?.action?.dismiss === true,
   };

@@ -35,6 +35,17 @@ interface JsonPreviewProps {
   onHide: () => void;
 }
 
+interface SaveModalProps {
+  messageInfo: MessageInfo;
+  data: WizardFormData | undefined;
+  onHide: () => void;
+  saveMessage: (
+    messageId: string,
+    messageTemplate: MessageTemplate,
+    data: WizardFormData
+  ) => void;
+}
+
 function JsonPreview({ data, onHide }: JsonPreviewProps) {
   const handleCopy = () =>
     void navigator.clipboard.writeText(JSON.stringify(data));
@@ -63,10 +74,49 @@ function JsonPreview({ data, onHide }: JsonPreviewProps) {
   );
 }
 
+function SaveModal({ messageInfo, data, onHide, saveMessage }: SaveModalProps) {
+  const handleSave = () => {
+    if (data !== undefined) {
+      saveMessage(messageInfo.id, messageInfo.template, data);
+      onHide();
+    }
+  };
+  const show = typeof data !== "undefined";
+
+  return (
+    <Modal show={show} onHide={onHide}>
+      {show && (
+        <>
+          <Modal.Header closeButton>
+            <Modal.Title>Save Over Existing Message?</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            A saved message with this ID already exists. Do you want to
+            overwrite it?
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={onHide} className="button-secondary btn-danger">
+              Don&apos;t Save
+            </Button>
+            <Button onClick={handleSave} className="button-primary">
+              Save Anyway
+            </Button>
+          </Modal.Footer>
+        </>
+      )}
+    </Modal>
+  );
+}
+
 export default function Wizard() {
   const [messageInfo, setMessageInfo] = useState<MessageInfo | undefined>(
     undefined
   );
+  const [saveModalData, setSaveModalData] = useState<
+    WizardFormData | undefined
+  >(undefined);
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
   const { messages, saveMessage, deleteMessage } = useSavedMessages();
   const formContext = useForm<WizardFormData>();
@@ -140,6 +190,8 @@ export default function Wizard() {
   };
   const closeModal = () => setPreviewJson(undefined);
 
+  const closeSaveModal = () => setSaveModalData(undefined);
+
   const { trigger, getValues } = formContext;
 
   const validate = async (): Promise<object | null> => {
@@ -182,10 +234,16 @@ export default function Wizard() {
 
   const handleSaveMessage = () => {
     try {
+      const messageIds = Object.keys(messages);
       const json = getValues();
+
       if (json) {
-        addToast("Success", "Message Saved!", { autohide: true });
-        saveMessage(messageInfo.id, messageInfo.template, json);
+        if (messageIds.includes(messageInfo.id)) {
+          setSaveModalData(json);
+        } else {
+          addToast("Success", "Message Saved!", { autohide: true });
+          saveMessage(messageInfo.id, messageInfo.template, json);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -233,6 +291,12 @@ export default function Wizard() {
         </Card>
       </Container>
       <JsonPreview data={previewJson} onHide={closeModal} />
+      <SaveModal
+        messageInfo={messageInfo}
+        data={saveModalData}
+        onHide={closeSaveModal}
+        saveMessage={saveMessage}
+      />
     </>
   );
 }

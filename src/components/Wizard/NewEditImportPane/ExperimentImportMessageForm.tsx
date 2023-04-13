@@ -85,32 +85,57 @@ function extractExperimentMessages(
       if (!FEATURE_IDS.includes(feature.featureId)) {
         continue;
       }
-
       if (
         "template" in feature.value &&
-        typeof feature.value.template === "string" &&
-        SUPPORTED_TEMPLATES.includes(feature.value.template) &&
-        "id" in feature.value &&
-        typeof feature.value.id === "string"
+        typeof feature.value.template === "string"
       ) {
+        let potentialMessages: Record<string, unknown>[];
+
         if (
-          feature.value.template === "spotlight" &&
-          typeof feature.value.content === "object" &&
-          feature.value.content &&
-          "template" in feature.value.content &&
-          feature.value.content?.template !== "multistage"
+          feature.value.template === "multi" &&
+          "messages" in feature.value &&
+          Array.isArray(feature.value.messages) &&
+          feature.value.messages.every(
+            (message) => typeof message === "object" && message !== null
+          )
         ) {
-          continue;
+          potentialMessages = feature.value.messages as Record<
+            string,
+            unknown
+          >[];
+        } else {
+          potentialMessages = [feature.value];
         }
 
-        messages.push({
-          experimentSlug: recipe.slug,
-          branchSlug: branch.slug,
-          messageId: feature.value.id,
-          template: feature.value.template,
-          json: feature.value,
-          recipe: recipe,
-        });
+        for (const message of potentialMessages) {
+          if (
+            "id" in message &&
+            typeof message.id === "string" &&
+            "template" in message &&
+            typeof message.template === "string" &&
+            SUPPORTED_TEMPLATES.includes(message.template)
+          ) {
+            if (
+              message.template === "spotlight" &&
+              "content" in message &&
+              typeof message.content === "object" &&
+              message.content !== null &&
+              "template" in message.content &&
+              message.content?.template !== "multistage"
+            ) {
+              continue;
+            }
+
+            messages.push({
+              experimentSlug: recipe.slug,
+              branchSlug: branch.slug,
+              messageId: message.id,
+              template: message.template,
+              json: message,
+              recipe: recipe,
+            });
+          }
+        }
       }
     }
   }

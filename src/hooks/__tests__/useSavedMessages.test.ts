@@ -7,10 +7,8 @@ import { afterEach, beforeAll, describe, expect, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { useEffect } from "react";
 
-import WizardFormData, {
-  InfoBarWizardFormData,
-} from "../../components/Wizard/formData";
 import useSavedMessages from "../useSavedMessages";
+import { Message } from "../../components/Wizard/messageTypes";
 
 describe("useSavedMessages", () => {
   beforeAll(() => {
@@ -30,38 +28,16 @@ describe("useSavedMessages", () => {
     });
   });
 
-  const FORM_DATA: WizardFormData = {
+  const MESSAGE: Message = {
+    id: "message-id",
+    targeting: "true",
+    template: "infobar",
     content: {
-      text: {
-        localized: false,
-        value: "hello, world",
-      },
-      buttons: [],
       type: "tab",
-      priority: {
-        enabled: false,
-        value: 0,
-      },
+      text: "Hello, world",
+      buttons: [],
     },
-    meta: {
-      targeting: "true",
-      groups: [],
-      trigger: "{}",
-      frequency: {
-        lifetime: {
-          enabled: false,
-          value: 0,
-        },
-
-        custom: [],
-      },
-      priority: {
-        enabled: false,
-        value: 0,
-        order: 0,
-      },
-    },
-  } satisfies WizardFormData & InfoBarWizardFormData;
+  };
 
   test("setting messages", () => {
     const {
@@ -70,17 +46,14 @@ describe("useSavedMessages", () => {
       const { messages, saveMessage } = useSavedMessages();
 
       useEffect(() => {
-        saveMessage("message-id", "infobar", FORM_DATA);
+        saveMessage(MESSAGE);
       }, []);
 
       return messages;
     });
 
     expect(messages).toEqual({
-      "message-id": {
-        template: "infobar",
-        formData: FORM_DATA,
-      },
+      "message-id": MESSAGE,
     });
 
     expect(localStorage.length).toEqual(1);
@@ -88,7 +61,7 @@ describe("useSavedMessages", () => {
     const savedMessages = localStorage.getItem("savedMessages");
     expect(typeof savedMessages).toEqual("string");
     expect(JSON.parse(savedMessages as string)).toEqual({
-      "message-id": { template: "infobar", formData: FORM_DATA },
+      "message-id": MESSAGE,
     });
   });
 
@@ -96,10 +69,7 @@ describe("useSavedMessages", () => {
     localStorage.setItem(
       "savedMessages",
       JSON.stringify({
-        "message-id": {
-          template: "infobar",
-          formData: FORM_DATA,
-        },
+        "message-id": MESSAGE,
       })
     );
 
@@ -109,7 +79,7 @@ describe("useSavedMessages", () => {
       },
     } = renderHook(() => useSavedMessages());
     expect(messages).toEqual({
-      "message-id": { template: "infobar", formData: FORM_DATA },
+      "message-id": MESSAGE,
     });
   });
 
@@ -117,10 +87,7 @@ describe("useSavedMessages", () => {
     localStorage.setItem(
       "savedMessages",
       JSON.stringify({
-        "message-id": {
-          template: "infobar",
-          formData: FORM_DATA,
-        },
+        "message-id": MESSAGE,
       })
     );
 

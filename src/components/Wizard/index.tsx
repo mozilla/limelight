@@ -16,14 +16,17 @@ import ListGroup from "react-bootstrap/ListGroup";
 import JSONPretty from "react-json-pretty";
 
 import NewEditImportPane from "./NewEditImportPane";
-import { MessageTemplate } from "./messageTypes";
+import { Message, MessageTemplate } from "./messageTypes";
 import InfoBarWizard from "./InfoBarWizard";
 import SpotlightWizard from "./SpotlightWizard";
 import WizardFormData from "./formData";
 import { WizardMetaSection } from "./WizardSections";
 import serializeMessage from "./serializers";
-import useSavedMessages from "../../hooks/useSavedMessages";
+import useSavedMessages, {
+  UseSavedMessages,
+} from "../../hooks/useSavedMessages";
 import { useToastsContext } from "../../hooks/useToasts";
+import deserialize from "./deserializers";
 
 type MessageInfo = {
   id: string;
@@ -36,14 +39,9 @@ interface JsonPreviewProps {
 }
 
 interface SaveModalProps {
-  messageInfo: MessageInfo;
-  data: WizardFormData | undefined;
+  message: Message | undefined;
   onHide: () => void;
-  saveMessage: (
-    messageId: string,
-    messageTemplate: MessageTemplate,
-    data: WizardFormData
-  ) => void;
+  saveMessage: UseSavedMessages["saveMessage"];
 }
 
 function JsonPreview({ data, onHide }: JsonPreviewProps) {
@@ -74,14 +72,14 @@ function JsonPreview({ data, onHide }: JsonPreviewProps) {
   );
 }
 
-function SaveModal({ messageInfo, data, onHide, saveMessage }: SaveModalProps) {
+function SaveModal({ message, onHide, saveMessage }: SaveModalProps) {
   const handleSave = () => {
-    if (data !== undefined) {
-      saveMessage(messageInfo.id, messageInfo.template, data);
+    if (message !== undefined) {
+      saveMessage(message);
       onHide();
     }
   };
-  const show = typeof data !== "undefined";
+  const show = typeof message !== "undefined";
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -114,9 +112,9 @@ export default function Wizard() {
   const [messageInfo, setMessageInfo] = useState<MessageInfo | undefined>(
     undefined
   );
-  const [saveModalData, setSaveModalData] = useState<
-    WizardFormData | undefined
-  >(undefined);
+  const [saveModalData, setSaveModalData] = useState<Message | undefined>(
+    undefined
+  );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
   const { messages, saveMessage, deleteMessage } = useSavedMessages();
   const formContext = useForm<WizardFormData>();
@@ -131,12 +129,38 @@ export default function Wizard() {
       });
 
     const handleEditMessage = (id: string) => {
-      const data = messages[id];
+      const message = messages[id];
+
+      let result;
+      try {
+        result = deserialize(message);
+      } catch (e) {
+        console.error(e);
+        addToast(
+          "Could not load message",
+          "See browser console for full details"
+        );
+        return;
+      }
+
+      if (result.warnings.length) {
+        console.warn(`Message ${result.id} imported with warnings: `);
+        for (const { field, message } of result.warnings) {
+          console.warn(`[${field}]: ${message}`);
+        }
+
+        addToast(
+          "Message imported with warnings",
+          "See browser console for full details"
+        );
+      }
+
       setMessageInfo({
-        id: id,
-        template: data.template,
+        id: result.id,
+        template: result.template,
       });
-      for (const [key, value] of Object.entries(data.formData)) {
+
+      for (const [key, value] of Object.entries(result.formData)) {
         setValue(
           key as keyof WizardFormData,
           value as WizardFormData[keyof WizardFormData]
@@ -194,7 +218,7 @@ export default function Wizard() {
 
   const { trigger, getValues } = formContext;
 
-  const validate = async (): Promise<object | null> => {
+  const validate = async (): Promise<Message | null> => {
     if (await trigger(undefined, { shouldFocus: true })) {
       return serializeMessage(
         messageInfo.id,
@@ -232,17 +256,17 @@ export default function Wizard() {
     }
   };
 
-  const handleSaveMessage = () => {
+  const handleSaveMessage = async (): Promise<void> => {
     try {
       const messageIds = Object.keys(messages);
-      const json = getValues();
+      const json = await validate();
 
       if (json) {
         if (messageIds.includes(messageInfo.id)) {
           setSaveModalData(json);
         } else {
           addToast("Success", "Message Saved!", { autohide: true });
-          saveMessage(messageInfo.id, messageInfo.template, json);
+          saveMessage(json);
         }
       }
     } catch (e) {
@@ -292,8 +316,7 @@ export default function Wizard() {
       </Container>
       <JsonPreview data={previewJson} onHide={closeModal} />
       <SaveModal
-        messageInfo={messageInfo}
-        data={saveModalData}
+        message={saveModalData}
         onHide={closeSaveModal}
         saveMessage={saveMessage}
       />

@@ -6,23 +6,14 @@
 
 import { useCallback } from "react";
 
-import { MessageTemplate } from "../components/Wizard/messageTypes";
+import { Message } from "../components/Wizard/messageTypes";
 import useLocalStorage from "./useLocalStorage";
-import WizardFormData from "../components/Wizard/formData";
 
-export interface SavedMessage {
-  template: MessageTemplate;
-  formData: WizardFormData;
-}
-export type SavedMessages = Record<string, SavedMessage>;
+export type SavedMessages = Record<string, Message>;
 
 export interface UseSavedMessages {
   messages: SavedMessages;
-  saveMessage: (
-    id: string,
-    template: MessageTemplate,
-    formData: WizardFormData
-  ) => void;
+  saveMessage: (message: Message) => void;
   deleteMessage: (id: string) => void;
 }
 
@@ -38,12 +29,11 @@ export default function useSavedMessages(): UseSavedMessages {
   );
 
   const saveMessage = useCallback(
-    (id: string, template: MessageTemplate, formData: WizardFormData) => {
-      setMessages((oldMessages) => {
-        const newMessages = { ...oldMessages };
-        newMessages[id] = { template, formData };
-        return newMessages;
-      });
+    (message: Message) => {
+      setMessages((oldMessages) => ({
+        ...oldMessages,
+        [message.id]: message,
+      }));
     },
     [setMessages]
   );

@@ -76,6 +76,7 @@ export default function deserialize(
     "trigger",
     "frequency",
     "priority",
+    "order",
   ]);
 
   return {

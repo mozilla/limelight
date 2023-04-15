@@ -4,9 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import InfoBarWizardFormData from "./InfoBarWizard/formData";
-import LocalizableTextFormData from "../LocalizableTextInput/formData";
-import SpotlightWizardFormData from "./SpotlightWizard/formData";
+import InfoBarWizardFormData from "../InfoBarWizard/formData";
+import LocalizableTextFormData from "../inputs/LocalizableTextInput/formData";
+import SpotlightWizardFormData from "../SpotlightWizard/formData";
 
 export type { InfoBarWizardFormData };
 export type { LocalizableTextFormData };

@@ -8,8 +8,8 @@ import DeserializationContext from "./context";
 import { BaseMessage, Message, MessageTemplate } from "../messageTypes";
 import WizardFormData from "../formData";
 
-import deserializeInfoBarContent from "../InfoBarWizard/deserializers";
-import deserializeSpotlightContent from "../SpotlightWizard/deserializers";
+import deserializeInfoBarContent from "../../InfoBarWizard/deserializers";
+import deserializeSpotlightContent from "../../SpotlightWizard/deserializers";
 
 export interface DeserializeResult {
   id: string;

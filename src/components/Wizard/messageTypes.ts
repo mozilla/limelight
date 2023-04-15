@@ -4,9 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import InfoBarMessageContent from "./InfoBarWizard/messageTypes";
-import LocalizableText from "../LocalizableTextInput/messageTypes";
-import SpotlightMessageContent from "./SpotlightWizard/messageTypes";
+import InfoBarMessageContent from "../InfoBarWizard/messageTypes";
+import LocalizableText from "../inputs/LocalizableTextInput/messageTypes";
+import SpotlightMessageContent from "../SpotlightWizard/messageTypes";
 
 export type { InfoBarMessageContent };
 export type { LocalizableText };

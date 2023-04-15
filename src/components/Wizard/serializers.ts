@@ -10,8 +10,8 @@ import WizardFormData, {
   SpotlightWizardFormData,
 } from "./formData";
 import { Message, MessageTemplate, BaseMessage } from "./messageTypes";
-import serializeInfoBarContent from "./InfoBarWizard/serializers";
-import serializeSpotlightContent from "./SpotlightWizard/serializers";
+import serializeInfoBarContent from "../InfoBarWizard/serializers";
+import serializeSpotlightContent from "../SpotlightWizard/serializers";
 
 export default function serializeMessage(
   id: string,

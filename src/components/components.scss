@@ -6,6 +6,8 @@
 
 @use "App/app";
 @use "Wizard/wizard";
+@use "InfoBarWizard/infoBarWizard";
+@use "SpotlightWizard/spotlightWizard";
 
 .toast-title {
   margin-right: auto;

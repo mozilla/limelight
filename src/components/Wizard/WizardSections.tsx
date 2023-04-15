@@ -8,18 +8,18 @@ import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useFormContext } from "react-hook-form";
 
-import FrequencyInput from "./FrequencyInput";
-import MessageGroupsInput from "./MessageGroupsInput";
-import PriorityInput from "./PriorityInput";
+import FrequencyInput from "../inputs/FrequencyInput";
+import MessageGroupsInput from "../inputs/MessageGroupsInput";
+import PriorityInput from "../inputs/PriorityInput";
 import { RegisteredFormControl } from "../RegisteredFormControl";
 import {
   validateJexl,
   validateJsonAsObject,
   validateJsonAsObjectOptional,
-} from "./validators";
+} from "../../validators";
 import ErrorMessage from "../ErrorMessage";
 import WizardFormData from "./formData";
-import FormRow from "./FormRow";
+import FormRow from "../FormRow";
 
 export interface WizardSectionProps {
   label: string;

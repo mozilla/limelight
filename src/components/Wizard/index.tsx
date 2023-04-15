@@ -15,10 +15,10 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import JSONPretty from "react-json-pretty";
 
-import NewEditImportPane from "./NewEditImportPane";
+import NewEditImportPane from "../NewEditImportPane";
 import { Message, MessageTemplate } from "./messageTypes";
-import InfoBarWizard from "./InfoBarWizard";
-import SpotlightWizard from "./SpotlightWizard";
+import InfoBarWizard from "../InfoBarWizard";
+import SpotlightWizard from "../SpotlightWizard";
 import WizardFormData from "./formData";
 import { WizardMetaSection } from "./WizardSections";
 import serializeMessage from "./serializers";

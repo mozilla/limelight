@@ -9,10 +9,10 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
 
-import NewMessageForm from "./NewMessageForm";
 import EditMessageForm from "./EditMessageForm";
-import JsonMessageImportForm from "./JsonImportMessageForm";
 import ExperimentMessageImportForm from "./ExperimentImportMessageForm";
+import JsonMessageImportForm from "./JsonImportMessageForm";
+import NewMessageForm from "./NewMessageForm";
 import NewEditImportPaneProps from "./propTypes";
 
 enum EventKeys {

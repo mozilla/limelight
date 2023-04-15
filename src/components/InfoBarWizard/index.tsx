@@ -11,13 +11,13 @@ import { useFormContext } from "react-hook-form";
 import FormRow from "../FormRow";
 import InfoBarButtonsInput from "../inputs/InfoBarButtonsInput";
 import LocalizableTextInput from "../inputs/LocalizableTextInput";
-import InfoBarWizardFormData from "./formData";
+import TabOrGlobalInput from "../inputs/TabOrGlobalInput";
 import {
   RegisteredFormCheck,
   RegisteredFormRange,
 } from "../RegisteredFormControl";
-import TabOrGlobalInput from "../inputs/TabOrGlobalInput";
 import { WizardSection } from "../Wizard/WizardSections";
+import InfoBarWizardFormData from "./formData";
 
 const PRIORITIES = [
   "System",

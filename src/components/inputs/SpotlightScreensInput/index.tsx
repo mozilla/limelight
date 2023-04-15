@@ -4,22 +4,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormContext } from "react-hook-form";
-import TabbedInput, { RenderTabProps } from "../TabbedInput";
 
+import ErrorMessage from "../../ErrorMessage";
 import FormRow from "../../FormRow";
-import SpotlightWizardFormData, { SpotlightScreenFormData } from "../../SpotlightWizard/formData";
 import { RegisteredFormControl } from "../../RegisteredFormControl";
+import SpotlightWizardFormData, {
+  SpotlightScreenFormData,
+} from "../../SpotlightWizard/formData";
+import WizardFormData from "../../Wizard/formData";
+import TabbedInput, { RenderTabProps } from "../TabbedInput";
+import LogoAndTitleScreen from "./LogoAndTitleScreen";
 import ScreenPicker from "./ScreenPicker";
 import { SpotlightScreenKind } from "./screens";
-import LogoAndTitleScreen from "./LogoAndTitleScreen";
-import ErrorMessage from "../../ErrorMessage";
-import WizardFormData from "../../Wizard/formData";
 
 function defaults(): SpotlightScreenFormData {
   return {

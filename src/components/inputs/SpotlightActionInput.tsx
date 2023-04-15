@@ -6,14 +6,16 @@
 
 import { FieldPathByValue, useFormContext } from "react-hook-form";
 
+import { validateJsonAsObjectOptional } from "../../validators";
 import ErrorMessage from "../ErrorMessage";
 import FormRow from "../FormRow";
-import SpotlightWizardFormData, { SpotlightActionFormData } from "../SpotlightWizard/formData";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../RegisteredFormControl";
-import { validateJsonAsObjectOptional } from "../../validators";
+import SpotlightWizardFormData, {
+  SpotlightActionFormData,
+} from "../SpotlightWizard/formData";
 
 interface SpotlightActionInputProps {
   controlPrefix: FieldPathByValue<

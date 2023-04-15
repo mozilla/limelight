@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { RenderTabProps } from "../TabbedInput";
 import WizardFormData from "../../Wizard/formData";
+import { RenderTabProps } from "../TabbedInput";
 
 export enum SpotlightScreenKind {
   LogoAndTitle = "LOGO_AND_TITLE",

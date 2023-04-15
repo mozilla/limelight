@@ -8,8 +8,8 @@ import {
   beforeEach,
   describe,
   expect,
-  test,
   jest,
+  test,
 } from "@jest/globals";
 import { types } from "@mozilla/nimbus-shared";
 import { render, screen, waitFor } from "@testing-library/react";
@@ -17,11 +17,11 @@ import userEvent from "@testing-library/user-event";
 import { ReactNode } from "react";
 import selectEvent from "react-select-event";
 
-import ExperimentImportMessageForm from "../ExperimentImportMessageForm";
-import Toasts from "../../Toasts";
 import useToasts from "../../../hooks/useToasts";
-import { MessageTemplate } from "../../Wizard/messageTypes";
+import Toasts from "../../Toasts";
 import WizardFormData from "../../Wizard/formData";
+import { MessageTemplate } from "../../Wizard/messageTypes";
+import ExperimentImportMessageForm from "../ExperimentImportMessageForm";
 
 type NimbusExperiment = types.experiments.NimbusExperiment;
 type Branches = NimbusExperiment["branches"];

@@ -5,8 +5,8 @@
 
 import { beforeEach, describe, expect, test } from "@jest/globals";
 
-import deserializeLocalizableText from "../deserializers";
 import DeserializationContext from "../../../Wizard/deserializers/context";
+import deserializeLocalizableText from "../deserializers";
 import { defaultLocalizableTextFormData } from "../formData";
 
 const RICH_TEXT_PRESET = { zap: true };

@@ -4,6 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { RichTextPresets } from "../inputs/LocalizableTextInput";
+import serializeLocalizableText from "../inputs/LocalizableTextInput/serializers";
+import { SpotlightScreenKind } from "../inputs/SpotlightScreensInput/screens";
 import SpotlightWizardFormData, {
   SpotlightButtonFormData,
   SpotlightDismissButtonFormData,
@@ -11,9 +14,6 @@ import SpotlightWizardFormData, {
   SpotlightScreenFormData,
 } from "./formData";
 import SpotlightMessageContent from "./messageTypes";
-import { RichTextPresets } from "../inputs/LocalizableTextInput";
-import serializeLocalizableText from "../inputs/LocalizableTextInput/serializers";
-import { SpotlightScreenKind } from "../inputs/SpotlightScreensInput/screens";
 
 export default function serializeSpotlightContent(
   data: SpotlightWizardFormData

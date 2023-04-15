@@ -7,14 +7,14 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import { useToastsContext } from "../../hooks/useToasts";
+import { validateJsonAsObject } from "../../validators";
+import ErrorMessage from "../ErrorMessage";
 import FormRow from "../FormRow";
 import { RegisteredFormControl } from "../RegisteredFormControl";
-import { validateJsonAsObject } from "../../validators";
 import deserialize from "../Wizard/deserializers";
-import ErrorMessage from "../ErrorMessage";
-import { useToastsContext } from "../../hooks/useToasts";
 import { ImportMessageFormProps } from "./propTypes";
 
 interface JsonMessageImportFormData {

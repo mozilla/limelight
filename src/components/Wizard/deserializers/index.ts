@@ -4,12 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import DeserializationContext from "./context";
-import { BaseMessage, Message, MessageTemplate } from "../messageTypes";
-import WizardFormData from "../formData";
-
 import deserializeInfoBarContent from "../../InfoBarWizard/deserializers";
 import deserializeSpotlightContent from "../../SpotlightWizard/deserializers";
+import WizardFormData from "../formData";
+import { BaseMessage, Message, MessageTemplate } from "../messageTypes";
+import DeserializationContext from "./context";
 
 export interface DeserializeResult {
   id: string;

@@ -4,20 +4,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-import { BaseFormData } from "../Wizard/formData";
-import {
-  RegisteredFormControl,
-  RegisteredFormCheck,
-} from "../RegisteredFormControl";
 import FormRow from "../FormRow";
+import {
+  RegisteredFormCheck,
+  RegisteredFormControl,
+} from "../RegisteredFormControl";
+import { BaseFormData } from "../Wizard/formData";
 
 const controlPrefix = "meta.frequency";
 

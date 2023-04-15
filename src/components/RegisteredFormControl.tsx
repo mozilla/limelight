@@ -9,11 +9,11 @@ import FormCheck from "react-bootstrap/FormCheck";
 import FormControl from "react-bootstrap/FormControl";
 import FormRange from "react-bootstrap/FormRange";
 import {
-  UseFormRegister,
-  FieldValues,
-  useFormContext,
   FieldPath,
+  FieldValues,
   RegisterOptions,
+  useFormContext,
+  UseFormRegister,
 } from "react-hook-form";
 
 export type GenericRegisteredControlProps<

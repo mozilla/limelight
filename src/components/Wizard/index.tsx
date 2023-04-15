@@ -6,27 +6,27 @@
 
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { useForm, FormProvider } from "react-hook-form";
 import Card from "react-bootstrap/Card";
 import CloseButton from "react-bootstrap/CloseButton";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
+import Modal from "react-bootstrap/Modal";
+import { FormProvider, useForm } from "react-hook-form";
 import JSONPretty from "react-json-pretty";
 
-import NewEditImportPane from "../NewEditImportPane";
-import { Message, MessageTemplate } from "./messageTypes";
-import InfoBarWizard from "../InfoBarWizard";
-import SpotlightWizard from "../SpotlightWizard";
-import WizardFormData from "./formData";
-import { WizardMetaSection } from "./WizardSections";
-import serializeMessage from "./serializers";
 import useSavedMessages, {
   UseSavedMessages,
 } from "../../hooks/useSavedMessages";
 import { useToastsContext } from "../../hooks/useToasts";
+import InfoBarWizard from "../InfoBarWizard";
+import NewEditImportPane from "../NewEditImportPane";
+import SpotlightWizard from "../SpotlightWizard";
 import deserialize from "./deserializers";
+import WizardFormData from "./formData";
+import { Message, MessageTemplate } from "./messageTypes";
+import serializeMessage from "./serializers";
+import { WizardMetaSection } from "./WizardSections";
 
 type MessageInfo = {
   id: string;

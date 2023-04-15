@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useFormContext, FieldPathByValue } from "react-hook-form";
+import { FieldPathByValue, useFormContext } from "react-hook-form";
 
 import FormRow from "../FormRow";
 import { RegisteredFormCheck } from "../RegisteredFormControl";

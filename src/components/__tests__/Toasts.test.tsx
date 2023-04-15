@@ -4,12 +4,12 @@
  */
 
 import { describe, expect, test } from "@jest/globals";
-import { render, screen, act } from "@testing-library/react";
-import { useEffect } from "react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useEffect } from "react";
 
-import Toasts from "../Toasts";
 import useToasts from "../../hooks/useToasts";
+import Toasts from "../Toasts";
 
 function Component() {
   const context = useToasts();

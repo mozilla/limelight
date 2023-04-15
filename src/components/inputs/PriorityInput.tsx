@@ -10,11 +10,11 @@ import Row from "react-bootstrap/Row";
 import { useFormContext } from "react-hook-form";
 
 import FormRow from "../FormRow";
-import { BaseFormData } from "../Wizard/formData";
 import {
-  RegisteredFormControl,
   RegisteredFormCheck,
+  RegisteredFormControl,
 } from "../RegisteredFormControl";
+import { BaseFormData } from "../Wizard/formData";
 
 const controlPrefix = "meta.priority";
 

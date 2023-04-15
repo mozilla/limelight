@@ -7,14 +7,14 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import FormRow from "../FormRow";
-import { MessageTemplate } from "../Wizard/messageTypes";
 import {
-  RegisteredFormControl,
   RegisteredFormCheck,
+  RegisteredFormControl,
 } from "../RegisteredFormControl";
+import { MessageTemplate } from "../Wizard/messageTypes";
 import { NewMessageFormProps } from "./propTypes";
 
 interface NewMessageFormData {

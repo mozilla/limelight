@@ -4,17 +4,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useFormContext } from "react-hook-form";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { useFormContext } from "react-hook-form";
 
+import ErrorMessage from "../ErrorMessage";
 import FormRow from "../FormRow";
-import SpotlightWizardFormData from "../SpotlightWizard/formData";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../RegisteredFormControl";
-import ErrorMessage from "../ErrorMessage";
+import SpotlightWizardFormData from "../SpotlightWizard/formData";
 
 interface SpotlightLogoInputProps {
   controlPrefix: `content.screens.${number}.content.logo`;

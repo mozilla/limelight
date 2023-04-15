@@ -5,22 +5,21 @@
 
 import { beforeEach, describe, expect, test } from "@jest/globals";
 
+import { defaultLocalizableTextFormData } from "../../inputs/LocalizableTextInput/formData";
+import { SpotlightScreenKind } from "../../inputs/SpotlightScreensInput/screens";
+import DeserializationContext from "../../Wizard/deserializers/context";
 import deserializeSpotlightContent, {
   DEFAULT_LOGO_URL,
-  deserializeSpotlightScreen,
-  deserializeSpotlightLogo,
   deserializeSpotlightButton,
   deserializeSpotlightDismissButton,
+  deserializeSpotlightLogo,
+  deserializeSpotlightScreen,
 } from "../deserializers";
 import {
   defaultSpotlightButtonFormData,
   LogoAndTitleScreenFormData,
 } from "../formData";
-import DeserializationContext from "../../Wizard/deserializers/context";
-
 import { LogoAndTitleScreenContent } from "../messageTypes";
-import { SpotlightScreenKind } from "../../inputs/SpotlightScreensInput/screens";
-import { defaultLocalizableTextFormData } from "../../inputs/LocalizableTextInput/formData";
 
 const SCREEN_GENERATORS = {
   [SpotlightScreenKind.LogoAndTitle]: {

@@ -4,11 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import deserializeLocalizableText from "../inputs/LocalizableTextInput/deserializers";
 import DeserializationContext from "../Wizard/deserializers/context";
 import InfoBarWizardFormData from "./formData";
 import InfoBarMessageContent from "./messageTypes";
-
-import deserializeLocalizableText from "../inputs/LocalizableTextInput/deserializers";
 
 export default function deserializeInfoBarContent(
   ctx: DeserializationContext,

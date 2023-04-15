@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import Form from "react-bootstrap/Form";
 import { ErrorMessage as BaseErrorMessage } from "@hookform/error-message";
+import Form from "react-bootstrap/Form";
 
 interface ErrorMessageProps {
   name: string;

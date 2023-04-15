@@ -10,10 +10,10 @@ import { ReactNode } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import FormRow from "../../FormRow";
-import LocalizableTextInput from "../LocalizableTextInput";
 import { RegisteredFormControl } from "../../RegisteredFormControl";
-import TabbedInput, { RenderTabProps } from "../TabbedInput";
 import { LocalizableTextFormData } from "../../Wizard/formData";
+import LocalizableTextInput from "../LocalizableTextInput";
+import TabbedInput, { RenderTabProps } from "../TabbedInput";
 
 interface FormData<T> {
   content: {

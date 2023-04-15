@@ -4,24 +4,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useFormContext } from "react-hook-form";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import FormRow from "../FormRow";
-import LocalizableTextInput from "./LocalizableTextInput";
-import {
-  RegisteredFormControl,
-  RegisteredFormCheck,
-} from "../RegisteredFormControl";
 import { validateJsonAsObject } from "../../validators";
 import ErrorMessage from "../ErrorMessage";
-import TabbedInput, { RenderTabProps } from "./TabbedInput";
-import { defaultLocalizableTextFormData } from "./LocalizableTextInput/formData";
+import FormRow from "../FormRow";
+import {
+  RegisteredFormCheck,
+  RegisteredFormControl,
+} from "../RegisteredFormControl";
 import WizardFormData, { InfoBarWizardFormData } from "../Wizard/formData";
+import LocalizableTextInput from "./LocalizableTextInput";
+import { defaultLocalizableTextFormData } from "./LocalizableTextInput/formData";
+import TabbedInput, { RenderTabProps } from "./TabbedInput";
 
 function defaults(): InfoBarWizardFormData["content"]["buttons"][number] {
   return {

@@ -4,10 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { SpotlightScreenKind } from "../inputs/SpotlightScreensInput/screens";
 import LocalizableTextFormData, {
   defaultLocalizableTextFormData,
 } from "../inputs/LocalizableTextInput/formData";
+import { SpotlightScreenKind } from "../inputs/SpotlightScreensInput/screens";
 
 export default interface SpotlightWizardFormData {
   content: {

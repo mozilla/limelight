@@ -4,23 +4,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { typeGuards, types } from "@mozilla/nimbus-shared";
 import { useEffect, useMemo, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import {
-  useForm,
-  useWatch,
+  Controller,
   FormProvider,
   SubmitHandler,
-  Controller,
+  useForm,
+  useWatch,
 } from "react-hook-form";
-import { types, typeGuards } from "@mozilla/nimbus-shared";
 import Select from "react-select";
 
+import { useToastsContext } from "../../hooks/useToasts";
 import FormRow from "../FormRow";
 import deserialize from "../Wizard/deserializers";
-import { useToastsContext } from "../../hooks/useToasts";
 import { ImportMessageFormProps } from "./propTypes";
 
 type NimbusExperiment = types.experiments.NimbusExperiment;

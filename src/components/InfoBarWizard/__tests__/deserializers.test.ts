@@ -5,10 +5,10 @@
 
 import { beforeEach, describe, expect, test } from "@jest/globals";
 
+import DeserializationContext from "../../Wizard/deserializers/context";
 import deserializeInfoBarContent, {
   deserializeInfoBarButtons,
 } from "../deserializers";
-import DeserializationContext from "../../Wizard/deserializers/context";
 
 let ctx: DeserializationContext;
 

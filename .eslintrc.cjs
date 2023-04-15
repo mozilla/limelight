@@ -14,6 +14,7 @@ module.exports = {
     ],
     plugins: [
         "@typescript-eslint",
+        "simple-import-sort",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -35,6 +36,7 @@ module.exports = {
             }
         ],
         "@typescript-eslint/no-unused-vars": "error",
+        "simple-import-sort/imports": "error",
         "no-console": [
             "error",
             {

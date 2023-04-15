@@ -8,7 +8,7 @@ import { PropsWithChildren } from "react";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
-import { UseToasts, ToastsContext, useToastsContext } from "../hooks/useToasts";
+import { ToastsContext, UseToasts, useToastsContext } from "../hooks/useToasts";
 
 interface ToastsProps {
   context: UseToasts;

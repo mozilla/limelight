@@ -5,19 +5,19 @@
  */
 
 import {
-  useFormContext,
   FieldPathByValue,
   FieldValues,
   Path,
+  useFormContext,
 } from "react-hook-form";
 
-import FormRow from "../../FormRow";
 import ErrorMessage from "../../ErrorMessage";
-import LocalizableTextFormData from "./formData";
+import FormRow from "../../FormRow";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../../RegisteredFormControl";
+import LocalizableTextFormData from "./formData";
 
 interface LocalizableTextInputProps<TFieldValues extends FieldValues> {
   controlPrefix: FieldPathByValue<TFieldValues, LocalizableTextFormData>;

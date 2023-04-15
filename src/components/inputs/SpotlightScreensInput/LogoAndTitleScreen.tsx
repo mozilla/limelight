@@ -6,20 +6,20 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { ScreenComponentProps, SpotlightScreenKind } from "./screens";
 import FormRow from "../../FormRow";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../../RegisteredFormControl";
-import LocalizableTextInput from "../LocalizableTextInput";
-import SpotlightButtonInput from "../SpotlightButtonInput";
-import SpotlightDismissButtonInput from "../SpotlightDismissButtonInput";
-import SpotlightLogoInput from "../SpotlightLogoInput";
 import SpotlightWizardFormData, {
   defaultSpotlightButtonFormData,
 } from "../../SpotlightWizard/formData";
+import LocalizableTextInput from "../LocalizableTextInput";
 import { defaultLocalizableTextFormData } from "../LocalizableTextInput/formData";
+import SpotlightButtonInput from "../SpotlightButtonInput";
+import SpotlightDismissButtonInput from "../SpotlightDismissButtonInput";
+import SpotlightLogoInput from "../SpotlightLogoInput";
+import { ScreenComponentProps, SpotlightScreenKind } from "./screens";
 
 function LogoAndTitleScreen({ controlPrefix }: ScreenComponentProps) {
   const { register } = useFormContext<SpotlightWizardFormData>();

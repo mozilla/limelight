@@ -6,14 +6,15 @@
 
 import { RichTextPresets } from "../inputs/LocalizableTextInput";
 import deserializeLocalizableText from "../inputs/LocalizableTextInput/deserializers";
+import { SpotlightScreenKind } from "../inputs/SpotlightScreensInput/screens";
 import DeserializerContext from "../Wizard/deserializers/context";
 import SpotlightWizardFormData, {
+  defaultSpotlightButtonFormData,
   LogoAndTitleScreenFormData,
   SpotlightButtonFormData,
+  SpotlightDismissButtonFormData,
   SpotlightLogoFormData,
   SpotlightScreenFormData,
-  defaultSpotlightButtonFormData,
-  SpotlightDismissButtonFormData,
 } from "./formData";
 import SpotlightMessageContent, {
   LogoAndTitleScreenContent,
@@ -22,7 +23,6 @@ import SpotlightMessageContent, {
   SpotlightLogo,
   SpotlightScreen,
 } from "./messageTypes";
-import { SpotlightScreenKind } from "../inputs/SpotlightScreensInput/screens";
 
 export default function deserializeSpotlightContent(
   ctx: DeserializerContext,

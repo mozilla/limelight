@@ -6,15 +6,15 @@
 
 import { useFormContext } from "react-hook-form";
 
+import FormRow from "../FormRow";
+import SpotlightScreensInput from "../inputs/SpotlightScreensInput";
+import TabOrGlobalInput from "../inputs/TabOrGlobalInput";
 import {
   RegisteredFormCheck,
   RegisteredFormControl,
 } from "../RegisteredFormControl";
-import FormRow from "../FormRow";
-import TabOrGlobalInput from "../inputs/TabOrGlobalInput";
-import SpotlightWizardFormData from "./formData";
 import { WizardSection } from "../Wizard/WizardSections";
-import SpotlightScreensInput from "../inputs/SpotlightScreensInput";
+import SpotlightWizardFormData from "./formData";
 
 export default function SpotlightWizard() {
   const { register } = useFormContext<SpotlightWizardFormData>();

@@ -7,8 +7,8 @@ import { afterEach, beforeAll, describe, expect, test } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { useEffect } from "react";
 
-import useSavedMessages from "../useSavedMessages";
 import { Message } from "../../components/Wizard/messageTypes";
+import useSavedMessages from "../useSavedMessages";
 
 describe("useSavedMessages", () => {
   beforeAll(() => {

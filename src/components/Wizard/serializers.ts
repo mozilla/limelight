@@ -4,14 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import serializeInfoBarContent from "../InfoBarWizard/serializers";
+import serializeSpotlightContent from "../SpotlightWizard/serializers";
 import WizardFormData, {
   BaseFormData,
   InfoBarWizardFormData,
   SpotlightWizardFormData,
 } from "./formData";
-import { Message, MessageTemplate, BaseMessage } from "./messageTypes";
-import serializeInfoBarContent from "../InfoBarWizard/serializers";
-import serializeSpotlightContent from "../SpotlightWizard/serializers";
+import { BaseMessage, Message, MessageTemplate } from "./messageTypes";
 
 export default function serializeMessage(
   id: string,

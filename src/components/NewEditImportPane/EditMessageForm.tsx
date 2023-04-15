@@ -4,17 +4,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import FormRow from "../FormRow";
-import { EditMessageFormProps } from "./propTypes";
 import { RegisteredFormCheck } from "../RegisteredFormControl";
+import { EditMessageFormProps } from "./propTypes";
 
 interface EditMessageFormData {
   id: string;

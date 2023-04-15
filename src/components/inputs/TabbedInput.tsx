@@ -4,25 +4,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  useFieldArray,
-  useFormContext,
   FieldArray,
-  FieldArrayWithId,
-  UseFieldArrayProps,
-  UseFormRegister,
-  FieldValues,
-  Path,
   FieldArrayPath,
+  FieldArrayWithId,
+  FieldValues,
   FormProvider,
+  Path,
+  useFieldArray,
+  UseFieldArrayProps,
+  useFormContext,
+  UseFormRegister,
 } from "react-hook-form";
 
 export interface RenderTabProps<

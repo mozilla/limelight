@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { useController, useFormContext } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
-import { useFormContext, useController } from "react-hook-form";
 
 import FormRow from "../FormRow";
 import { BaseFormData } from "../Wizard/formData";

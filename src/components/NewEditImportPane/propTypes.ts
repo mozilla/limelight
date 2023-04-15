@@ -4,9 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { MessageTemplate } from "../Wizard/messageTypes";
-import WizardFormData from "../Wizard/formData";
 import { SavedMessages } from "../../hooks/useSavedMessages";
+import WizardFormData from "../Wizard/formData";
+import { MessageTemplate } from "../Wizard/messageTypes";
 
 export interface ImportMessageFormProps {
   onImportMessage: (

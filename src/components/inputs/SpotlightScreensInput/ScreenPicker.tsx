@@ -4,14 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useFieldArray, useFormContext } from "react-hook-form";
-import Button from "react-bootstrap/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from "react-bootstrap/Button";
+import { useFieldArray, useFormContext } from "react-hook-form";
 
+import ErrorMessage from "../../ErrorMessage";
 import SpotlightWizardFormData from "../../SpotlightWizard/formData";
 import LogoAndTitleScreen from "./LogoAndTitleScreen";
-import ErrorMessage from "../../ErrorMessage";
 
 const SPOTLIGHT_SCREENS = [LogoAndTitleScreen] as const;
 

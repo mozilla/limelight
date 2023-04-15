@@ -4,9 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import serializeLocalizableText from "../inputs/LocalizableTextInput/serializers";
 import InfoBarWizardFormData from "./formData";
 import InfoBarMessageContent from "./messageTypes";
-import serializeLocalizableText from "../inputs/LocalizableTextInput/serializers";
 
 export default function serializeInfoBarContent(
   data: InfoBarWizardFormData

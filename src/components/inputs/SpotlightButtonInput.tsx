@@ -7,13 +7,15 @@
 import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { useFormContext, FieldPathByValue } from "react-hook-form";
+import { FieldPathByValue, useFormContext } from "react-hook-form";
 
 import FormRow from "../FormRow";
 import { RegisteredFormCheck } from "../RegisteredFormControl";
-import SpotlightWizardFormData, { SpotlightButtonFormData } from "../SpotlightWizard/formData";
-import SpotlightActionInput from "./SpotlightActionInput";
+import SpotlightWizardFormData, {
+  SpotlightButtonFormData,
+} from "../SpotlightWizard/formData";
 import LocalizableTextInput from "./LocalizableTextInput";
+import SpotlightActionInput from "./SpotlightActionInput";
 
 interface SpotlightButtonInputProps {
   controlPrefix: FieldPathByValue<

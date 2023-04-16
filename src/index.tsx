@@ -8,7 +8,10 @@ import { createRoot } from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import App from "./components/App";
-import Wizard from "./components/Wizard";
+import EditMessagePage from "./components/routes/EditMessagePage";
+import HomePage from "./components/routes/HomePage";
+import ImportMessagePage from "./components/routes/ImportMessagePage";
+import NewMessagePage from "./components/routes/NewMessagePage";
 
 // Parcel exposes environment variables via process.env.VAR.
 // This must be kept in sync with the @parcel/transformer-js entry in
@@ -36,7 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
         children: [
           {
             path: "/",
-            element: <Wizard />,
+            element: <HomePage />,
+          },
+          {
+            path: "/new",
+            element: <NewMessagePage />,
+          },
+          {
+            path: "/edit/:messageId",
+            element: <EditMessagePage />,
+          },
+          {
+            path: "/import",
+            element: <ImportMessagePage />,
           },
         ],
       },

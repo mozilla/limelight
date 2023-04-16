@@ -14,24 +14,16 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import { FormProvider, useForm } from "react-hook-form";
 import JSONPretty from "react-json-pretty";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { UseSavedMessages } from "../../hooks/useSavedMessages";
 import { useToastsContext } from "../../hooks/useToasts";
-import OutletContext from "../App/context";
 import InfoBarWizard from "../InfoBarWizard";
-import NewEditImportPane from "../NewEditImportPane";
 import SpotlightWizard from "../SpotlightWizard";
-import deserialize from "./deserializers";
 import WizardFormData from "./formData";
 import { Message, MessageTemplate } from "./messageTypes";
 import serializeMessage from "./serializers";
 import { WizardMetaSection } from "./WizardSections";
-
-type MessageInfo = {
-  id: string;
-  template: MessageTemplate;
-};
 
 interface JsonPreviewProps {
   data: object | undefined;
@@ -108,96 +100,33 @@ function SaveModal({ message, onHide, saveMessage }: SaveModalProps) {
   );
 }
 
-export default function Wizard() {
-  const [messageInfo, setMessageInfo] = useState<MessageInfo | undefined>(
-    undefined
-  );
+export interface WizardProps {
+  savedMessages: UseSavedMessages;
+  messageId: string;
+  template: MessageTemplate;
+  defaultValues?: WizardFormData;
+}
+
+export default function Wizard({
+  savedMessages: { messages, saveMessage },
+  messageId,
+  template,
+  defaultValues,
+}: WizardProps) {
+  const navigate = useNavigate();
   const [saveModalData, setSaveModalData] = useState<Message | undefined>(
     undefined
   );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
 
-  const {
-    savedMessages: { messages, saveMessage, deleteMessage },
-  } = useOutletContext<OutletContext>();
-  const formContext = useForm<WizardFormData>();
-  const { reset, setValue } = formContext;
+  const formContext = useForm<WizardFormData>({
+    defaultValues,
+  });
+  const { reset } = formContext;
   const { addToast } = useToastsContext();
 
-  if (typeof messageInfo === "undefined") {
-    const handleNewMessage = (id: string, template: MessageTemplate) =>
-      setMessageInfo({
-        id,
-        template,
-      });
-
-    const handleEditMessage = (id: string) => {
-      const message = messages[id];
-
-      let result;
-      try {
-        result = deserialize(message);
-      } catch (e) {
-        console.error(e);
-        addToast(
-          "Could not load message",
-          "See browser console for full details"
-        );
-        return;
-      }
-
-      if (result.warnings.length) {
-        console.warn(`Message ${result.id} imported with warnings: `);
-        for (const { field, message } of result.warnings) {
-          console.warn(`[${field}]: ${message}`);
-        }
-
-        addToast(
-          "Message imported with warnings",
-          "See browser console for full details"
-        );
-      }
-
-      setMessageInfo({
-        id: result.id,
-        template: result.template,
-      });
-
-      for (const [key, value] of Object.entries(result.formData)) {
-        setValue(
-          key as keyof WizardFormData,
-          value as WizardFormData[keyof WizardFormData]
-        );
-      }
-    };
-
-    const handleImportMessage = (
-      id: string,
-      template: MessageTemplate,
-      formData: WizardFormData
-    ) => {
-      setMessageInfo({ id, template });
-      for (const [key, value] of Object.entries(formData)) {
-        setValue(
-          key as keyof WizardFormData,
-          value as WizardFormData[keyof WizardFormData]
-        );
-      }
-    };
-
-    return (
-      <NewEditImportPane
-        onNewMessage={handleNewMessage}
-        onEditMessage={handleEditMessage}
-        onDeleteMessage={deleteMessage}
-        onImportMessage={handleImportMessage}
-        messages={messages}
-      />
-    );
-  }
-
   let MessageContentWizard;
-  switch (messageInfo.template) {
+  switch (template) {
     case "infobar":
       MessageContentWizard = InfoBarWizard;
       break;
@@ -212,8 +141,8 @@ export default function Wizard() {
   }
 
   const stopEditing = () => {
-    setMessageInfo(undefined);
     reset();
+    navigate("/", { replace: true });
   };
   const closeModal = () => setPreviewJson(undefined);
 
@@ -223,11 +152,7 @@ export default function Wizard() {
 
   const validate = async (): Promise<Message | null> => {
     if (await trigger(undefined, { shouldFocus: true })) {
-      return serializeMessage(
-        messageInfo.id,
-        messageInfo.template,
-        getValues()
-      );
+      return serializeMessage(messageId, template, getValues());
     }
 
     return null;
@@ -265,7 +190,7 @@ export default function Wizard() {
       const json = await validate();
 
       if (json) {
-        if (messageIds.includes(messageInfo.id)) {
+        if (messageIds.includes(messageId)) {
           setSaveModalData(json);
         } else {
           addToast("Success", "Message Saved!", { autohide: true });
@@ -277,7 +202,7 @@ export default function Wizard() {
     }
   };
 
-  const triggerRequired = ["infobar", "cfr"].includes(messageInfo.template);
+  const triggerRequired = ["infobar", "cfr"].includes(template);
 
   return (
     <>
@@ -285,8 +210,7 @@ export default function Wizard() {
         <Card>
           <Card.Header className="d-flex justify-content-between">
             <Card.Title className="mb-0">
-              Editing Message:{" "}
-              <span className="message-id">{messageInfo.id}</span>
+              Editing Message: <span className="message-id">{messageId}</span>
             </Card.Title>
             <CloseButton onClick={stopEditing} title="Stop Editing" />
           </Card.Header>

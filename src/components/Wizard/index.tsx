@@ -14,11 +14,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Modal from "react-bootstrap/Modal";
 import { FormProvider, useForm } from "react-hook-form";
 import JSONPretty from "react-json-pretty";
+import { useOutletContext } from "react-router-dom";
 
-import useSavedMessages, {
-  UseSavedMessages,
-} from "../../hooks/useSavedMessages";
+import { UseSavedMessages } from "../../hooks/useSavedMessages";
 import { useToastsContext } from "../../hooks/useToasts";
+import OutletContext from "../App/context";
 import InfoBarWizard from "../InfoBarWizard";
 import NewEditImportPane from "../NewEditImportPane";
 import SpotlightWizard from "../SpotlightWizard";
@@ -116,7 +116,10 @@ export default function Wizard() {
     undefined
   );
   const [previewJson, setPreviewJson] = useState<object | undefined>(undefined);
-  const { messages, saveMessage, deleteMessage } = useSavedMessages();
+
+  const {
+    savedMessages: { messages, saveMessage, deleteMessage },
+  } = useOutletContext<OutletContext>();
   const formContext = useForm<WizardFormData>();
   const { reset, setValue } = formContext;
   const { addToast } = useToastsContext();

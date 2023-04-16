@@ -12,6 +12,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Outlet } from "react-router-dom";
 
+import useSavedMessages from "../../hooks/useSavedMessages";
 import useSentry, { SentryConfig, SentryStatus } from "../../hooks/useSentry";
 import useToasts from "../../hooks/useToasts";
 import Toasts from "../Toasts";
@@ -23,6 +24,7 @@ interface AppProps {
 export default function App({ sentryConfig }: AppProps) {
   const sentryStatus = useSentry(sentryConfig);
   const toastCtx = useToasts();
+  const savedMessages = useSavedMessages();
 
   useEffect(() => {
     if (sentryStatus === SentryStatus.Error) {
@@ -41,6 +43,8 @@ export default function App({ sentryConfig }: AppProps) {
     }
   }, [sentryStatus]);
 
+  const context = { savedMessages };
+
   return (
     <>
       <Toasts.Provider context={toastCtx}>
@@ -55,7 +59,7 @@ export default function App({ sentryConfig }: AppProps) {
           </Container>
         </Navbar>
 
-        <Outlet />
+        <Outlet context={context} />
 
         <Toasts />
       </Toasts.Provider>

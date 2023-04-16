@@ -5,8 +5,10 @@
  */
 
 import { createRoot } from "react-dom/client";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import App from "./components/App";
+import Wizard from "./components/Wizard";
 
 // Parcel exposes environment variables via process.env.VAR.
 // This must be kept in sync with the @parcel/transformer-js entry in
@@ -26,6 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
       dsn: process.env.SENTRY_DSN,
       release: process.env.SENTRY_RELEASE,
     };
-    root.render(<App sentryConfig={sentryConfig} />);
+
+    const router = createHashRouter([
+      {
+        path: "/",
+        element: <App sentryConfig={sentryConfig} />,
+        children: [
+          {
+            path: "/",
+            element: <Wizard />,
+          },
+        ],
+      },
+    ]);
+
+    root.render(<RouterProvider router={router} />);
   }
 });

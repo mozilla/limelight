@@ -10,11 +10,11 @@ import { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Outlet } from "react-router-dom";
 
 import useSentry, { SentryConfig, SentryStatus } from "../../hooks/useSentry";
 import useToasts from "../../hooks/useToasts";
 import Toasts from "../Toasts";
-import Wizard from "../Wizard";
 
 interface AppProps {
   sentryConfig: SentryConfig;
@@ -55,7 +55,7 @@ export default function App({ sentryConfig }: AppProps) {
           </Container>
         </Navbar>
 
-        <Wizard />
+        <Outlet />
 
         <Toasts />
       </Toasts.Provider>

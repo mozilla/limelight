@@ -6,25 +6,36 @@
 
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 
 import useSavedMessages from "../../hooks/useSavedMessages";
 import useSentry, { SentryConfig, SentryStatus } from "../../hooks/useSentry";
 import useToasts from "../../hooks/useToasts";
 import Toasts from "../Toasts";
+import deserialize from "../Wizard/deserializers";
 
 interface AppProps {
   sentryConfig: SentryConfig;
+  nimbusEditor?: {
+    branchSlug: string;
+  };
 }
 
-export default function App({ sentryConfig }: AppProps) {
+export default function App({
+  sentryConfig,
+  nimbusEditor,
+}: AppProps) {
+  const navigate = useNavigate();
   const sentryStatus = useSentry(sentryConfig);
   const toastCtx = useToasts();
   const savedMessages = useSavedMessages();
+
+  const [ready, setReady] = useState<Boolean>(!nimbusEditor);
 
   useEffect(() => {
     if (sentryStatus === SentryStatus.Error) {
@@ -43,7 +54,40 @@ export default function App({ sentryConfig }: AppProps) {
     }
   }, [sentryStatus]);
 
-  const context = { savedMessages };
+  useEffect(() => {
+    if (nimbusEditor && !ready) {
+      window.addEventListener("message", event => {
+
+      console.log(event.data.type);
+        if (!("type" in event.data) || event.data.type !== "nimbus:edit") {
+          return;
+        }
+        console.log(event);
+        if ("json" in event.data && typeof event.data.json === "object" && event.data.json !== null) {
+          let result;
+          try {
+            result = deserialize(event.data.json);
+          } catch (e) {}
+
+          if (result) {
+            navigate("/import", {
+              state: {
+                formData: result.formData,
+                messageId: result.id,
+                template: result.template,
+              },
+            });
+          }
+        }
+
+        setReady(true);
+      });
+
+      window.opener.postMessage({ type: "limelight:ready" });
+    }
+  }, [nimbusEditor, navigate]);
+
+  const context = { savedMessages, nimbusEditor };
 
   return (
     <>
@@ -59,7 +103,9 @@ export default function App({ sentryConfig }: AppProps) {
           </Container>
         </Navbar>
 
+        {nimbusEditor && !ready ? (<Spinner animation="border"/>) : (
         <Outlet context={context} />
+        )}
 
         <Toasts />
       </Toasts.Provider>

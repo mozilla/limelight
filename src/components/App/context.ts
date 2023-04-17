@@ -11,4 +11,7 @@ import { UseSavedMessages } from "../../hooks/useSavedMessages";
  */
 export default interface OutletContext {
   savedMessages: UseSavedMessages;
+  nimbusEditor?: {
+    branchSlug: string;
+  };
 }

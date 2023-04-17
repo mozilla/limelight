@@ -18,7 +18,7 @@ export interface EditMessagePageState {
 }
 
 export default function EditMessagePage() {
-  const { savedMessages } = useOutletContext<OutletContext>();
+  const { savedMessages, nimbusEditor } = useOutletContext<OutletContext>();
   const { state } = useLocation() as { state: EditMessagePageState | null };
 
   if (state === null) {
@@ -28,6 +28,7 @@ export default function EditMessagePage() {
   return (
     <Wizard
       savedMessages={savedMessages}
+      nimbusEditor={nimbusEditor}
       messageId={state.messageId}
       template={state.template}
       defaultValues={state.formData}

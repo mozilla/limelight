@@ -13,7 +13,7 @@ import Wizard from "../Wizard";
 import deserialize from "../Wizard/deserializers";
 
 export default function EditMessagePage() {
-  const { savedMessages } = useOutletContext<OutletContext>();
+  const { savedMessages, nimbusEditor } = useOutletContext<OutletContext>();
   const { addToast } = useToastsContext();
   const { messages } = savedMessages;
   const { messageId } = useParams();
@@ -64,6 +64,7 @@ export default function EditMessagePage() {
   return (
     <Wizard
       savedMessages={savedMessages}
+      nimbusEditor={nimbusEditor}
       messageId={result.id}
       template={result.template}
       defaultValues={result.formData}

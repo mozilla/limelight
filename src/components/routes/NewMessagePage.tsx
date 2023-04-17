@@ -11,7 +11,7 @@ import Wizard from "../Wizard";
 import { MessageTemplate } from "../Wizard/messageTypes";
 
 export default function NewMessagePage() {
-  const { savedMessages } = useOutletContext<OutletContext>();
+  const { savedMessages, nimbusEditor } = useOutletContext<OutletContext>();
 
   const { state } = useLocation() as {
     state: { id: string; template: MessageTemplate } | null;
@@ -23,9 +23,10 @@ export default function NewMessagePage() {
 
   return (
     <Wizard
+      savedMessages={savedMessages}
+      nimbusEditor={nimbusEditor}
       messageId={state.id}
       template={state.template}
-      savedMessages={savedMessages}
     />
   );
 }

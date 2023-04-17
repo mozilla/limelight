@@ -105,6 +105,9 @@ export interface WizardProps {
   messageId: string;
   template: MessageTemplate;
   defaultValues?: WizardFormData;
+  nimbusEditor?: {
+    branchSlug: string;
+  };
 }
 
 export default function Wizard({
@@ -112,6 +115,7 @@ export default function Wizard({
   messageId,
   template,
   defaultValues,
+  nimbusEditor,
 }: WizardProps) {
   const navigate = useNavigate();
   const [saveModalData, setSaveModalData] = useState<Message | undefined>(
@@ -202,6 +206,25 @@ export default function Wizard({
     }
   };
 
+  const handleExportMessage = async (): Promise<void> => {
+    if (nimbusEditor) {
+      try {
+        const json = await validate();
+        if (json) {
+          window.opener.postMessage(
+            {
+              type: "limelight:export",
+              json,
+              branchSlug: nimbusEditor.branchSlug,
+            });
+          addToast("Exported", "Exported to Nimbus", { autohide: true });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
   const triggerRequired = ["infobar", "cfr"].includes(template);
 
   return (
@@ -235,6 +258,11 @@ export default function Wizard({
                   <Button onClick={() => void handleSaveMessage()}>
                     Save Message
                   </Button>
+                  {nimbusEditor && (
+                    <Button onClick={() => void handleExportMessage()}>
+                      Export to Nimbus
+                    </Button>
+                  )}
                 </ListGroup.Item>
               </ListGroup>
             </Form>

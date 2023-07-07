@@ -46,7 +46,7 @@
     "prettier": "^2.8.3",
     "process": "^0.11.10",
     "react-select-event": "^5.5.1",
-    "stylelint": "^14.16.1",
+    "stylelint": "^15.10.1",
     "stylelint-config-prettier": "^9.0.4",
     "stylelint-config-prettier-scss": "^0.0.1",
     "stylelint-config-standard-scss": "^5.0.0",

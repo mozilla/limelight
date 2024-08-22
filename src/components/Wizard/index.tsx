@@ -169,15 +169,15 @@ export default function Wizard({
     }
   };
 
-  const encodePreview = (jsonStr): string => {
+  const encodePreview = (jsonStr: string): string => {
     const codeUnits = new Uint16Array(jsonStr.length);
     for (let i = 0; i < codeUnits.length; i++) {
       codeUnits[i] = jsonStr.charCodeAt(i);
     }
     return btoa(
-      String.fromCharCode(...Array.from(new Uint8Array(codeUnits.buffer))),
+      String.fromCharCode(...Array.from(new Uint8Array(codeUnits.buffer)))
     );
-  }
+  };
 
   const handlePreview = async (): Promise<void> => {
     try {
@@ -185,7 +185,7 @@ export default function Wizard({
       if (json) {
         const jsonStr = JSON.stringify(json);
         const uri = `about:messagepreview?json=${encodeURIComponent(
-          encodePreview(jsonStr),
+          encodePreview(jsonStr)
         )}`;
         addToast("Success", "Copied!", { autohide: true });
 

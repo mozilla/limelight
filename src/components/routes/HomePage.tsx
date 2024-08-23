@@ -4,16 +4,50 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 import OutletContext from "../App/context";
 import NewEditImportPane from "../NewEditImportPane";
+import deserialize from "../Wizard/deserializers";
 import WizardFormData from "../Wizard/formData";
 import { MessageTemplate } from "../Wizard/messageTypes";
 
 export default function HomePage() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const importJSON = urlSearchParams.get("importJSON");
+
+    if (importJSON) {
+      try {
+        const parsed = JSON.parse(importJSON) as Record<string, unknown>;
+        const result = deserialize(parsed);
+
+        navigate("/import", {
+          state: {
+            messageId: parsed.id,
+            template: parsed.template,
+            formData: result.formData,
+          },
+        });
+
+        if (result.warnings.length) {
+          console.warn(`Message ${result.id} imported with warnings: `);
+          for (const { field, message } of result.warnings) {
+            console.warn(`[${field}]: ${message}`);
+          }
+        }
+      } catch (e) {
+        console.error("importJSON", {
+          message: `Could not import message: ${String(e)}`,
+        });
+        return;
+      }
+    }
+  }, [navigate]);
+
   const {
     savedMessages: { messages, deleteMessage },
   } = useOutletContext<OutletContext>();

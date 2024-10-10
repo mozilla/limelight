@@ -18,33 +18,50 @@ export default function HomePage() {
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const importJSON = urlSearchParams.get("importJSON");
+    const importJSON = urlSearchParams.has("postMessage");
 
     if (importJSON) {
-      try {
-        const parsed = JSON.parse(importJSON) as Record<string, unknown>;
-        const result = deserialize(parsed);
+      // post back a ready message
+      (window.opener as WindowProxy | null)?.postMessage(
+        "ready",
+        "https://fxms-skylight.netlify.app/"
+      );
 
-        navigate("/import", {
-          state: {
-            messageId: parsed.id,
-            template: parsed.template,
-            formData: result.formData,
-          },
-        });
+      window.addEventListener(
+        "message",
+        (event: MessageEvent) => {
+          const data = event.data as {
+            type: string;
+            value: Record<string, unknown>;
+          };
+          if (data.type === "import") {
+            try {
+              const result = deserialize(data.value);
 
-        if (result.warnings.length) {
-          console.warn(`Message ${result.id} imported with warnings: `);
-          for (const { field, message } of result.warnings) {
-            console.warn(`[${field}]: ${message}`);
+              navigate("/import", {
+                state: {
+                  messageId: result.id,
+                  template: result.template,
+                  formData: result.formData,
+                },
+              });
+
+              if (result.warnings.length) {
+                console.warn(`Message ${result.id} imported with warnings: `);
+                for (const { field, message } of result.warnings) {
+                  console.warn(`[${field}]: ${message}`);
+                }
+              }
+            } catch (e) {
+              console.error("importJSON", {
+                message: `Could not import message: ${String(e)}`,
+              });
+              return;
+            }
           }
-        }
-      } catch (e) {
-        console.error("importJSON", {
-          message: `Could not import message: ${String(e)}`,
-        });
-        return;
-      }
+        },
+        false
+      );
     }
   }, [navigate]);
 

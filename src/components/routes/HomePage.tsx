@@ -18,33 +18,44 @@ export default function HomePage() {
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const importJSON = urlSearchParams.get("importJSON");
+    const importJSON =
+      typeof urlSearchParams.get("postMessage") !== "undefined";
 
     if (importJSON) {
-      try {
-        const parsed = JSON.parse(importJSON) as Record<string, unknown>;
-        const result = deserialize(parsed);
+      // post back a ready message
+      window.opener.postMessage("ready", "https://fxms-skylight.netlify.app");
 
-        navigate("/import", {
-          state: {
-            messageId: parsed.id,
-            template: parsed.template,
-            formData: result.formData,
-          },
-        });
+      window.addEventListener(
+        "message",
+        (event) => {
+          if (event.data.type === "import") {
+            try {
+              const result = deserialize(event.data.value);
 
-        if (result.warnings.length) {
-          console.warn(`Message ${result.id} imported with warnings: `);
-          for (const { field, message } of result.warnings) {
-            console.warn(`[${field}]: ${message}`);
+              navigate("/import", {
+                state: {
+                  messageId: result.id,
+                  template: result.template,
+                  formData: result.formData,
+                },
+              });
+
+              if (result.warnings.length) {
+                console.warn(`Message ${result.id} imported with warnings: `);
+                for (const { field, message } of result.warnings) {
+                  console.warn(`[${field}]: ${message}`);
+                }
+              }
+            } catch (e) {
+              console.error("importJSON", {
+                message: `Could not import message: ${String(e)}`,
+              });
+              return;
+            }
           }
-        }
-      } catch (e) {
-        console.error("importJSON", {
-          message: `Could not import message: ${String(e)}`,
-        });
-        return;
-      }
+        },
+        false,
+      );
     }
   }, [navigate]);
 
@@ -56,21 +67,21 @@ export default function HomePage() {
     (id: string, template: MessageTemplate) => {
       navigate("/new", { state: { id, template } });
     },
-    [navigate]
+    [navigate],
   );
 
   const handleEditMessage = useCallback(
     (id: string) => {
       navigate(`/edit/${id}`);
     },
-    [navigate]
+    [navigate],
   );
 
   const handleImportMessage = useCallback(
     (
       messageId: string,
       template: MessageTemplate,
-      formData: WizardFormData
+      formData: WizardFormData,
     ) => {
       navigate(`/import`, {
         state: {
@@ -80,7 +91,7 @@ export default function HomePage() {
         },
       });
     },
-    [navigate]
+    [navigate],
   );
 
   return (

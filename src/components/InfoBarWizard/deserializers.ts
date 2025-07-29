@@ -39,6 +39,7 @@ export function deserializeInfoBarButtons(
       "accessKey",
       "action",
       "supportPage",
+      "link"
     ]);
 
     return {
@@ -47,6 +48,7 @@ export function deserializeInfoBarButtons(
       accessKey: btn.accessKey ?? "",
       action: JSON.stringify(btn.action, undefined, 2),
       supportPage: btn.supportPage ?? "",
+      link: btn.link ?? "", // link added
     };
   });
 }

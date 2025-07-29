@@ -30,12 +30,14 @@ function serializeInfoBarButton({
   accessKey,
   supportPage,
   action,
+  link
 }: InfoBarWizardFormData["content"]["buttons"][number]): InfoBarMessageContent["buttons"][number] {
   return {
     label: serializeLocalizableText(label),
     ...(accessKey ? { accessKey } : {}),
     ...(primary ? { primary } : {}),
     ...(supportPage ? { supportPage } : {}),
+    ...(link ? { link } : {}),
     action: JSON.parse(action) as object,
   };
 }

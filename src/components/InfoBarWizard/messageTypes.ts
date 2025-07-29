@@ -16,5 +16,6 @@ export default interface InfoBarMessageContent {
     accessKey?: string;
     supportPage?: string;
     action: object;
+    link?: string;
   }[];
 }

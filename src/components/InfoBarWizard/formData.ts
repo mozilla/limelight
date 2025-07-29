@@ -16,6 +16,7 @@ interface InfoBarWizardFormData {
       accessKey: string;
       supportPage: string;
       action: string;
+      link?: string;
     }[];
 
     type: "tab" | "global";

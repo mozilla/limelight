@@ -61,7 +61,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/error-message": "^2.0.1",
     "@mozilla/nimbus-shared": "^1.10.0",
-    "@sentry/react": "^7.28.0",
+    "@sentry/react": "^7.120.4",
     "@sentry/tracing": "^7.28.0",
     "@types/react": "^18.0.23",
     "@types/react-bootstrap": "^0.32.31",

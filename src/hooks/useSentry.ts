@@ -5,7 +5,6 @@
  */
 
 import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
 import { useEffect, useState } from "react";
 
 export interface SentryConfig {
@@ -57,7 +56,7 @@ export default function useSentry({ dsn, release }: SentryConfig) {
         Sentry.init({
           dsn,
           release,
-          integrations: [new BrowserTracing()],
+          integrations: [Sentry.browserTracingIntegration()],
           tracesSampleRate: 1.0,
         });
 
